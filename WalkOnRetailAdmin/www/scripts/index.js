@@ -14,6 +14,12 @@
         
     };
 
+    window.onload = function () {
+        cm_init();
+        ui_init();
+        do_tests();
+    };
+
     function onPause() {
         // TODO: This application has been suspended. Save application state here.
     };
