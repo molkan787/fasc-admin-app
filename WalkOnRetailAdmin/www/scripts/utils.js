@@ -1,4 +1,6 @@
-﻿
+﻿window.log = function (log_content) {
+    console.log(log_content);
+};
 function crt_elt(tagname, parent, id) {
     var elt = document.createElement(tagname);
     if (parent) {
@@ -39,6 +41,16 @@ function attr(elt, attr_name, value) {
     return elt.getAttribute(attr_name);
 }
 
+function class_rm(elt, className) {
+    var _class = elt.className;
+    _class = _class.replace(className, '');
+    elt.className = _class;
+}
+
+function class_add(elt, className) {
+    elt.className = (elt.className + ' ' + className).replace('  ', ' ');
+}
+
 function get(element_id) {
     return document.getElementById(element_id);
 }
@@ -66,6 +78,8 @@ function get_primary_val_property(elt) {
 function foreach(arr, func) {
     var l = arr.length;
     for (var i = 0; i < l; i++) {
-        func(arr[i]);
+        if (func(arr[i])) {
+            break;
+        }
     }
 }

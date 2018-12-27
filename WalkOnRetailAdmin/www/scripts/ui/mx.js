@@ -7,7 +7,7 @@ function mx_init() {
         panels: get_bc('bbp'),
         _show_anim: {
             targets: '',
-            opacity: 1,
+            opacity: 0.7,
             easing: 'easeOutExpo',
             duration: 700
         },

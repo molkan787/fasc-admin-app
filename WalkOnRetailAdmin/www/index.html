@@ -14,6 +14,8 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="css/products.css">
+    <link rel="stylesheet" type="text/css" href="css/orders.css">
+    <link rel="stylesheet" type="text/css" href="css/comps.css">
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
@@ -21,13 +23,15 @@
     <script type="text/javascript" src="scripts/anime.min.js"></script>
 
     <script type="text/javascript" src="scripts/cm/datamanager.js"></script>
-    <script type="text/javascript" src="scripts/cm/cm.js"></script>
+    <script type="text/javascript" src="scripts/cm.js"></script>
 
     <script type="text/javascript" src="scripts/ui/leftmenu.js"></script>
+    <script type="text/javascript" src="scripts/ui/uiis.js"></script>
     <script type="text/javascript" src="scripts/ui/header.js"></script>
     <script type="text/javascript" src="scripts/ui/mx.js"></script>
     <script type="text/javascript" src="scripts/ui/products.js"></script>
     <script type="text/javascript" src="scripts/ui/product.js"></script>
+    <script type="text/javascript" src="scripts/ui/orders.js"></script>
     <script type="text/javascript" src="scripts/ui.js"></script>
     <script type="text/javascript" src="scripts/tests.js"></script>
     <script type="text/javascript" src="scripts/index.js"></script>
@@ -39,7 +43,7 @@
     <div id="header">
         <img id="header_menu_img" src="images/icons/menu.png" />
         <span id="title">WalkOnRetail Admin</span>
-        <i class="setting icon"></i>
+        <i id="headbar_action_icon" class="setting icon"></i>
     </div>
 
     <div class="bbp p0" id="bbp_0"></div>
@@ -90,7 +94,131 @@
         </div>
 
         <div class="page" id="page_product">
+            <div class="ui top attached tabular menu" for="prt_tabs">
+                <div class="active item">Desciption</div>
+                <div class="item">Data</div>
 
+            </div>
+            <div id="prt_tabs">
+                <div class="ui bottom attached active tab segment">
+                    <div class="ui form">
+
+                        <h4 class="ui dividing header">Product Id: 54</h4>
+
+                        <div class="field">
+                            <div class="ui labeled input">
+                                <div class="ui label">
+                                    Language
+                                </div>
+                                <select id="prt_lang">
+                                    <option value="en">English</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>Name</label>
+                            <input id="prt_title" type="text" placeholder="Product name">
+                        </div>
+                        <div class="field">
+                            <label>Description</label>
+                            <textarea id="prt_description" style="resize: none"></textarea>
+                        </div>
+                        <div class="field">
+                            <label>Primary image</label>
+                            <input type="file">
+                            <img id="prt_image" class="inputed image" src="http://fasc.local/image/cache/catalog/Products/khmlgj-120x120.jpg" />
+                        </div>
+                        <div class="field">
+                            <label>Additional images</label>
+                            <input type="file">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="ui bottom attached tab segment">
+                    <div class="ui form">
+
+                        <div class="field">
+                            <label>Prize (&#8377;)</label>
+                            <input id="prt_price" type="text" placeholder="0.00 &#8377;">
+                        </div>
+                        <div class="field">
+                            <label>Discount</label>
+                            <div class="ui right labeled input">
+                                <input id="prt_discount" type="text" placeholder="0.00">
+    
+                                <select id="prt_discount_type" class="ui dropdown label" style="width: 50px">
+                                    <option value="percent">%</option>
+                                    <option value="amount">&#8377;</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Stock</label>
+                            <input id="prt_stock" type="text" placeholder="0">
+                        </div>
+                        <div class="field">
+                            <label>GST</label>
+                            <select id="prt_gst">
+                                <option value="_0">0%</option>
+                                <option value="_5">5%</option>
+                                <option value="_12">12%</option>
+                                <option value="_18">18%</option>
+                                <option value="_25">25%</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>HSN</label>
+                            <input id="prt_hsn" type="text" placeholder="HSN">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page_orders" class="page ui segment">
+            <h3>
+                Filters:
+                <label class="ui label">Pending<i class="delete icon"></i> </label>
+                <label class="ui label">Ord: 21/12/2018<i class="delete icon"></i> </label>
+            </h3>
+
+            <div id="ords_list">
+
+                <div class="ord_item">
+                    <div class="pending">
+                        <i class="time icon"></i>
+                        <br />
+                        <span>Pending</span>
+                    </div>
+                    <div class="total">
+                        <span>Total:</span>
+                        <h3>2140.50 $</h3>
+                    </div>
+                    <div class="customer">
+                        <span>Customer:</span>
+                        <h4>Rachid Kardi</h4>
+                    </div>
+                </div>
+
+                <div class="ord_item">
+                    <div class="completed">
+                        <i class="check icon"></i>
+                        <br />
+                        <span>Completed</span>
+                    </div>
+                    <div class="total">
+                        <span>Total:</span>
+                        <h3>2140.50 $</h3>
+                    </div>
+                    <div class="customer">
+                        <span>Customer:</span>
+                        <h4>Rachid Kardi</h4>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
     </div>

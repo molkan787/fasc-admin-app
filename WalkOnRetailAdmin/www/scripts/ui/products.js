@@ -1,5 +1,5 @@
 ﻿
-function products_init() {
+function ui_products_init() {
     var products = ui.products = {
         // Properties
         elt: get('page_products'),

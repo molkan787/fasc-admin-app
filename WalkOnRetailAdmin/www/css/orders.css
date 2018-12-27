@@ -1,0 +1,50 @@
+﻿#page_orders{
+    padding: 10px;
+}
+
+.ord_item {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: -1px;
+}
+.ord_item > div {
+    width: 80px;
+    height: 58px;
+    border-right: 1px solid #ddd;
+    text-align: center;
+    padding-top: 8px;
+    padding-right: 7px;
+    margin: 0 10px 0 0;
+    float: left;
+}
+.ord_item > div.pending{
+    color: orangered;
+}
+.ord_item > div.completed{
+    color: limegreen;
+}
+.ord_item > div.total {
+    width: 100px;
+}
+.ord_item > div.customer {
+    width: unset;
+    border-right: none;
+}
+.ord_item > div > i {
+    font-size: 28px;
+    opacity: 0.8;
+}
+.ord_item > div > span {
+    font-size: 15px;
+}
+.ord_item > div > h3 {
+    margin: 0;
+    font-size: 17px;
+}
+.ord_item > div > h4{
+    margin: 0;
+}

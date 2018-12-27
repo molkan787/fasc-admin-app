@@ -6,23 +6,28 @@ var ui = {};
 
 function ui_init() {
 
+    uiis_init();
     mx_init();
     leftmenu_init();
     header_init();
-    products_init();
-    product_init();
+    ui_products_init();
+    ui_product_init();
+    ui_orders_init();
 
-    navigate('products');
+    uiis.init_components();
+
+    navigate('orders');
 
     lm.onNavigate = navigate;
 }
 
-function registerPage(slug, element, title, updater) {
+function registerPage(slug, element, title, updater, headbarAction) {
     pages[slug] = {
         slug: slug,
         element: element,
         title: title,
-        updater: updater
+        updater: updater,
+        headbarAction: headbarAction
     };
 }
 
@@ -45,9 +50,11 @@ function navigate(page_slug, param) {
 
     if (typeof page.title == 'string') {
         val(ui.title, page.title);
-    } else if (typeof ui.title == 'function') {
+    } else if (typeof page.title == 'function') {
         val(ui.title, page.title(param));
     } else {
         val(ui.title, '');
     }
+
+    ui.hb.setActionIcon(page.headbarAction);
 }

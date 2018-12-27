@@ -20,7 +20,8 @@
 }
 
 .prt.item > img {
-    height: 100%;
+    height: 78px;
+    width: 78px;
     float: left;
     margin-right: 10px;
 }
@@ -42,4 +43,13 @@
 }
 .prt.item > span.stock.none {
     color: #ff0000;
+}
+
+#page_product{
+    padding: 2px;
+}
+
+#prt_lang{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
