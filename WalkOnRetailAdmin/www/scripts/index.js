@@ -15,6 +15,7 @@
     };
 
     window.onload = function () {
+        sl_init();
         cm_init();
         ui_init();
         do_tests();

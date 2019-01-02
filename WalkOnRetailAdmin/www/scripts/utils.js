@@ -1,6 +1,7 @@
-﻿window.log = function (log_content) {
-    console.log(log_content);
-};
+﻿//window.log = function (log_content) {
+//    console.log(log_content);
+//};
+window.log = console.log;
 function crt_elt(tagname, parent, id) {
     var elt = document.createElement(tagname);
     if (parent) {
@@ -67,7 +68,7 @@ function get_bt(tag_name, parent) {
 
 function get_primary_val_property(elt) {
     var tn = elt.tagName;
-    if (tn == 'INPUT')
+    if (tn == 'INPUT' || tn == 'SELECT' || tn == 'TEXTAREA')
         return 'value';
     else if (tn == 'IMG')
         return 'src';
@@ -82,4 +83,22 @@ function foreach(arr, func) {
             break;
         }
     }
+}
+
+
+
+function httpGetAsync(theUrl, callback, failcallback) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+        else if (xmlHttp.status === 404)
+            if (failcallback) {
+                failcallback();
+                failcallback = null;
+            }
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.addEventListener("error", failcallback);
+    xmlHttp.send(null);
 }

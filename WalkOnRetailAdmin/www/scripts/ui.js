@@ -1,4 +1,5 @@
-﻿var pages = {};
+﻿var history = [];
+var pages = {};
 var page_prev;
 var page_current;
 
@@ -6,17 +7,23 @@ var ui = {};
 
 function ui_init() {
 
+    uiu_init();
     uiis_init();
+    ui_fasc_init();
     mx_init();
     leftmenu_init();
     header_init();
     ui_products_init();
     ui_product_init();
     ui_orders_init();
+    ui_order_init();
+
+    ui_popup_init();
+    dialogs_init();
 
     uiis.init_components();
 
-    navigate('orders');
+    navigate('products');
 
     lm.onNavigate = navigate;
 }
@@ -48,13 +55,26 @@ function navigate(page_slug, param) {
 
     page_current.element.style.display = 'block';
 
+    var backButton = false;
+
     if (typeof page.title == 'string') {
         val(ui.title, page.title);
     } else if (typeof page.title == 'function') {
-        val(ui.title, page.title(param));
+
+        var data = page.title(param);
+        if (typeof data == 'string') {
+            val(ui.title, data);
+        } else if (typeof data == 'object') {
+            val(ui.title, data.title);
+            if (data.backButton) {
+                backButton = true;
+            }
+        }
+
     } else {
         val(ui.title, '');
     }
 
+    ui.hb.setButton(backButton ? 'back' : 'menu');
     ui.hb.setActionIcon(page.headbarAction);
 }

@@ -33,6 +33,8 @@
 .ord_item > div.customer {
     width: unset;
     border-right: none;
+    padding-right: 0;
+    padding-top: 0;
 }
 .ord_item > div > i {
     font-size: 28px;
@@ -47,4 +49,64 @@
 }
 .ord_item > div > h4{
     margin: 0;
+}
+
+.status.pending{
+    color: orangered;
+}
+.status.completed{
+    color: limegreen;
+}
+
+#page_order{
+    padding: 0;
+}
+#page_order > div.segments{
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+#page_order > div > div.segment > h4, #page_order > div > div.segments > div > h4 {
+    margin: 3px 0 5px 0;
+}
+#page_order > div > div.segment > span{
+    margin: 0;
+    font-size: 13px;
+}
+#page_order > div > div > div.segment > h4.total {
+    font-size: 17px;
+    color: limegreen;
+}
+
+.order_table {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.order_table > thead > tr > th.first{
+    text-align: left;
+}
+.order_table > thead > tr > th.second {
+    text-align: center;
+}
+.order_table > thead > tr > th.third {
+    text-align: right;
+    padding-right: 5px;
+}
+
+.order_table > tbody > tr > td.first {
+    text-align: left;
+    border-left: none !important;
+}
+.order_table > tbody > tr > td.second {
+    text-align: center;
+}
+.order_table > tbody > tr > td.third {
+    text-align: right;
+    padding-right: 5px;
+}
+
+.order_table > tbody > tr > td, .order_table > thead > tr > th {
+    padding: 4px;
+    border-bottom: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
 }

@@ -22,16 +22,27 @@
     <script type="text/javascript" src="scripts/utils.js"></script>
     <script type="text/javascript" src="scripts/anime.min.js"></script>
 
+    <script type="text/javascript" src="scripts/langs/en.js"></script>
+
     <script type="text/javascript" src="scripts/cm/datamanager.js"></script>
+    <script type="text/javascript" src="scripts/cm/dds/oca.js"></script>
     <script type="text/javascript" src="scripts/cm.js"></script>
+
+    <script type="text/javascript" src="scripts/sl.js"></script>
+    <script type="text/javascript" src="scripts/sl/actions.js"></script>
 
     <script type="text/javascript" src="scripts/ui/leftmenu.js"></script>
     <script type="text/javascript" src="scripts/ui/uiis.js"></script>
+    <script type="text/javascript" src="scripts/ui/fasc.js"></script>
     <script type="text/javascript" src="scripts/ui/header.js"></script>
     <script type="text/javascript" src="scripts/ui/mx.js"></script>
     <script type="text/javascript" src="scripts/ui/products.js"></script>
     <script type="text/javascript" src="scripts/ui/product.js"></script>
     <script type="text/javascript" src="scripts/ui/orders.js"></script>
+    <script type="text/javascript" src="scripts/ui/order.js"></script>
+    <script type="text/javascript" src="scripts/ui/dialogs.js"></script>
+    <script type="text/javascript" src="scripts/ui/popup.js"></script>
+    <script type="text/javascript" src="scripts/ui/uiu.js"></script>
     <script type="text/javascript" src="scripts/ui.js"></script>
     <script type="text/javascript" src="scripts/tests.js"></script>
     <script type="text/javascript" src="scripts/index.js"></script>
@@ -48,6 +59,7 @@
 
     <div class="bbp p0" id="bbp_0"></div>
     <div class="bbp p1" id="bbp_1"></div>
+    <div class="bbp p2" id="bbp_2"></div>
 
     <div id="left_menu">
         <div id="left_menu_subcon" class="ui vertical menu">
@@ -88,9 +100,9 @@
 
             </div>
 
-            <!--<div class="ui active inverted dimmer">
+            <div id="prts_dimmer" class="ui active inverted dimmer" style="display: none">
                 <div class="ui text loader">Loading</div>
-            </div>-->
+            </div>
         </div>
 
         <div class="page" id="page_product">
@@ -103,7 +115,7 @@
                 <div class="ui bottom attached active tab segment">
                     <div class="ui form">
 
-                        <h4 class="ui dividing header">Product Id: 54</h4>
+                        <h4 class="ui dividing header">Product Id: <span id="prt_id"></span></h4>
 
                         <div class="field">
                             <div class="ui labeled input">
@@ -127,7 +139,7 @@
                         <div class="field">
                             <label>Primary image</label>
                             <input type="file">
-                            <img id="prt_image" class="inputed image" src="http://fasc.local/image/cache/catalog/Products/khmlgj-120x120.jpg" />
+                            <img id="prt_image" class="inputed image" src="" />
                         </div>
                         <div class="field">
                             <label>Additional images</label>
@@ -147,10 +159,10 @@
                             <label>Discount</label>
                             <div class="ui right labeled input">
                                 <input id="prt_discount" type="text" placeholder="0.00">
-    
+
                                 <select id="prt_discount_type" class="ui dropdown label" style="width: 50px">
-                                    <option value="percent">%</option>
-                                    <option value="amount">&#8377;</option>
+                                    <option value="1">%</option>
+                                    <option value="2">&#8377;</option>
                                 </select>
                             </div>
                         </div>
@@ -161,11 +173,11 @@
                         <div class="field">
                             <label>GST</label>
                             <select id="prt_gst">
-                                <option value="_0">0%</option>
-                                <option value="_5">5%</option>
-                                <option value="_12">12%</option>
-                                <option value="_18">18%</option>
-                                <option value="_25">25%</option>
+                                <option value="0">0%</option>
+                                <option value="5">5%</option>
+                                <option value="12">12%</option>
+                                <option value="18">18%</option>
+                                <option value="25">25%</option>
                             </select>
                         </div>
                         <div class="field">
@@ -175,6 +187,11 @@
                     </div>
                 </div>
             </div>
+
+            <div id="prt_dimmer" class="ui active inverted dimmer" style="display: none">
+                <div class="ui text loader">Loading</div>
+            </div>
+
         </div>
 
         <div id="page_orders" class="page ui segment">
@@ -186,39 +203,63 @@
 
             <div id="ords_list">
 
-                <div class="ord_item">
-                    <div class="pending">
-                        <i class="time icon"></i>
-                        <br />
-                        <span>Pending</span>
-                    </div>
-                    <div class="total">
-                        <span>Total:</span>
-                        <h3>2140.50 $</h3>
-                    </div>
-                    <div class="customer">
-                        <span>Customer:</span>
-                        <h4>Rachid Kardi</h4>
-                    </div>
-                </div>
-
-                <div class="ord_item">
-                    <div class="completed">
-                        <i class="check icon"></i>
-                        <br />
-                        <span>Completed</span>
-                    </div>
-                    <div class="total">
-                        <span>Total:</span>
-                        <h3>2140.50 $</h3>
-                    </div>
-                    <div class="customer">
-                        <span>Customer:</span>
-                        <h4>Rachid Kardi</h4>
-                    </div>
-                </div>
-
             </div>
+
+            <div id="ords_dimmer" class="ui active inverted dimmer" style="display: none">
+                <div class="ui text loader">Loading</div>
+            </div>
+
+        </div>
+
+        <div id="page_order" class="page ui segment">
+            <div class="ui segments">
+                <div class="ui segment">
+                    <span>Customer:</span>
+                    <h4> <i class="address card icon"></i> <span id="ord_customer"></span> </h4>
+                    <h4> <i class="phone icon"></i> <span id="ord_phone"></span> </h4>
+                </div>
+                <div class="ui horizontal segments">
+                    <div class="ui segment">
+                        <span>Order total:</span>
+                        <h4 class="total"> <i class="rupee sign icon"></i> <span id="ord_total"></span> </h4>
+                    </div>
+                    <div class="ui segment">
+                        <span>Status:</span>
+                        <h4 class="status pending" id="ord_status_con">
+                            <i class="time icon" id="ord_status_icon"></i>
+                            <span id="ord_status_text"></span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <span>Delivery date:</span>
+                    <h4> <i class="calendar alternate icon"></i> <span id="ord_del_date"></span> </h4>
+                    <span>Delivery address:</span>
+                    <h4> <i class="map marker alternate icon"></i> <span id="ord_del_addr"></span> </h4>
+                </div>
+                <div class="ui segment">
+                    <span>Order date:</span>
+                    <h4> <i class="calendar alternate icon"></i> <span id="ord_order_date"></span> </h4>
+                </div>
+                <div class="ui segment">
+                    <h4> <i class="box icon"></i> Order items:</h4>
+                    <table class="order_table" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="first">Product</th>
+                                <th class="second">Q</th>
+                                <th class="third">Price (&#8377;)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ord_items_table"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="ord_dimmer" class="ui active inverted dimmer" style="display: none">
+                <div class="ui text loader">Loading</div>
+            </div>
+
         </div>
 
     </div>

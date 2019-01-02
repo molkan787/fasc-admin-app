@@ -6,8 +6,12 @@ function ui_products_init() {
         elts: {
             prtsList: get('prts_list')
         },
+        loadAction: null,
+        deleteAction: null,
 
         filters: {},
+
+        dimc: ui.dimmer.create('prts_dimmer'),
 
         // Methods
         createPanel: function (data) {
@@ -28,8 +32,8 @@ function ui_products_init() {
             div.className = 'prt item';
             val(img, data.image);
             val(a_span, data.title);
-            val(span, 'Stock: ' + data.stock);
-            var span_class = 'stock ' + (data.stock == 0 ? 'none' : (data.stock < 5 ? 'low' : ''));
+            val(span, 'Stock: ' + data.quantity);
+            var span_class = 'stock ' + (data.quantity == 0 ? 'none' : (data.quantity < 5 ? 'low' : ''));
             span.className = span_class;
             btn1.className = btn2.className = 'ui button';
             i1.className = 'edit icon';
@@ -37,10 +41,15 @@ function ui_products_init() {
             val(t1, 'Edit');
             val(t2, 'Delete');
 
-            attr(btn1, 'pid', data.id);
-            attr(btn2, 'pid', data.id);
+            attr(btn1, 'pid', data.product_id);
+            attr(btn2, 'pid', data.product_id);
+
+            attr(btn2, 'pname', data.title);
 
             btn1.onclick = products.editButtonClick;
+            btn2.onclick = products.deleteButtonClick;
+
+            div.id = 'prt_panel_' + data.product_id;
 
             return div;
         },
@@ -53,16 +62,41 @@ function ui_products_init() {
         },
 
         update: function () {
-            this.loadProducts(dm.getProducts(this.filters));
+            this.dimc.show();
+            this.loadAction.do(this.filters);
         },
 
         // Handlers
+        loadActionCallback: function (action) {
+            if (action.status == 'OK') {
+                products.loadProducts(action.data);
+            }
+            products.dimc.hide();
+        },
+        deleteActionCallback: function (action) {
+            if (action.status == 'OK') {
+                uiu.removeElt('prt_panel_' + action.params.product_id, true);
+            } else {
+                msg.show(txt('error_txt1'));
+            }
+            products.dimc.hide();
+        },
+
         editButtonClick: function () {
             navigate('product', attr(this, 'pid'));
+        },
+        deleteButtonClick: function () {
+            if (confirm('Product "' + attr(this, 'pname') + '" will be deleted permanently, Do you want to proceed anyway?')) {
+                products.dimc.show();
+                products.deleteAction.do({product_id: attr(this, 'pid')});
+            }
         }
     };
 
+    products.loadAction = actions.create(function (filters) { dm.getProducts(filters, products.loadAction); }, products.loadActionCallback);
+    products.deleteAction = fetchAction.create('product/delete', products.deleteActionCallback);
+
     registerPage('products', products.elt, 'Products', function () {
         products.update();
-    });
+    }, { icon: 'plus', handler: function () {navigate('product', 'new'); }});
 }

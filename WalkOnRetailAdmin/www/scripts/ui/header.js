@@ -24,6 +24,10 @@ function header_init() {
             }
         },
 
+        setButton: function (button) {
+
+        },
+
         // Handlers
         actionIconClick: function () {
             if (ui.hb.actionIconHandler) {

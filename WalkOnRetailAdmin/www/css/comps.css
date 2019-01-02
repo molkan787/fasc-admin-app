@@ -7,3 +7,10 @@
 .fullw{
     width: 100%;
 }
+
+*{
+    outline: none;
+}
+select:focus, select:active {
+    border-color: #85b7d9 !important;
+}

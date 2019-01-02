@@ -1,4 +1,4 @@
-﻿
+﻿var filtersController = {};
 function mx_init() {
     ui.mx = {};
 
@@ -38,5 +38,57 @@ function mx_init() {
             this.panels[panel].onclick = handler;
         }
     };
+    // =============================
+
+    // ========== Dimmer ===========
+
+    ui.dimmer = {
+        create: function (elt_id) {
+            var dimc = {
+                elt: get(elt_id),
+                show: function () {
+                    this.elt.style.display = 'block';
+                },
+                hide: function () {
+                    this.elt.style.display = 'none';
+                }
+            };
+            return dimc;
+        }
+    };
+
+    // =============================
+
+
+    // ========== Filter ===========
+    filtersController.idPtr = 100;
+    filtersController.create = function (uiParent, options) {
+        var fc = { id: filtersController.idPtr++, uiParent: uiParent, uiElts: [], filters: [] };
+
+        fc.removeFilter = function (name) {
+            for (var i = 0; i < this.filters.length; i++) {
+                var filter = this.filters[i];
+                if (filter.name == name) {
+                    uiu.removeElt('fc_' + this.id + filter.name + filter.value);
+                    this.filters.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        fc.setFilter = function (filter) {
+            this.filters.push(filter);
+
+            var label = crt_elt('label');
+            val(label, filter.text);
+            var icon = crt_elt('i', label);
+            label.className = 'ui label';
+            icon.className = 'delete icon';
+
+            label.id = 'fc_' + this.id + filter.name + filter.value;
+            this.uiParent.appendChild(label);
+        }
+    };
+
     // =============================
 }
