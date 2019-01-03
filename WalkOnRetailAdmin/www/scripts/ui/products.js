@@ -4,14 +4,19 @@ function ui_products_init() {
         // Properties
         elt: get('page_products'),
         elts: {
-            prtsList: get('prts_list')
+            prtsList: get('prts_list'),
+            filterCat: get('prts_filter_cat'),
+            filterSubcat: get('prts_filter_subcat'),
+            filterSubmit: get('prts_filters_submit'),
+            filterStock: get('prts_filter_stock')
         },
         loadAction: null,
         deleteAction: null,
 
-        filters: {},
+        filters: [],
 
         dimc: ui.dimmer.create('prts_dimmer'),
+        fc: null,
 
         // Methods
         createPanel: function (data) {
@@ -66,10 +71,16 @@ function ui_products_init() {
             this.loadAction.do(this.filters);
         },
 
+        updateFilters: function () {
+            this.fc.setFilter({ name: 'cat', value: val(this.elts.filterCat), text: getSelectedText(this.elts.filterCat) });
+            this.fc.setFilter({ name: 'subcat', value: val(this.elts.filterSubcat), text: getSelectedText(this.elts.filterSubcat) });
+            this.fc.setFilter({ name: 'stock', value: val(this.elts.filterStock), text: getSelectedText(this.elts.filterStock) });
+        },
+
         // Handlers
         loadActionCallback: function (action) {
             if (action.status == 'OK') {
-                products.loadProducts(action.data);
+                products.loadProducts(action.data.items);
             }
             products.dimc.hide();
         },
@@ -90,13 +101,29 @@ function ui_products_init() {
                 products.dimc.show();
                 products.deleteAction.do({product_id: attr(this, 'pid')});
             }
+        },
+        filterCatChanged: function () {
+            setOptions(products.elts.filterSubcat, dm.subcats[products.elts.filterCat.value], true);
+        },
+        filterSubmitClick: function () {
+            ui.popup.hide();
+            products.updateFilters();
         }
     };
 
-    products.loadAction = actions.create(function (filters) { dm.getProducts(filters, products.loadAction); }, products.loadActionCallback);
+    products.elts.filterCat.onchange = products.filterCatChanged;
+    products.elts.filterSubmit.onclick = products.filterSubmitClick;
+
+    products.fc = filtersController.create('prts_filters', function () { products.update() }, products.filters);
+
+    products.loadAction = fetchAction.create('product/list', products.loadActionCallback);
     products.deleteAction = fetchAction.create('product/delete', products.deleteActionCallback);
 
     registerPage('products', products.elt, 'Products', function () {
         products.update();
-    }, { icon: 'plus', handler: function () {navigate('product', 'new'); }});
+    }, { icon: 'plus', handler: function () { navigate('product', 'new'); } });
+
+    dm.registerCallback(function () {
+        setOptions(products.elts.filterCat, dm.cats, true);
+    });
 }

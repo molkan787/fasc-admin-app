@@ -92,3 +92,20 @@ body{
 .bbp.p2 {
     z-index: 2200;
 }
+
+.void_container{
+    display: none;
+}
+.popup {
+    position: fixed;
+    z-index: 2135;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+    opacity: 0;
+    display: none;
+}

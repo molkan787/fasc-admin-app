@@ -42,6 +42,10 @@ function attr(elt, attr_name, value) {
     return elt.getAttribute(attr_name);
 }
 
+function attr_rm(elt, attr_name) {
+    elt.removeAttribute(attr_name);
+}
+
 function class_rm(elt, className) {
     var _class = elt.className;
     _class = _class.replace(className, '');
@@ -53,6 +57,7 @@ function class_add(elt, className) {
 }
 
 function get(element_id) {
+    if (typeof element_id == 'object') return element_id;
     return document.getElementById(element_id);
 }
 
@@ -75,6 +80,36 @@ function get_primary_val_property(elt) {
     else
         return 'innerHTML';
 }
+
+function setOptions(parent, options, incAll) {
+    parent.innerHTML = '';
+    
+    if (options) {
+        attr_rm(parent, 'disabled');
+    } else {
+        attr(parent, 'disabled', true);
+        return;
+    }
+    if (incAll) {
+        var opt = crt_elt('option', parent);
+        val(opt, 'All');
+        opt.value = '';
+    }
+    for (var i = 0; i < options.length; i++) {
+        var opt = crt_elt('option', parent);
+        val(opt, options[i].text);
+        opt.value = options[i].id;
+    }
+    parent.value = '';
+}
+
+function getSelectedText(elt) {
+    elt = get(elt);
+    if (elt.selectedIndex == -1)
+        return null;
+    return elt.options[elt.selectedIndex].text;
+}
+
 
 function foreach(arr, func) {
     var l = arr.length;

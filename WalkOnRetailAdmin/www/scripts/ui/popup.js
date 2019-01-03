@@ -24,6 +24,7 @@ function ui_popup_init() {
         }
     };
     ui.popup.show = function (elt) {
+        elt = get(elt);
         this.elt = elt;
         elt.style.display = 'block';
         this.showAnimation.targets = '#' + elt.id;

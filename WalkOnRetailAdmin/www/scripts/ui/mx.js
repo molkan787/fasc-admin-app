@@ -62,8 +62,15 @@ function mx_init() {
 
     // ========== Filter ===========
     filtersController.idPtr = 100;
-    filtersController.create = function (uiParent, options) {
-        var fc = { id: filtersController.idPtr++, uiParent: uiParent, uiElts: [], filters: [] };
+    filtersController.create = function (uiParent, changedCallback, filtersArray) {
+        var fc = {
+            id: filtersController.idPtr++,
+            uiParent: get(uiParent),
+            changedCallback: changedCallback,
+            //removedCallback: removedCallback,
+            uiElts: [],
+            filters: (typeof filtersArray != 'undefined' ? filtersArray : [])
+        };
 
         fc.removeFilter = function (name) {
             for (var i = 0; i < this.filters.length; i++) {
@@ -76,7 +83,20 @@ function mx_init() {
             }
         }
 
+        fc.removeClickHandler = function () {
+            var filterName = attr(this, 'fname');
+            fc.removeFilter(filterName);
+            if (fc.removedCallback) {
+                fc.removedCallback(filterName);
+            }
+            if (fc.changedCallback) {
+                fc.changedCallback();
+            }
+        };
+
         fc.setFilter = function (filter) {
+            this.removeFilter(filter.name);
+            if (!filter.value) return;
             this.filters.push(filter);
 
             var label = crt_elt('label');
@@ -86,8 +106,17 @@ function mx_init() {
             icon.className = 'delete icon';
 
             label.id = 'fc_' + this.id + filter.name + filter.value;
+            attr(icon, 'fname', filter.name);
+
+            icon.onclick = this.removeClickHandler;
+
             this.uiParent.appendChild(label);
+
+            if (this.changedCallback) {
+                this.changedCallback();
+            }
         }
+        return fc;
     };
 
     // =============================

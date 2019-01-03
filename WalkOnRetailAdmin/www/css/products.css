@@ -57,3 +57,10 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
+
+#prts_popup{
+    width: 70vw;
+    height: 400px;
+    margin-left: -35vw;
+    margin-top: -200px;
+}

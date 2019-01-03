@@ -9,9 +9,15 @@ function dm_oca_init() {
             var url = this.apiBaseURL + req;
 
             if (typeof params == 'object') {
-                for (var name in params) {
-                    if (params.hasOwnProperty(name)) {
-                        url += '&' + name + '=' + encodeURIComponent(params[name]);
+                if (typeof params.push == 'function') {
+                    for (var i = 0; i < params.length; i++) {
+                        url += '&' + params[i].name + '=' + encodeURIComponent(params[i].value);
+                    }
+                } else {
+                    for (var name in params) {
+                        if (params.hasOwnProperty(name)) {
+                            url += '&' + name + '=' + encodeURIComponent(params[name]);
+                        }
                     }
                 }
             }

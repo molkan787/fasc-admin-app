@@ -92,8 +92,8 @@
         <div class="page ui segment" id="page_products">
             <h3>
                 Filters:
-                <label class="ui label">Low Stock <i class="delete icon"></i> </label>
-                <label class="ui label">Kiarna Goods <i class="delete icon"></i> </label>
+                <span id="prts_filters">
+                </span>
             </h3>
 
             <div id="prts_list">
@@ -103,6 +103,42 @@
             <div id="prts_dimmer" class="ui active inverted dimmer" style="display: none">
                 <div class="ui text loader">Loading</div>
             </div>
+
+
+            <!--Popup-->
+            <div class="popup" id="prts_popup">
+                <h3>Filters</h3>
+                <div class="ui form">
+                    <div class="field">
+                        <label>Category</label>
+                        <select id="prts_filter_cat">
+                            <option>All</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Sub Category</label>
+                        <select id="prts_filter_subcat">
+                            <option>All</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Stock</label>
+                        <select id="prts_filter_stock">
+                            <option value="">All</option>
+                            <option value="high">High Stock</option>
+                            <option value="low">Low Stock</option>
+                            <option value="out">Out of Stock</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Name</label>
+                        <input id="prts_filter_name" type="text" placeholder="Search by product name"/>
+                    </div>
+
+                    <button id="prts_filters_submit" class="ui button fullw" type="submit">Submit</button>
+                </div>
+            </div>
+
         </div>
 
         <div class="page" id="page_product">
@@ -151,6 +187,18 @@
                 <div class="ui bottom attached tab segment">
                     <div class="ui form">
 
+                        <div class="field">
+                            <label>Category</label>
+                            <select id="prt_cat">
+                                <option value="0"></option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Sub category</label>
+                            <select id="prt_subcat">
+                                <option value="0"></option>
+                            </select>
+                        </div>
                         <div class="field">
                             <label>Prize (&#8377;)</label>
                             <input id="prt_price" type="text" placeholder="0.00 &#8377;">
@@ -261,6 +309,11 @@
             </div>
 
         </div>
+
+    </div>
+
+    <div class="void_container">
+
 
     </div>
 

@@ -12,7 +12,9 @@ function ui_product_init() {
             Discount: get('prt_discount'),
             DiscountType: get('prt_discount_type'),
             GST: get('prt_gst'),
-            HSN: get('prt_hsn')
+            HSN: get('prt_hsn'),
+            Cat: get('prt_cat'),
+            Subcat: get('prt_subcat')
         },
         loadAction: null,
         saveAction: null,
@@ -34,6 +36,8 @@ function ui_product_init() {
             val(this.elts.DiscountType, data.discount_type);
             val(this.elts.GST, data.gst || '');
             val(this.elts.HSN, data.hsn || '');
+            val(this.elts.Cat, data.cat || '0');
+            val(this.elts.Subcat, data.subcat || '0');
         },
 
         save: function () {
@@ -46,7 +50,9 @@ function ui_product_init() {
                 discount_amt: val(this.elts.Discount),
                 discount_type: val(this.elts.DiscountType),
                 gst: val(this.elts.GST),
-                hsn: val(this.elts.HSN)
+                hsn: val(this.elts.HSN),
+                cat: val(this.elts.Cat),
+                subcat: val(this.elts.Subcat)
             };
             this.dimc.show();
             this.saveAction.do(data);
