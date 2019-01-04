@@ -8,7 +8,7 @@ function dm_oca_init() {
         _getApiUrl: function (req, params) {
             var url = this.apiBaseURL + req;
 
-            if (typeof params == 'object') {
+            if (params && typeof params == 'object') {
                 if (typeof params.push == 'function') {
                     for (var i = 0; i < params.length; i++) {
                         url += '&' + params[i].name + '=' + encodeURIComponent(params[i].value);

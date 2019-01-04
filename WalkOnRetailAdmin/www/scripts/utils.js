@@ -90,17 +90,22 @@ function setOptions(parent, options, incAll) {
         attr(parent, 'disabled', true);
         return;
     }
-    if (incAll) {
+
+    if (typeof incAll != 'undefined') {
         var opt = crt_elt('option', parent);
-        val(opt, 'All');
         opt.value = '';
+        if (typeof incAll == 'boolean')
+            val(opt, 'All');
+        else
+            val(opt, incAll);
     }
+
     for (var i = 0; i < options.length; i++) {
         var opt = crt_elt('option', parent);
         val(opt, options[i].text);
         opt.value = options[i].id;
     }
-    parent.value = '';
+    parent.selectedIndex = 0;
 }
 
 function getSelectedText(elt) {
@@ -136,4 +141,32 @@ function httpGetAsync(theUrl, callback, failcallback) {
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.addEventListener("error", failcallback);
     xmlHttp.send(null);
+}
+
+function httpPostText(theUrl, text, callback, failcallback) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+        else if (xmlHttp.status === 404)
+            if (failcallback) {
+                failcallback();
+                failcallback = null;
+            }
+    }
+    xmlHttp.open("POST", theUrl, true);
+    xmlHttp.addEventListener("error", failcallback);
+    xmlHttp.send(text);
+}
+
+function getBase64(file, callback, failCallback) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+        callback(reader.result);
+    };
+    reader.onerror = function (error) {
+        if (failCallback)
+            failCallback(error);
+    };
 }

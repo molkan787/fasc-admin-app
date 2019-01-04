@@ -92,7 +92,7 @@
         <div class="page ui segment" id="page_products">
             <h3>
                 Filters:
-                <span id="prts_filters">
+                <span id="prts_filters" style="line-height: 1.6;">
                 </span>
             </h3>
 
@@ -117,8 +117,7 @@
                     </div>
                     <div class="field">
                         <label>Sub Category</label>
-                        <select id="prts_filter_subcat">
-                            <option>All</option>
+                        <select disabled id="prts_filter_subcat">
                         </select>
                     </div>
                     <div class="field">
@@ -174,8 +173,8 @@
                         </div>
                         <div class="field">
                             <label>Primary image</label>
-                            <input type="file">
-                            <img id="prt_image" class="inputed image" src="" />
+                            <img id="prt_image" class="inputed image" src="" style="float: left;margin-right: 10px" />
+                            <button class="ui button" id="prt_btn_change_img">Change image</button>
                         </div>
                         <div class="field">
                             <label>Additional images</label>
@@ -312,10 +311,7 @@
 
     </div>
 
-    <div class="void_container">
-
-
-    </div>
+    <div class="void_container"></div>
 
 </body>
 </html>

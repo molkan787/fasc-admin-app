@@ -1,6 +1,6 @@
-﻿
+﻿var product;
 function ui_product_init() {
-    var product = ui.product = {
+    product = ui.product = {
         elt: get('page_product'),
         elts: {
             ID: get('prt_id'),
@@ -16,8 +16,15 @@ function ui_product_init() {
             Cat: get('prt_cat'),
             Subcat: get('prt_subcat')
         },
+        data: {
+            prtImage: '',
+            prtImages: []
+        },
+
         loadAction: null,
         saveAction: null,
+        uploadAction: null,
+        saveActionsChain: null,
 
         dimc: ui.dimmer.create('prt_dimmer'),
 
@@ -41,6 +48,15 @@ function ui_product_init() {
         },
 
         save: function () {
+            this.dimc.show();
+            if (this.imgSlt.changed) {
+                this.saveActionsChain.start(this.imgSlt.getData());
+            } else {
+                this.saveActionsChain.start(this.getData(), 1);
+            }
+        },
+
+        getData: function () {
             var data = {
                 pid: this.currentProduct,
                 title: val(this.elts.Title),
@@ -52,10 +68,10 @@ function ui_product_init() {
                 gst: val(this.elts.GST),
                 hsn: val(this.elts.HSN),
                 cat: val(this.elts.Cat),
-                subcat: val(this.elts.Subcat)
+                subcat: val(this.elts.Subcat),
+                image: this.data.prtImage
             };
-            this.dimc.show();
-            this.saveAction.do(data);
+            return data;
         },
 
         // Handlers
@@ -76,17 +92,67 @@ function ui_product_init() {
                 msg.show('We could not save changes, Please check if you have internet access.');
             }
             ui.product.dimc.hide();
-        }
+        },
+        uploadActionCallback: function (action) {
+            if (action.status == 'OK') {
+                product.data.prtImage = action.data.filename;
+                product.imgSlt.release();
+            } else {
+                msg.show('We could not upload the image, Please check if you have internet access.');
+            }
+        },
+
+        saveActionsCallback: function (chain) {
+            if (chain.currentStatus == 'OK') {
+
+                if (chain.currentStep == 'image') {
+                    this.imgSlt.reset();
+                    this.data.prtImage = chain.data.filename;
+                    chain.doNext(this.getData());
+                } else if (chain.currentStep == 'data') {
+                    msg.show(txt('msg_1'));
+                    this.dimc.hide();
+                }
+
+            } else {
+                msg.show(txt('error_2'));
+                this.dimc.hide();
+            }
+        },
+
+        catChanged: function () {
+            setOptions(product.elts.Subcat, dm.subcats[val(this)], '---');
+        },
+
     };
 
     product.loadAction = actions.create(function (id) { dm.getProduct(id, product.loadAction); }, product.loadActionCallback);
-    product.saveAction = actions.create(function (data) { dm.saveProduct(data, product.saveAction); }, product.saveActionCallback);
+
+    // ====== Save actions chain =====
+
+    var uploadAction = fetchAction.create('image/upBase64&folder=products');
+    var saveAction = fetchAction.create('product/save');
+
+    product.saveActionsChain = actionsChain.create([uploadAction, saveAction], ['image', 'data'], null,
+        function (chain) { product.saveActionsCallback(chain); });
+
+    // ===============================
+
+
+    product.elts.Cat.onchange = product.catChanged;
+
+    dm.registerCallback(function () {
+        setOptions(product.elts.Cat, dm.cats, '---');
+    });
+
+    product.imgSlt = imageSelector.init(get('prt_btn_change_img'), get('prt_image'));
 
     registerPage('product', product.elt, function (param) {
         if (param == 'new') return 'Add Product';
         else return 'Edit Product';
     }, function (param) { // OnNavigate updater
-        ui.product.currentProduct = param;
+        product.currentProduct = param;
+        product.imgSlt.reset();
         if (param == 'new') {
             ui.product.load(param)
         }else {

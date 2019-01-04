@@ -7,6 +7,8 @@ var ui = {};
 
 function ui_init() {
 
+    ui.voidContainer = get('void_container');
+
     uiu_init();
     uiis_init();
     ui_fasc_init();

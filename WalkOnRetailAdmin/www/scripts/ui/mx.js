@@ -1,4 +1,5 @@
 ﻿var filtersController = {};
+var imageSelector = {};
 function mx_init() {
     ui.mx = {};
 
@@ -72,6 +73,15 @@ function mx_init() {
             filters: (typeof filtersArray != 'undefined' ? filtersArray : [])
         };
 
+        fc.getValue = function (filterName) {
+            for (var i = 0; i < this.filters.length; i++) {
+                if (this.filters[i].name == filterName) {
+                    return this.filters[i].value;
+                }
+            }
+            return '';
+        };
+
         fc.removeFilter = function (name) {
             for (var i = 0; i < this.filters.length; i++) {
                 var filter = this.filters[i];
@@ -117,6 +127,66 @@ function mx_init() {
             }
         }
         return fc;
+    };
+
+    // =============================
+
+
+    // ====== Image Selector =======
+
+    imageSelector.init = function (btnElt, imgElt, callback, autoRelease) {
+        var imgslc = {
+            inpElt: crt_elt('input', ui.voidContainer),
+            btnElt: btnElt,
+            imgElt: imgElt,
+            callback: callback,
+            autoRelease: (typeof autoRelease == 'boolean' ? autoRelease : true),
+
+            changed: false,
+
+            update: function () {
+                if (this.inpElt.files.length == 0) return;
+                this.imgElt.src = 'images/spinner.gif';
+                var _this = this;
+                getBase64(this.inpElt.files[0], function (data) {
+                    _this.changed = true;
+                    if (_this.autoRelease) {
+                        _this.imgElt.src = data;
+                    } else {
+                        _this.data = data;
+                    }
+                    if (_this.callback) {
+                        _this.callback(data);
+                    }
+                });
+            },
+
+            release: function () {
+                this.imgElt.src = this.data;
+            },
+
+            getData: function () {
+                if (this.autoRelease) {
+                    return this.imgElt.src;
+                } else {
+                    return this.data;
+                }
+            },
+
+            reset: function () {
+                this.changed = false;
+            }
+        };
+
+        attr(imgslc.inpElt, 'type', 'file');
+        imgslc.inpElt.onchange = function () {
+            imgslc.update();
+        };
+        btnElt.onclick = function () {
+            imgslc.inpElt.click();
+        };
+
+        return imgslc;
     };
 
     // =============================

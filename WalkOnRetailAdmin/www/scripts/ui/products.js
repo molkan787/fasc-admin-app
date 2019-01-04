@@ -1,6 +1,6 @@
-﻿
+﻿var products;
 function ui_products_init() {
-    var products = ui.products = {
+    products = ui.products = {
         // Properties
         elt: get('page_products'),
         elts: {
@@ -8,7 +8,9 @@ function ui_products_init() {
             filterCat: get('prts_filter_cat'),
             filterSubcat: get('prts_filter_subcat'),
             filterSubmit: get('prts_filters_submit'),
-            filterStock: get('prts_filter_stock')
+            filterStock: get('prts_filter_stock'),
+            filterName: get('prts_filter_name'),
+            filterPopup: get('prts_popup')
         },
         loadAction: null,
         deleteAction: null,
@@ -75,6 +77,15 @@ function ui_products_init() {
             this.fc.setFilter({ name: 'cat', value: val(this.elts.filterCat), text: getSelectedText(this.elts.filterCat) });
             this.fc.setFilter({ name: 'subcat', value: val(this.elts.filterSubcat), text: getSelectedText(this.elts.filterSubcat) });
             this.fc.setFilter({ name: 'stock', value: val(this.elts.filterStock), text: getSelectedText(this.elts.filterStock) });
+            this.fc.setFilter({ name: 'name', value: val(this.elts.filterName), text: 'Name: ' + val(this.elts.filterName) });
+        },
+
+        showFilterPopup: function () {
+            val(this.elts.filterCat, this.fc.getValue('cat'));
+            val(this.elts.filterSubcat, this.fc.getValue('subcat'));
+            val(this.elts.filterStock, this.fc.getValue('stock'));
+            val(this.elts.filterName, this.fc.getValue('name'));
+            ui.popup.show(this.elts.filterPopup);
         },
 
         // Handlers
