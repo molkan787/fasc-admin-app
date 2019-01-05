@@ -146,7 +146,7 @@ function mx_init() {
 
             update: function () {
                 if (this.inpElt.files.length == 0) return;
-                this.imgElt.src = 'images/spinner.gif';
+                if (this.imgElt) this.imgElt.src = 'images/spinner.gif';
                 var _this = this;
                 getBase64(this.inpElt.files[0], function (data) {
                     _this.changed = true;

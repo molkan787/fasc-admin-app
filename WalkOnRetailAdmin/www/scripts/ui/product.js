@@ -14,11 +14,15 @@ function ui_product_init() {
             GST: get('prt_gst'),
             HSN: get('prt_hsn'),
             Cat: get('prt_cat'),
-            Subcat: get('prt_subcat')
+            Subcat: get('prt_subcat'),
+            Images: get('prt_images'),
+            AddImageBtn: get('prt_add_image_btn')
         },
         data: {
             prtImage: '',
-            prtImages: []
+            prtOldImages: null,
+            prtNewImages: null
+
         },
 
         loadAction: null,
@@ -27,6 +31,39 @@ function ui_product_init() {
         saveActionsChain: null,
 
         dimc: ui.dimmer.create('prt_dimmer'),
+
+        // UI methods
+
+        createImageBlock: function (imgUrl, imgId) {
+            var div = crt_elt('div');
+            var img = crt_elt('img', div);
+            var btn = crt_elt('button', div);
+            div.className = 'prt_image_item';
+            btn.className = 'ui tiny button';
+            val(img, imgUrl);
+            val(btn, 'Remove');
+            attr(div, 'state', 'enabled');
+            if (typeof imgId != 'undefined') {
+                attr(div, 'imgid', imgId);
+            }
+
+            btn.onclick = this.toggleImageState;
+
+            this.elts.Images.appendChild(div);
+        },
+        toggleImageState: function () {
+            var par = this.parentNode;
+            var state = attr(par, 'state');
+            if (state == 'enabled') {
+                attr(par, 'state', 'disabled');
+                class_add(par, 'disabled');
+                val(this, 'Undo');
+            } else {
+                attr(par, 'state', 'enabled');
+                class_rm(par, 'disabled');
+                val(this, 'Remove');
+            }
+        },
 
         // Methods
         load: function (data) {
@@ -37,7 +74,7 @@ function ui_product_init() {
             val(this.elts.Title, data.title || '');
             val(this.elts.Desc, data.description || '');
             val(this.elts.Stock, data.stock || '');
-            val(this.elts.Image, data.image || '');
+            val(this.elts.Image, data.image || 'images/document_blank.png');
             val(this.elts.Price, ui.fasc.formatPrice(data.price || '', true));
             val(this.elts.Discount, data.discount_amt || '');
             val(this.elts.DiscountType, data.discount_type);
@@ -45,14 +82,39 @@ function ui_product_init() {
             val(this.elts.HSN, data.hsn || '');
             val(this.elts.Cat, data.cat || '0');
             val(this.elts.Subcat, data.subcat || '0');
+            val(this.elts.Images, '');
+            this.elts.Images.appendChild(this.elts.AddImageBtn);
+            var _this = this;
+            if (data.images) {
+                foreach(data.images, function (item) {
+                    _this.createImageBlock(item.image, item.product_image_id);
+                });
+            }
         },
 
         save: function () {
             this.dimc.show();
+
+            this.data.prtOldImages = [];
+            this.data.prtNewImages = [];
+            this.data.uploadQueue = [];
+            var imgElts = get_bc('prt_image_item', this.elts.Images);
+            for (var i = 0; i < imgElts.length; i++) {
+                var elt = imgElts[i];
+                if (attr(elt, 'state') == 'enabled') {
+                    var imgId = attr(elt, 'imgid');
+                    if (imgId) this.data.prtOldImages.push(imgId);
+                    else this.data.uploadQueue.push(get_bt('img', elt)[0].src);
+                }
+            }
+
+
             if (this.imgSlt.changed) {
                 this.saveActionsChain.start(this.imgSlt.getData());
+            } else if (this.data.uploadQueue.length > 0) {
+                this.saveActionsChain.start(this.data.uploadQueue.shift(), 1);
             } else {
-                this.saveActionsChain.start(this.getData(), 1);
+                this.saveActionsChain.start(this.getData(), 2);
             }
         },
 
@@ -69,7 +131,9 @@ function ui_product_init() {
                 hsn: val(this.elts.HSN),
                 cat: val(this.elts.Cat),
                 subcat: val(this.elts.Subcat),
-                image: this.data.prtImage
+                image: this.data.prtImage,
+                images_to_keep: this.data.prtOldImages,
+                images_to_add: this.data.prtNewImages
             };
             return data;
         },
@@ -84,23 +148,6 @@ function ui_product_init() {
             }
             ui.product.dimc.hide();
         },
-        saveActionCallback: function (action) {
-            //log(action.error);
-            if (action.status == 'OK') {
-                msg.show('Changes was successfully saved!');
-            } else {
-                msg.show('We could not save changes, Please check if you have internet access.');
-            }
-            ui.product.dimc.hide();
-        },
-        uploadActionCallback: function (action) {
-            if (action.status == 'OK') {
-                product.data.prtImage = action.data.filename;
-                product.imgSlt.release();
-            } else {
-                msg.show('We could not upload the image, Please check if you have internet access.');
-            }
-        },
 
         saveActionsCallback: function (chain) {
             if (chain.currentStatus == 'OK') {
@@ -108,7 +155,19 @@ function ui_product_init() {
                 if (chain.currentStep == 'image') {
                     this.imgSlt.reset();
                     this.data.prtImage = chain.data.filename;
-                    chain.doNext(this.getData());
+                    if (this.data.uploadQueue.length > 0) {
+                        chain.doNext(this.data.uploadQueue.shift());
+                    } else {
+                        chain.skipNext();
+                        chain.doNext(this.getData());
+                    }
+                } else if (chain.currentStep == 'images') {
+                    this.data.prtNewImages.push(chain.data.filename);
+                    if (this.data.uploadQueue.length > 0) {
+                        chain.redo(this.data.uploadQueue.shift());
+                    } else {
+                        chain.doNext(this.getData())
+                    }
                 } else if (chain.currentStep == 'data') {
                     msg.show(txt('msg_1'));
                     this.dimc.hide();
@@ -124,6 +183,10 @@ function ui_product_init() {
             setOptions(product.elts.Subcat, dm.subcats[val(this)], '---');
         },
 
+        imageAdded: function (imageData) {
+            product.createImageBlock(imageData);
+        }
+
     };
 
     product.loadAction = actions.create(function (id) { dm.getProduct(id, product.loadAction); }, product.loadActionCallback);
@@ -133,7 +196,7 @@ function ui_product_init() {
     var uploadAction = fetchAction.create('image/upBase64&folder=products');
     var saveAction = fetchAction.create('product/save');
 
-    product.saveActionsChain = actionsChain.create([uploadAction, saveAction], ['image', 'data'], null,
+    product.saveActionsChain = actionsChain.create([uploadAction, uploadAction, saveAction], ['image', 'images', 'data'], null,
         function (chain) { product.saveActionsCallback(chain); });
 
     // ===============================
@@ -146,6 +209,8 @@ function ui_product_init() {
     });
 
     product.imgSlt = imageSelector.init(get('prt_btn_change_img'), get('prt_image'));
+
+    imageSelector.init(product.elts.AddImageBtn, null, product.imageAdded, false);
 
     registerPage('product', product.elt, function (param) {
         if (param == 'new') return 'Add Product';

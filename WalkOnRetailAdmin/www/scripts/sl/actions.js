@@ -86,6 +86,7 @@ function _fetch_action_create(req, callback) {
         },
 
         __cb: function (resp) {
+            //log(resp);
             try {
                 resp = JSON.parse(resp);
             } catch (ex) {
