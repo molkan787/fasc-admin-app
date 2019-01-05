@@ -75,7 +75,7 @@ function ui_product_init() {
             val(this.elts.Desc, data.description || '');
             val(this.elts.Stock, data.stock || '');
             val(this.elts.Image, data.image || 'images/document_blank.png');
-            val(this.elts.Price, ui.fasc.formatPrice(data.price || '', true));
+            val(this.elts.Price, ui.fasc.formatPrice(data.price || 0, true));
             val(this.elts.Discount, data.discount_amt || '');
             val(this.elts.DiscountType, data.discount_type);
             val(this.elts.GST, data.gst || '');
