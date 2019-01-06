@@ -38,4 +38,8 @@ function ui_popup_init() {
         anime(this.hideAnimation);
     };
 
+    ui.mx.bbp.setClickHandler(1, function () {
+        ui.popup.hide();
+    });
+
 }

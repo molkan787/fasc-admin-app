@@ -47,10 +47,13 @@ function mx_init() {
         create: function (elt_id) {
             var dimc = {
                 elt: get(elt_id),
+                visibile: false,
                 show: function () {
+                    this.visibile = true;
                     this.elt.style.display = 'block';
                 },
                 hide: function () {
+                    this.visibile = false;
                     this.elt.style.display = 'none';
                 }
             };

@@ -10,7 +10,7 @@ function test_1() {
 }
 
 function test_2() {
-    ui.popup.show('prts_popup');
+    ui.popup.show('order_popup');
 }
 
 function test_3() {

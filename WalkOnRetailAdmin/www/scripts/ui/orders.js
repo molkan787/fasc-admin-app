@@ -54,7 +54,11 @@ function ui_orders_init() {
         },
 
         loadActionCallback: function (action) {
-            this.loadOrders(action.data.items);
+            if (action.status == 'OK') {
+                this.loadOrders(action.data.items);
+            } else {
+                msg.show(txt('error_3'));
+            }
             this.dimc.hide();
         }
     };

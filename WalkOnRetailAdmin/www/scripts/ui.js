@@ -25,7 +25,7 @@ function ui_init() {
 
     uiis.init_components();
 
-    navigate('product', 'new');
+    navigate('orders');
 
     lm.onNavigate = navigate;
 }

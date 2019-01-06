@@ -97,15 +97,18 @@ body{
     display: none;
 }
 .popup {
-    position: fixed;
-    z-index: 2135;
-    top: 50%;
-    left: 50%;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    padding: 10px;
+    position: fixed !important;
+    z-index: 2135 !important;
+    top: 50% !important;
+    left: 50% !important;
+    background-color: white !important;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
+    box-sizing: border-box !important;
+    padding: 10px !important;
     opacity: 0;
     display: none;
+}
+.popup::before {
+    display: none !important;
 }

@@ -1,6 +1,6 @@
-﻿
+﻿var order;
 function ui_order_init() {
-    var order = ui.order = {
+    order = ui.order = {
         // Properties
         elt: get('page_order'),
         elts: {
@@ -13,12 +13,19 @@ function ui_order_init() {
             delDate: get('ord_del_date'),
             delAddr: get('ord_del_addr'),
             orderDate: get('ord_order_date'),
-            itemsTable: get('ord_items_table')
+            itemsTable: get('ord_items_table'),
+
+            optionsPopup: get('order_popup'),
+            btnCompleted: get('ord_btn_com'),
+            btnPending: get('ord_btn_pen'),
+            btnDelete: get('ord_btn_del')
         },
 
         loadAction: null,
+        changeAction: null,
 
         dimc: ui.dimmer.create('ord_dimmer'),
+        dimcPopup: ui.dimmer.create('ord_popup_dimmer'),
 
         // Methods
 
@@ -37,6 +44,7 @@ function ui_order_init() {
         },
 
         loadOrder: function (data) {
+            this.currentOrder = data;
             val(this.elts.customer, data.customer);
             val(this.elts.phone, data.telephone);
             val(this.elts.total, fasc.formatPrice(data.total, true));
@@ -66,13 +74,66 @@ function ui_order_init() {
             this.dimc.hide();
         },
 
+        changeActionCallback: function (action) {
+            if (action.status == 'OK') {
+                if (action.data.operation == 'status') {
+                    this.currentOrder.order_status_id = action.data.status;
+                    this.loadOrder(this.currentOrder);
+                } else {
+                    msg.show(txt('msg_2', 'Order'));
+                }
+                ui.popup.hide();
+            } else {
+                msg.show(txt('error_2'));
+            }
+            this.dimcPopup.hide();
+        },
+
+        showOptions: function () {
+            var status = parseInt(this.currentOrder.order_status_id);
+            if (status == 5) {
+                attr(this.elts.btnCompleted, 'disabled', '1');
+                attr_rm(this.elts.btnPending, 'disabled');
+            } else {
+                attr(this.elts.btnPending, 'disabled', '1');
+                attr_rm(this.elts.btnCompleted, 'disabled');
+            }
+            ui.popup.show(this.elts.optionsPopup);
+        },
+
         // Handlers
         actionIconClick: function () {
-            log('clicked!')
+            if (!order.dimc.visibile) {
+                order.showOptions();
+            }
+        },
+
+        btnsClick: function () {
+            var params = {
+                operation: attr(this, 'operation'),
+                status: attr(this, 'status'),
+                order_id: order.currentOrder.order_id
+            };
+            if (params.operation == 'delete') {
+                msg.confirm('Are you sure you want to delete this Order?', function (answer) {
+                    if (answer == 'yes') {
+                        order.dimcPopup.show();
+                        order.changeAction.do(params);
+                    }
+                });
+            } else {
+                order.dimcPopup.show();
+                order.changeAction.do(params);
+            }
         }
     };
 
-    order.loadAction = fetchAction.create('orderadm/info', function (action) { order.loadActionCallback(action) } );
+    order.elts.btnCompleted.onclick = order.btnsClick;
+    order.elts.btnPending.onclick = order.btnsClick;
+    order.elts.btnDelete.onclick = order.btnsClick;
+
+    order.loadAction = fetchAction.create('orderadm/info', function (action) { order.loadActionCallback(action) });
+    order.changeAction = fetchAction.create('orderadm/change', function (action) { order.changeActionCallback(action) });
 
     registerPage('order', order.elt, 'Order Details', function (param) {
         order.dimc.show();
