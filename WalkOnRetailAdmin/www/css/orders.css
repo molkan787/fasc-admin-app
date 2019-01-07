@@ -124,3 +124,10 @@
 #order_popup > button.last {
     margin-top: 50px;
 }
+
+#ords_popup {
+    width: 70vw;
+    height: 250px;
+    margin-left: -35vw;
+    margin-top: -125px;
+}

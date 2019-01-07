@@ -51,11 +51,14 @@ function _actions_create(task, callback, ref) {
 
 function _fetch_action_create(req, callback) {
     var action = {
+        isBusy: false,
         req: req,
         callback: callback,
         data: null,
 
         do: function (params) {
+            if (this.isBusy) return false;
+            this.isBusy = true;
             var isPostReq = (typeof params == 'string');
             this.params = params;
             var _this = this;
@@ -78,6 +81,7 @@ function _fetch_action_create(req, callback) {
         },
 
         release: function (status, error) {
+            this.isBusy = false;
             this.status = status;
             this.error_code = error;
             if (this.callback) {

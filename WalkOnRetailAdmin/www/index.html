@@ -263,6 +263,27 @@
                 <div class="ui text loader">Loading</div>
             </div>
 
+            <!--Filters Popup-->
+            <div class="popup" id="ords_popup">
+                <h3>Filters</h3>
+                <div class="ui form">
+                    <div class="field">
+                        <label>Status</label>
+                        <select id="ords_filters_status">
+                            <option value="">All</option>
+                            <option value="1">Pending</option>
+                            <option value="5">Completed</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Order date</label>
+                        <input type="date" id="ords_filters_order_date"/>
+                    </div>
+
+                    <button id="ords_filters_submit" class="ui button fullw" type="submit">Submit</button>
+                </div>
+            </div>
+
         </div>
 
         <div id="page_order" class="page ui segment">
@@ -325,6 +346,10 @@
 
         </div>
 
+    </div>
+
+    <div id="fab">
+        <i id="fab_icon" class="filter icon"></i>
     </div>
 
     <div class="void_container"></div>

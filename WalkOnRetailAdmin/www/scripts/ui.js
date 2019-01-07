@@ -9,6 +9,9 @@ function ui_init() {
 
     ui.voidContainer = get('void_container');
 
+    ui.fab = get('fab');
+    ui.fabIcon = get('fab_icon');
+
     uiu_init();
     uiis_init();
     ui_fasc_init();
@@ -30,13 +33,14 @@ function ui_init() {
     lm.onNavigate = navigate;
 }
 
-function registerPage(slug, element, title, updater, headbarAction) {
+function registerPage(slug, element, title, updater, headbarAction, fab) {
     pages[slug] = {
         slug: slug,
         element: element,
         title: title,
         updater: updater,
-        headbarAction: headbarAction
+        headbarAction: headbarAction,
+        fab: fab
     };
 }
 
@@ -79,4 +83,12 @@ function navigate(page_slug, param) {
 
     ui.hb.setButton(backButton ? 'back' : 'menu');
     ui.hb.setActionIcon(page.headbarAction);
+
+    if (page.fab) {
+        ui.fabIcon.className = 'icon ' + page.fab.icon;
+        ui.fab.onclick = page.fab.handler;
+        ui.fab.style.display = 'block';
+    } else {
+        ui.fab.style.display = 'none';
+    }
 }

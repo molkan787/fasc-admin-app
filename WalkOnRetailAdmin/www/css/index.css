@@ -112,3 +112,22 @@ body{
 .popup::before {
     display: none !important;
 }
+
+#fab {
+    position: fixed;
+    z-index: 2000;
+    top: 100%;
+    left: 100%;
+    width: 15vw;
+    height: 15vw;
+    box-sizing: border-box;
+    padding: 4.8vw 4vw 4vw 4.2vw;
+    border-radius: 50%;
+    background-color: #f53;
+    margin-top: calc(-15vw - 10px);
+    margin-left: calc(-15vw - 10px);
+    font-size: 6vw;
+    color: white;
+    box-shadow: 1px 1px 10px #999;
+    display: none;
+}

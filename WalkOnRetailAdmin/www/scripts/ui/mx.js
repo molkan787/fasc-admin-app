@@ -69,12 +69,24 @@ function mx_init() {
     filtersController.create = function (uiParent, changedCallback, filtersArray) {
         var fc = {
             id: filtersController.idPtr++,
+            isLocked: false,
             uiParent: get(uiParent),
             changedCallback: changedCallback,
             //removedCallback: removedCallback,
             uiElts: [],
             filters: (typeof filtersArray != 'undefined' ? filtersArray : [])
         };
+
+        fc.lock = function () {
+            this.isLocked = true;
+        };
+        fc.unlock = function (call) {
+            this.isLocked = false;
+            if (call && this.changedCallback) {
+                this.changedCallback(this);
+            }
+        };
+
 
         fc.getValue = function (filterName) {
             for (var i = 0; i < this.filters.length; i++) {
@@ -99,17 +111,19 @@ function mx_init() {
         fc.removeClickHandler = function () {
             var filterName = attr(this, 'fname');
             fc.removeFilter(filterName);
-            if (fc.removedCallback) {
-                fc.removedCallback(filterName);
-            }
-            if (fc.changedCallback) {
+            if (fc.changedCallback && !this.isLocked) {
                 fc.changedCallback();
             }
         };
 
         fc.setFilter = function (filter) {
             this.removeFilter(filter.name);
-            if (!filter.value) return;
+            if (!filter.value) {
+                if (this.changedCallback && !this.isLocked) {
+                    this.changedCallback();
+                }
+                return;
+            }
             this.filters.push(filter);
 
             var label = crt_elt('label');
@@ -125,7 +139,7 @@ function mx_init() {
 
             this.uiParent.appendChild(label);
 
-            if (this.changedCallback) {
+            if (this.changedCallback && !this.isLocked) {
                 this.changedCallback();
             }
         }

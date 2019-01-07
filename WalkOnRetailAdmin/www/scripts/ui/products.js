@@ -74,10 +74,12 @@ function ui_products_init() {
         },
 
         updateFilters: function () {
+            this.fc.lock();
             this.fc.setFilter({ name: 'cat', value: val(this.elts.filterCat), text: getSelectedText(this.elts.filterCat) });
             this.fc.setFilter({ name: 'subcat', value: val(this.elts.filterSubcat), text: getSelectedText(this.elts.filterSubcat) });
             this.fc.setFilter({ name: 'stock', value: val(this.elts.filterStock), text: getSelectedText(this.elts.filterStock) });
             this.fc.setFilter({ name: 'name', value: val(this.elts.filterName), text: 'Name: ' + val(this.elts.filterName) });
+            this.fc.unlock(true);
         },
 
         showFilterPopup: function () {
@@ -132,7 +134,8 @@ function ui_products_init() {
 
     registerPage('products', products.elt, 'Products', function () {
         products.update();
-    }, { icon: 'plus', handler: function () { navigate('product', 'new'); } });
+    }, { icon: 'plus', handler: function () { navigate('product', 'new'); } },
+        { icon: 'filter', handler: function () { products.showFilterPopup() } });
 
     dm.registerCallback(function () {
         setOptions(products.elts.filterCat, dm.cats, true);

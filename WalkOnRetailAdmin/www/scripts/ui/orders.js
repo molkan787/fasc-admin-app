@@ -1,12 +1,18 @@
-﻿
+﻿var orders;
 function ui_orders_init() {
-    var orders = ui.orders = {
+    orders = ui.orders = {
         // Proprties
         elt: get('page_orders'),
         elts: {
-            ordsList: get('ords_list')
+            ordsList: get('ords_list'),
+            filtersPopup: get('ords_popup'),
+            filterStatus: get('ords_filters_status'),
+            filterOrderDate: get('ords_filters_order_date'),
+            filterSubmit: get('ords_filters_submit')
         },
         dimc: ui.dimmer.create('ords_dimmer'),
+
+        filters: [],
 
         loadAction: null,
 
@@ -53,6 +59,11 @@ function ui_orders_init() {
             }
         },
 
+        update: function () {
+            this.dimc.show();
+            this.loadAction.do(orders.filters);
+        },
+
         loadActionCallback: function (action) {
             if (action.status == 'OK') {
                 this.loadOrders(action.data.items);
@@ -60,13 +71,33 @@ function ui_orders_init() {
                 msg.show(txt('error_3'));
             }
             this.dimc.hide();
+        },
+
+        filtersChanged: function () {
+            orders.update();
+        },
+
+        showFilters: function () {
+            val(this.elts.filterStatus, this.fc.getValue('status'));
+            val(this.elts.filterOrderDate, this.fc.getValue('order_date'));
+            ui.popup.show(this.elts.filtersPopup);
+        },
+
+        submitFilters: function () {
+            this.fc.lock();
+            this.fc.setFilter({ name: 'status', value: val(this.elts.filterStatus), text: getSelectedText(this.elts.filterStatus) });
+            this.fc.setFilter({ name: 'order_date', value: val(this.elts.filterOrderDate), text: 'Order date: ' + val(this.elts.filterOrderDate) });
+            this.fc.unlock(true);
+            ui.popup.hide();
         }
     };
 
     orders.loadAction = fetchAction.create('orderadm/list', function (action) { orders.loadActionCallback(action) });
 
+    orders.fc = filtersController.create(get('ords_filters'), orders.filtersChanged, orders.filters);
+    orders.elts.filterSubmit.onclick = function () { orders.submitFilters() };
+
     registerPage('orders', orders.elt, 'Orders', function () {
-        orders.dimc.show();
-        orders.loadAction.do();
-    });
+        orders.update();
+    }, null, { icon: 'filter', handler: function () { orders.showFilters() }});
 }
