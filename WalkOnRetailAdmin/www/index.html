@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/products.css">
     <link rel="stylesheet" type="text/css" href="css/orders.css">
     <link rel="stylesheet" type="text/css" href="css/comps.css">
+    <link rel="stylesheet" type="text/css" href="css/customers.css">
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
@@ -40,6 +41,7 @@
     <script type="text/javascript" src="scripts/ui/product.js"></script>
     <script type="text/javascript" src="scripts/ui/orders.js"></script>
     <script type="text/javascript" src="scripts/ui/order.js"></script>
+    <script type="text/javascript" src="scripts/ui/customers.js"></script>
     <script type="text/javascript" src="scripts/ui/dialogs.js"></script>
     <script type="text/javascript" src="scripts/ui/popup.js"></script>
     <script type="text/javascript" src="scripts/ui/uiu.js"></script>
@@ -74,6 +76,9 @@
             </a>
             <a class="item" action="products">
                 <i class="box icon"></i> Products
+            </a>
+            <a class="item" action="customers">
+                <i class="users icon"></i> Customers
             </a>
             <a class="item" action="setting">
                 <i class="setting icon"></i> Setting
@@ -341,6 +346,52 @@
                 <button id="ord_btn_del" operation="delete" class="ui button last"><i class="delete icon"></i>Delete order</button>
                 <div id="ord_popup_dimmer" class="ui active inverted dimmer" style="display: none">
                     <div class="ui text loader"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="page_customers" class="page ui segment">
+            <h3>
+                Filters:
+                <span id="cust_filters" style="line-height: 1.6;">
+                </span>
+            </h3>
+
+            <div id="cust_list">
+
+            </div>
+
+            <div id="cust_dimmer" class="ui active inverted dimmer" style="display: none">
+                <div class="ui text loader">Loading</div>
+            </div>
+
+            <!--Filters Popup-->
+            <div class="popup" id="cust_popup">
+                <h3>Filters</h3>
+                <div class="ui form">
+                    <div class="field">
+                        <label>Status</label>
+                        <select id="cust_filters_status">
+                            <option value="">All</option>
+                            <option value="1">Verified</option>
+                            <option value="0">Not verified</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Registration date</label>
+                        <input type="date" id="cust_filters_reg_date" />
+                    </div>
+                    <div class="field">
+                        <label>Customer name</label>
+                        <input type="text" id="cust_filters_name" placeholder="Customer name" />
+                    </div>
+                    <div class="field">
+                        <label>Phone number</label>
+                        <input type="text" id="cust_filters_phone" placeholder="Phone number" />
+                    </div>
+
+                    <button id="cust_filters_submit" class="ui button fullw" type="submit">Submit</button>
                 </div>
             </div>
 
