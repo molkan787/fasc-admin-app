@@ -59,7 +59,13 @@ function ui_orders_init() {
             }
         },
 
-        update: function () {
+        update: function (param) {
+            if (param) {
+                this.fc.lock();
+                this.fc.clear();
+                this.fc.setFilter({ name: 'customer_id', value: param.customer_id, text: 'Customer: ' + param.name });
+                this.fc.unlock();
+            }
             this.dimc.show();
             this.loadAction.do(orders.filters);
         },
@@ -97,7 +103,7 @@ function ui_orders_init() {
     orders.fc = filtersController.create(get('ords_filters'), orders.filtersChanged, orders.filters);
     orders.elts.filterSubmit.onclick = function () { orders.submitFilters() };
 
-    registerPage('orders', orders.elt, 'Orders', function () {
-        orders.update();
+    registerPage('orders', orders.elt, 'Orders', function (param) {
+        orders.update(param);
     }, null, { icon: 'filter', handler: function () { orders.showFilters() }});
 }

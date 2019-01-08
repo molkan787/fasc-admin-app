@@ -1,5 +1,5 @@
 ﻿var langEN = {
-    error_txt1: 'We could not complete the action',
+    error_txt1: 'We could not complete the action, Please check your internet access.',
     error_2: 'We could not save changes, Please check your internet access.',
     error_3: 'We could not load data, Please check your internet access.',
     msg_1: 'Changes was successfully saved!',

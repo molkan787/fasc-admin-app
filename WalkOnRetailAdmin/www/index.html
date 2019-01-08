@@ -366,8 +366,45 @@
                 <div class="ui text loader">Loading</div>
             </div>
 
+            <!--Customer Popup-->
+            <div class="popup ui segment" id="cust_popup">
+                <h3>
+                    <i class="user icon"></i>
+                    <span id="cust_pp_name">Hadjrus Balak</span>
+                </h3>
+                <h3>
+                    <i class="phone icon"></i>
+                    <span id="cust_pp_phone">7005003050</span>
+                </h3>
+                <h3>
+                    <i class="at icon"></i>
+                    <span id="cust_pp_email">balak@hotmail.fr</span>
+                </h3>
+                <h3>
+                    <i class="shield alternate icon"></i>
+                    <label id="cust_pp_status_label" class="ui tiny green label">
+                        <i id="cust_pp_status_icon" class="check icon"></i>
+                        <span id="cust_pp_status_text"></span>
+                    </label>
+                </h3>
+                <div class="spacer"></div>
+                <button id="cust_pp_show_orders" class="ui button fullw">
+                    <i class="box icon"></i>
+                    Show orders
+                </button>
+                <button id="cust_pp_delete" class="ui button fullw">
+                    <i class="delete icon"></i>
+                    Delete customer
+                </button>
+
+                <div id="cust_pp_dimmer" class="ui active inverted dimmer" style="display: none">
+                    <div class="ui text loader">Loading</div>
+                </div>
+
+            </div>
+
             <!--Filters Popup-->
-            <div class="popup" id="cust_popup">
+            <div class="popup" id="cust_filters_popup">
                 <h3>Filters</h3>
                 <div class="ui form">
                     <div class="field">

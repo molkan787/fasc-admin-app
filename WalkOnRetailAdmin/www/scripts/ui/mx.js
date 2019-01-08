@@ -143,6 +143,15 @@ function mx_init() {
                 this.changedCallback();
             }
         }
+
+        fc.clear = function (doNotCall) {
+            this.filters.length = 0;
+            this.uiParent.innerHTML = '';
+            if (!doNotCall && !this.isLocked && this.changedCallback) {
+                this.changedCallback();
+            }
+        };
+
         return fc;
     };
 

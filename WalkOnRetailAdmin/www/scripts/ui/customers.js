@@ -6,18 +6,31 @@ function ui_customers_init() {
         elt: get('page_customers'),
         listElt: get('cust_list'),
         elts: {
-            filtersPopup: get('cust_popup'),
+            customerPopup: get('cust_popup'),
+            filtersPopup: get('cust_filters_popup'),
             filterStatus: get('cust_filters_status'),
             filterRegDate: get('cust_filters_reg_date'),
             filterName: get('cust_filters_name'),
             filterPhone: get('cust_filters_phone'),
-            filterSubmit: get('cust_filters_submit')
+            filterSubmit: get('cust_filters_submit'),
+            popupName: get('cust_pp_name'),
+            popupPhone: get('cust_pp_phone'),
+            popupEmail: get('cust_pp_email'),
+            popupStatusLabel: get('cust_pp_status_label'),
+            popupStatusIcon: get('cust_pp_status_icon'),
+            popupStatusText: get('cust_pp_status_text'),
+            popupShowOrdersBtn: get('cust_pp_show_orders'),
+            popupDeleteBtn: get('cust_pp_delete')
         },
 
+        items: null,
+
         loadAction: null,
+        deleteCustomerAction: null,
         filters: [],
 
         dimc: ui.dimmer.create('cust_dimmer'),
+        popupDimc: ui.dimmer.create('cust_pp_dimmer'),
         fc: null,
 
         // Methods 
@@ -43,13 +56,21 @@ function ui_customers_init() {
             label.className = 'ui tiny label ' + (isv ? 'green' : 'red');
             l_icon.className = 'icon ' + (isv ? 'check circle icon' : 'ban icon');
             val(l_span, isv ? 'Verified' : 'Not verified');
+
+            div.id = 'cust_panel_' + data.customer_id;
+            attr(div, 'customer_id', data.customer_id);
+            div.onclick = this.panelClick;
+
             this.listElt.appendChild(div);
         },
 
         loadCustomers: function (data) {
+            this.items = {};
             val(this.listElt, '');
             for (var i = 0; i < data.length; i++) {
-                this.createPanel(data[i]);
+                var item = data[i];
+                this.items[item.customer_id] = item;
+                this.createPanel(item);
             }
         },
 
@@ -76,6 +97,35 @@ function ui_customers_init() {
             ui.popup.hide();
         },
 
+        showCustomer: function (customer_id) {
+            var customer = this.items[customer_id];
+            if (!customer) return;
+            this.currentCustomer = customer;
+            val(this.elts.popupName, customer.name);
+            val(this.elts.popupPhone, customer.telephone);
+            var no_email = (customer.email.substr(0, 9) == 'customer_');
+            var email = (no_email ? ' (Empty) ' : customer.email);
+            var verified = (parseInt(customer.verified) == 1);
+            val(this.elts.popupEmail, email);
+            this.elts.popupEmail.style.fontStyle = (no_email ? 'italic' : 'unset');
+            this.elts.popupEmail.style.color = (no_email ? '#666' : 'unset');
+            val(this.elts.popupStatusText, verified ? 'Verified' : 'Not verified');
+            this.elts.popupStatusLabel.className = 'ui tiny label ' + (verified ? 'green' : 'red');
+            this.elts.popupStatusIcon.className = 'icon ' + (verified ? 'check circle' : 'ban');
+
+            ui.popup.show(this.elts.customerPopup);
+        },
+
+        showCustomerOrders: function () {
+            ui.popup.hide();
+            navigate('orders', this.currentCustomer);
+        },
+
+        deleteCustomer: function () {
+            this.popupDimc.show();
+            this.deleteCustomerAction.do({customer_id: this.currentCustomer.customer_id});
+        },
+
         // Callbacks
 
         loadActionCallback: function (action) {
@@ -86,20 +136,36 @@ function ui_customers_init() {
             }
             this.dimc.hide();
         },
+        deleteCustomerActionCallback: function (action) {
+            if (action.status == 'OK') {
+                ui.popup.hide();
+                uiu.removeElt('cust_panel_' + action.params.customer_id, true);
+            } else {
+                msg.show(txt('error_txt1'));
+            }
+            this.popupDimc.hide();
+        },
 
         // Handlers
 
         filtersChanged: function () {
             this.update();
+        },
+
+        panelClick: function () {
+            customers.showCustomer(attr(this, 'customer_id'));
         }
     };
 
 
     customers.loadAction = fetchAction.create('client/list', function (action) { customers.loadActionCallback(action) });
+    customers.deleteCustomerAction = fetchAction.create('client/delete', function (action) { customers.deleteCustomerActionCallback(action); });
 
     customers.fc = filtersController.create('cust_filters', function () { customers.filtersChanged(); }, customers.filters);
 
     customers.elts.filterSubmit.onclick = function () { customers.submitFilters(); };
+    customers.elts.popupShowOrdersBtn.onclick = function () { customers.showCustomerOrders() };
+    customers.elts.popupDeleteBtn.onclick = function () { customers.deleteCustomer(); };
 
     registerPage('customers', customers.elt, 'Customers', function () {
         customers.update();

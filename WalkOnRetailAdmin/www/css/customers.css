@@ -12,9 +12,23 @@
     float: right !important;
 }
 
-#cust_popup {
+#cust_filters_popup {
     width: 70vw;
     height: 400px;
     margin-left: -35vw;
     margin-top: -200px;
+}
+#cust_popup {
+    width: 80vw !important;
+    height: 44vh;
+    margin-left: -40vw;
+    margin-top: -22vh;
+    padding: 4vw !important;
+}
+#cust_popup > h3, #cust_popup > button {
+    margin: 0 0 2vw 0;
+}
+#cust_popup > div.spacer{
+    width: 100%;
+    height: 7vh;
 }

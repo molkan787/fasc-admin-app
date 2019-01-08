@@ -1,7 +1,7 @@
 ﻿
 function do_tests() {
     //test_1();
-    test_2();
+    //test_2();
     //test_3();
 }
 
@@ -10,7 +10,7 @@ function test_1() {
 }
 
 function test_2() {
-    ui.popup.show('cust_popup');
+    customers.showCustomer();
 }
 
 function test_3() {
