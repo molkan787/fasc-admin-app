@@ -115,6 +115,27 @@ function getSelectedText(elt) {
     return elt.options[elt.selectedIndex].text;
 }
 
+function getIndexInParent(elt) {
+    return Array.prototype.slice.call(elt.parentNode.children).indexOf(elt);
+}
+
+function insertNodeAsFirst(elt, parent) {
+    if (parent.children.length) {
+        parent.insertBefore(elt, parent.firstChild);
+    } else {
+        parent.appendChild(elt);
+    }
+}
+
+function swapHtmlElts(elt1, elt2) {
+    elt2.parentNode.removeChild(elt2);
+    elt1.parentNode.insertBefore(elt2, elt1);
+}
+
+function moveEltToBot(elt) {
+    elt.parentNode.appendChild(elt.parentNode.removeChild(elt));
+}
+
 
 function foreach(arr, func) {
     var l = arr.length;

@@ -3,6 +3,7 @@ function dm_oca_init() {
     dm = {
         // Properties
         apiBaseURL: 'http://fasc.local/index.php?api_token=key&route=api/',
+        //apiBaseURL: 'http://192.168.1.5/fasc/index.php?api_token=key&route=api/',
 
         // Methods
         _getApiUrl: function (req, params) {

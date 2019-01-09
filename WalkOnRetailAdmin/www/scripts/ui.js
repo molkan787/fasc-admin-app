@@ -23,13 +23,14 @@ function ui_init() {
     ui_orders_init();
     ui_order_init();
     ui_customers_init();
+    banners_init();
 
     ui_popup_init();
     dialogs_init();
 
     uiis.init_components();
 
-    navigate('customers');
+    navigate('banners');
 
     lm.onNavigate = navigate;
 }

@@ -57,12 +57,14 @@ body{
     margin-left: 20px;
     font-size: 12px;
 }
-
+#pages{
+    height: 100%;
+}
 .page {
     box-sizing: border-box;
     display: none;
     width: 100%;
-    height: calc(100vh - 50px);
+    height: 100%;
     background-color: white;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -119,15 +121,15 @@ body{
     z-index: 2000;
     top: 100%;
     left: 100%;
-    width: 15vw;
-    height: 15vw;
+    width: 4rem;
+    height: 4rem;
     box-sizing: border-box;
-    padding: 4.8vw 4vw 4vw 4.2vw;
+    padding: 1.3rem 1rem;
     border-radius: 50%;
     background-color: #F36F24;
-    margin-top: calc(-15vw - 10px);
-    margin-left: calc(-15vw - 10px);
-    font-size: 6vw;
+    margin-top: -5rem;
+    margin-left: -5rem;
+    font-size: 1.7rem;
     color: white;
     box-shadow: 1px 1px 10px #999;
     display: none;

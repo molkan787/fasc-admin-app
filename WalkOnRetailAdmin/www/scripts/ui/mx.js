@@ -48,9 +48,12 @@ function mx_init() {
             var dimc = {
                 elt: get(elt_id),
                 visibile: false,
-                show: function () {
+                show: function (text) {
+                    var txt = (typeof text == 'undefined') ? 'Loading' : text;
                     this.visibile = true;
                     this.elt.style.display = 'block';
+                    var txt_div = this.elt.children[0];
+                    if (txt_div) val(txt_div, txt);
                 },
                 hide: function () {
                     this.visibile = false;
