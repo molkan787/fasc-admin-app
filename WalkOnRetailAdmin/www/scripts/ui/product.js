@@ -164,8 +164,8 @@ function ui_product_init() {
             if (action.status == 'OK') {
                 product.load(action.data);
             } else {
-                log(action.error);
                 msg.show('We could not retrieve data, Please check if you have internet access.');
+                goBack();
             }
             ui.product.dimc.hide();
         },

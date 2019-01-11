@@ -70,6 +70,7 @@ function ui_order_init() {
                 this.loadOrder(action.data);
             } else {
                 msg.show('We could not load order data.');
+                goBack();
             }
             this.dimc.hide();
         },
@@ -81,6 +82,7 @@ function ui_order_init() {
                     this.loadOrder(this.currentOrder);
                 } else {
                     msg.show(txt('msg_2', 'Order'));
+                    goBack();
                 }
                 ui.popup.hide();
             } else {

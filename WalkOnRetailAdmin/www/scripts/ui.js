@@ -1,4 +1,4 @@
-﻿var history = [];
+﻿var navHistory = [];
 var pages = {};
 var page_prev;
 var page_current;
@@ -49,16 +49,34 @@ function registerPage(slug, element, title, updater, headbarAction, fab) {
     };
 }
 
-function navigate(page_slug, param) {
+function addToHistory(page) {
+    for (var i = 0; i < navHistory.length; i++) {
+        if (navHistory[i] == page) {
+            navHistory.splice(i, 1);
+            break;
+        }
+    }
+    navHistory.push(page);
+}
+
+function goBack() {
+    if (navHistory.length < 1) return;
+    navHistory.pop();
+    navigate(navHistory.pop() || 'home', null, true);
+}
+
+function navigate(page_slug, param, isBack) {
     var page = pages[page_slug];
     if (!page) return;
+
+    addToHistory(page_slug);
 
     if (page_current && page_current.slug == page_slug) return;
 
     page_prev = page_current;
     page_current = page;
 
-    if (page.updater) {
+    if (page.updater && !isBack) {
         page.updater(param);
     }
 
