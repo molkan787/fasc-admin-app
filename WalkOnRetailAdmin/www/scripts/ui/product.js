@@ -3,6 +3,7 @@ function ui_product_init() {
     product = ui.product = {
         elt: get('page_product'),
         elts: {
+            Lang: get('prt_lang'),
             ID: get('prt_id'),
             Title: get('prt_title'),
             Desc: get('prt_description'),
@@ -21,8 +22,9 @@ function ui_product_init() {
         data: {
             prtImage: '',
             prtOldImages: null,
-            prtNewImages: null
-
+            prtNewImages: null,
+            desc: null,
+            lang: '1'
         },
 
         loadAction: null,
@@ -70,9 +72,10 @@ function ui_product_init() {
             if (typeof data == 'string') {
                 data = { product_id: data };
             }
+            this.data.desc = data.d;
+            this.data.lang = '1';
+            val(this.elts.Lang, 1);
             val(this.elts.ID, data.product_id);
-            val(this.elts.Title, data.title || '');
-            val(this.elts.Desc, data.description || '');
             val(this.elts.Stock, data.stock || '');
             val(this.elts.Image, data.image || 'images/document_blank.png');
             val(this.elts.Price, ui.fasc.formatPrice(data.price || 0, true));
@@ -83,6 +86,15 @@ function ui_product_init() {
             val(this.elts.Cat, data.cat || '0');
             val(this.elts.Subcat, data.subcat || '0');
             val(this.elts.Images, '');
+
+            if (data.d) {
+                val(this.elts.Title, data.d[1].name);
+                val(this.elts.Desc, data.d[1].description);
+            } else {
+                val(this.elts.Title, '');
+                val(this.elts.Desc, '');
+            }
+
             this.elts.Images.appendChild(this.elts.AddImageBtn);
             var _this = this;
             if (data.images) {
@@ -119,10 +131,11 @@ function ui_product_init() {
         },
 
         getData: function () {
+            this.data.desc[this.data.lang].name = val(this.elts.Title);
+            this.data.desc[this.data.lang].description = val(this.elts.Desc);
             var data = {
                 pid: this.currentProduct,
-                title: val(this.elts.Title),
-                description: val(this.elts.Desc),
+                desc: JSON.stringify(this.data.desc),
                 stock: val(this.elts.Stock),
                 price: val(this.elts.Price),
                 discount_amt: val(this.elts.Discount),
@@ -136,6 +149,14 @@ function ui_product_init() {
                 images_to_add: this.data.prtNewImages
             };
             return data;
+        },
+
+        switchLanguage: function (lang) {
+            this.data.desc[this.data.lang].name = val(this.elts.Title);
+            this.data.desc[this.data.lang].description = val(this.elts.Desc);
+            val(this.elts.Title, this.data.desc[lang].name);
+            val(this.elts.Desc, this.data.desc[lang].description);
+            this.data.lang = lang;
         },
 
         // Handlers
@@ -185,6 +206,10 @@ function ui_product_init() {
 
         imageAdded: function (imageData) {
             product.createImageBlock(imageData);
+        },
+
+        langChanged: function () {
+            product.switchLanguage(this.value);
         }
 
     };
@@ -203,6 +228,7 @@ function ui_product_init() {
 
 
     product.elts.Cat.onchange = product.catChanged;
+    product.elts.Lang.onchange = product.langChanged;
 
     dm.registerCallback(function () {
         setOptions(product.elts.Cat, dm.cats, '---');

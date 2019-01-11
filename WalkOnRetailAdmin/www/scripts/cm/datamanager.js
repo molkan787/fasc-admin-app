@@ -29,6 +29,16 @@ function dm_init() {
         }
     };
 
+    dm.getCat = function (cat_id) {
+        for (var i = 0; i < this.cats.length; i++) {
+            var cat = this.cats[i];
+            if (cat.id == cat_id) {
+                cat.subs = this.subcats[cat_id];
+                return cat;
+            }
+        }
+    };
+
     dm.asdAction = fetchAction.create('common/asd', dm.asdActionCallback);
     dm.asdAction.do();
 }

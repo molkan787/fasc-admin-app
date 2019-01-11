@@ -1,12 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <!--
-        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
-        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
-    -->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
-
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
@@ -18,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/comps.css">
     <link rel="stylesheet" type="text/css" href="css/customers.css">
     <link rel="stylesheet" type="text/css" href="css/banners.css">
+    <link rel="stylesheet" type="text/css" href="css/categories.css">
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
@@ -44,6 +39,8 @@
     <script type="text/javascript" src="scripts/ui/order.js"></script>
     <script type="text/javascript" src="scripts/ui/customers.js"></script>
     <script type="text/javascript" src="scripts/ui/banners.js"></script>
+    <script type="text/javascript" src="scripts/ui/categories.js"></script>
+    <script type="text/javascript" src="scripts/ui/category.js"></script>
     <script type="text/javascript" src="scripts/ui/dialogs.js"></script>
     <script type="text/javascript" src="scripts/ui/popup.js"></script>
     <script type="text/javascript" src="scripts/ui/uiu.js"></script>
@@ -171,7 +168,8 @@
                                     Language
                                 </div>
                                 <select id="prt_lang">
-                                    <option value="en">English</option>
+                                    <option value="1">English</option>
+                                    <option value="2">Hindi</option>
                                 </select>
                             </div>
                         </div>
@@ -453,6 +451,53 @@
             </div>
 
             <div id="bans_dimmer" class="ui active inverted dimmer" style="display: none">
+                <div class="ui text loader">Loading</div>
+            </div>
+
+        </div>
+
+        <div id="page_categories" class="page ui segment">
+            <div id="cats_list">
+                <div class="cats_item">
+                    <img src="http://fasc.local/image/cache/catalog/ayurvedic_icon-120x120.png"/>
+                    <h3>Ayurvedic</h3>
+                </div>
+            </div>
+
+            <div id="cats_dimmer" class="ui active inverted dimmer" style="display: none">
+                <div class="ui text loader">Loading</div>
+            </div>
+
+        </div>
+
+        <div id="page_category" class="page ui segment">
+            <div class="ui form">
+                <div class="field cat_namesec">
+                    <label>Name</label>
+                    <div class="ui labeled input">
+                        <div class="ui label">
+                            English
+                        </div>
+                        <input type="text" placeholder="Category name in English">
+                    </div>
+                    <div class="ui labeled input">
+                        <div class="ui label">
+                            Hindi
+                        </div>
+                        <input type="text" placeholder="Category name in Hindi">
+                    </div>
+                </div>
+                <div class="field cat_imgsec">
+                    <label>Image</label>
+                    <img id="cat_img" src="http://fasc.local/image/cache/catalog/ayurvedic_icon-120x120.png"/>
+                    <button id="cat_img_btn" class="ui button">Change image</button>
+                </div>
+            </div>
+            <div id="subcats_subs">
+
+            </div>
+
+            <div id="subcats_dimmer" class="ui active inverted dimmer" style="display: none">
                 <div class="ui text loader">Loading</div>
             </div>
 

@@ -64,7 +64,6 @@ function _fetch_action_create(req, callback) {
             var _this = this;
             var url;
             url = dm._getApiUrl(this.req, isPostReq ? null : params);
-
             if (isPostReq) {
                 httpPostText(url, params, function (resp) {
                     _this.__cb(resp);
