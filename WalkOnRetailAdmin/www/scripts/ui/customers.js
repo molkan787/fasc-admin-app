@@ -122,8 +122,14 @@ function ui_customers_init() {
         },
 
         deleteCustomer: function () {
-            this.popupDimc.show();
-            this.deleteCustomerAction.do({customer_id: this.currentCustomer.customer_id});
+            var text = txt('confirm_customer_delete', this.currentCustomer.name);
+            var _this = this;
+            msg.confirm(text, function (answer) {
+                if (answer == 'yes') {
+                    _this.popupDimc.show();
+                    _this.deleteCustomerAction.do({ customer_id: _this.currentCustomer.customer_id });
+                }
+            });
         },
 
         // Callbacks

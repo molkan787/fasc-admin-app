@@ -70,7 +70,7 @@ function ui_product_init() {
         // Methods
         load: function (data) {
             if (typeof data == 'string') {
-                data = { product_id: data };
+                data = { product_id: data, d: { 1: {}, 2: {} } };
             }
             this.data.desc = data.d;
             this.data.lang = '1';
@@ -86,14 +86,8 @@ function ui_product_init() {
             val(this.elts.Cat, data.cat || '0');
             val(this.elts.Subcat, data.subcat || '0');
             val(this.elts.Images, '');
-
-            if (data.d) {
-                val(this.elts.Title, data.d[1].name);
-                val(this.elts.Desc, data.d[1].description);
-            } else {
-                val(this.elts.Title, '');
-                val(this.elts.Desc, '');
-            }
+            val(this.elts.Title, data.d[1].name || '');
+            val(this.elts.Desc, data.d[1].description || '');
 
             this.elts.Images.appendChild(this.elts.AddImageBtn);
             var _this = this;
@@ -192,6 +186,7 @@ function ui_product_init() {
                 } else if (chain.currentStep == 'data') {
                     msg.show(txt('msg_1'));
                     this.dimc.hide();
+                    goBack();
                 }
 
             } else {

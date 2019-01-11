@@ -3,7 +3,9 @@
     error_2: 'We could not save changes, Please check your internet access.',
     error_3: 'We could not load data, Please check your internet access.',
     msg_1: 'Changes was successfully saved!',
-    msg_2: '{%1} was successfully deleted!'
+    msg_2: '{%1} was successfully deleted!',
+    ask_1: 'Do you really want to delete {%1}?',
+    confirm_customer_delete: 'Do you really want to delete customer "{%1}" ?'
 };
 
 function txt(textName, s1) {
