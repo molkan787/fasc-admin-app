@@ -32,7 +32,8 @@ function uiu_init() {
                     anime(_this.animations.removeElt_p2);
                 };
                 this.animations.removeElt_p2.complete = function () {
-                    elt.parentNode.removeChild(elt);
+                    if (elt && elt.parentNode)
+                        elt.parentNode.removeChild(elt);
                 };
                 anime(this.animations.removeElt_p1);
             } else {

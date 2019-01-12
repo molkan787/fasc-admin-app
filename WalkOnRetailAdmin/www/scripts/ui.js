@@ -32,8 +32,8 @@ function ui_init() {
 
     uiis.init_components();
 
-    dm.registerCallback(() => { navigate('categories'); });
-    //navigate('products');
+    //dm.registerCallback(() => { navigate('categories'); });
+    navigate('category', 65);
 
     lm.onNavigate = navigate;
 }
