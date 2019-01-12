@@ -26,6 +26,7 @@ function ui_init() {
     banners_init();
     categories_init();
     category_init();
+    setting_init();
 
     ui_popup_init();
     dialogs_init();
@@ -33,7 +34,7 @@ function ui_init() {
     uiis.init_components();
 
     //dm.registerCallback(() => { navigate('categories'); });
-    navigate('category', 65);
+    navigate('setting');
 
     lm.onNavigate = navigate;
 }

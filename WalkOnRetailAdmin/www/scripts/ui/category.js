@@ -70,7 +70,7 @@ function category_init() {
         },
 
         save: function () {
-            this.dimc.show();
+            this.dimc.show('Saving');
             if (this.imgSlt.changed) {
                 this.uploadAction.do(this.imgSlt.getData());
             } else {

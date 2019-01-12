@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="css/customers.css">
     <link rel="stylesheet" type="text/css" href="css/banners.css">
     <link rel="stylesheet" type="text/css" href="css/categories.css">
+    <link rel="stylesheet" type="text/css" href="css/setting.css">
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
@@ -41,6 +42,7 @@
     <script type="text/javascript" src="scripts/ui/banners.js"></script>
     <script type="text/javascript" src="scripts/ui/categories.js"></script>
     <script type="text/javascript" src="scripts/ui/category.js"></script>
+    <script type="text/javascript" src="scripts/ui/setting.js"></script>
     <script type="text/javascript" src="scripts/ui/dialogs.js"></script>
     <script type="text/javascript" src="scripts/ui/popup.js"></script>
     <script type="text/javascript" src="scripts/ui/uiu.js"></script>
@@ -469,7 +471,7 @@
             </div>
 
         </div>
-
+        
         <div id="page_category" class="page ui segment">
             <div class="ui form">
                 <div class="field cat_namesec">
@@ -498,12 +500,46 @@
                         <i class="plus circle icon"></i>
                         Add
                     </div>
+
                     <div id="subcats_subs">
                     </div>
                 </div>
             </div>
 
             <div id="subcats_dimmer" class="ui active inverted dimmer" style="display: none">
+                <div class="ui text loader">Loading</div>
+            </div>
+
+        </div>
+
+        <div id="page_setting" class="page ui segment">
+            <h4>Store: <span id="set_store_name">Surjan Kiarna</span></h4>
+            <div class="ui form">
+                <div class="field">
+                    <label>Minimum order value</label>
+                    <div class="ui right labeled input">
+                        <input id="set_min_total" type="text" placeholder="0">
+                        <label class="ui label">&#8377;</label>
+                    </div>
+                </div>
+                <div class="field set_timing_sec">
+                    <label>Shipping timing</label>
+                    <div class="ui labeled input">
+                        <label class="ui label">Starting time</label>
+                        <select id="set_timing_from"></select>
+                    </div>
+                    <div class="ui labeled input">
+                        <label class="ui label">Ending time</label>
+                        <select id="set_timing_to"></select>
+                    </div>
+                    <div class="ui labeled input">
+                        <label class="ui label">Shipping slot</label>
+                        <select id="set_timing_slot"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="setting_dimmer" class="ui active inverted dimmer" style="display: none">
                 <div class="ui text loader">Loading</div>
             </div>
 

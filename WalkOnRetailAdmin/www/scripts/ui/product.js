@@ -99,7 +99,7 @@ function ui_product_init() {
         },
 
         save: function () {
-            this.dimc.show();
+            this.dimc.show('Saving');
 
             this.data.prtOldImages = [];
             this.data.prtNewImages = [];

@@ -1,0 +1,10 @@
+﻿.set_timing_sec > div{
+    margin-bottom: 5px;
+}
+.set_timing_sec > div > label {
+    width: 120px !important;
+}
+.set_timing_sec > div > select {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
