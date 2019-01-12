@@ -18,6 +18,7 @@ function category_init() {
 
         loadAction: null,
         saveAction: null,
+        uploadAction: null,
 
         imgSlt: null,
 
@@ -45,7 +46,7 @@ function category_init() {
             }
         },
 
-        save: function () {
+        getData: function () {
             var subs = { toUpdate: {}, toDelete: [], toAdd: [] };
             foreach(get_bc('subcat_item'), function (elt) {
                 var ise = (attr(elt, 'state') == 'enabled');
@@ -59,15 +60,23 @@ function category_init() {
                     subs.toDelete.push(origin_id);
                 }
             });
-            var data = {
+            return {
                 cat_id: this.currentCat,
                 name1: val(this.elts.name1),
                 name2: val(this.elts.name2),
                 subs: JSON.stringify(subs)
             };
 
+        },
+
+        save: function () {
             this.dimc.show();
-            this.saveAction.do(data);
+            if (this.imgSlt.changed) {
+                this.uploadAction.do(this.imgSlt.getData());
+            } else {
+                var data = this.getData();
+                this.saveAction.do(data);
+            }
         },
 
         createPanel: function (data, insertFirst) {
@@ -134,10 +143,21 @@ function category_init() {
             this.dimc.hide();
         },
 
+        uploadActionCallback: function (action) {
+            if (action.status == 'OK') {
+                var data = this.getData();
+                data.image = action.data.filename;
+                this.saveAction.do(data);
+            } else {
+                msg.show(txt('error_2'));
+                this.dimc.hide();
+            }
+        },
+
         saveActionCallback: function (action) {
             if (action.status == 'OK') {
                 msg.show(txt('msg_1'));
-                //goBack();
+                goBack();
             } else {
                 msg.show(txt('error_2'));
             }
@@ -160,6 +180,7 @@ function category_init() {
 
     category.loadAction = fetchAction.create('category/info', function (action) { category.loadActionCallback(action); });
     category.saveAction = fetchAction.create('category/save', function (action) { category.saveActionCallback(action); });
+    category.uploadAction = fetchAction.create('image/upBase64&folder=categories', function (action) { category.uploadActionCallback(action); });
 
     category.imgSlt = imageSelector.init(category.elts.imgBtn, category.elts.img);
 
