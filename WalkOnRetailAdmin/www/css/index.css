@@ -60,6 +60,16 @@ body{
 #pages{
     height: 100%;
 }
+
+.lm_sep {
+    display: inline-block;
+    width: 100%;
+    background-color: #ccc;
+    color: #444;
+    font-size: 12px;
+    padding-left: 18px;
+}
+
 .page {
     box-sizing: border-box;
     display: none;

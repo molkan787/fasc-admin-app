@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="css/banners.css">
     <link rel="stylesheet" type="text/css" href="css/categories.css">
     <link rel="stylesheet" type="text/css" href="css/setting.css">
+    <link rel="stylesheet" type="text/css" href="css/mamp.css">
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
@@ -43,6 +44,8 @@
     <script type="text/javascript" src="scripts/ui/categories.js"></script>
     <script type="text/javascript" src="scripts/ui/category.js"></script>
     <script type="text/javascript" src="scripts/ui/setting.js"></script>
+    <script type="text/javascript" src="scripts/ui/stores.js"></script>
+    <script type="text/javascript" src="scripts/ui/store.js"></script>
     <script type="text/javascript" src="scripts/ui/dialogs.js"></script>
     <script type="text/javascript" src="scripts/ui/popup.js"></script>
     <script type="text/javascript" src="scripts/ui/uiu.js"></script>
@@ -69,6 +72,14 @@
             <div class="item">
                 <img src="images/slogo.png" />
             </div>
+            <div class="lm_sep">Master Admin Pages</div>
+            <a class="item" action="master_setting">
+                <i class="setting icon"></i> Master Setting
+            </a>
+            <a class="item" action="stores">
+                <i class="shopping bag icon"></i> Stores
+            </a>
+            <div class="lm_sep">Store Pages</div>
             <a class="item" action="home">
                 <i class="home icon"></i> Dashboard
             </a>
@@ -543,6 +554,22 @@
                 <div class="ui text loader">Loading</div>
             </div>
 
+        </div>
+
+        <div id="page_stores" class="page ui segment">
+            <h3>List of Stores</h3>
+            <div id="stores_list">
+            </div>
+            <div id="stores_dimmer" class="ui active inverted dimmer" style="display: none">
+                <div class="ui text loader"></div>
+            </div>
+        </div>
+
+        <div id="page_store" class="page ui segment">
+            Store page
+            <div id="store_dimmer" class="ui active inverted dimmer" style="display: none">
+                <div class="ui text loader"></div>
+            </div>
         </div>
 
     </div>

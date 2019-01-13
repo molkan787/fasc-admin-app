@@ -1,0 +1,22 @@
+﻿#stores_list > div{
+    width: 100%;
+    height: 58px;
+    border: 1px solid #ddd;
+    margin-bottom: -1px;
+    padding: 5px;
+}
+#stores_list > div > h4 {
+    margin: 2px 0 5px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#stores_list > div > h4.smaller {
+    font-size: 14px;
+}
+#stores_list > div > h4 > span{
+    color: #777;
+}
+#stores_list > div > label{
+    float: right;
+}
