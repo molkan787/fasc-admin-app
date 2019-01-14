@@ -6,7 +6,8 @@ function do_tests() {
 }
 
 function test_1() {
-    registerPage('home', get('page_home'), 'Dashboard', null);
+    //registerPage('home', get('page_home'), 'Dashboard', null);
+    ui.popup.show('stores_popup_add');
 }
 
 function test_2() {

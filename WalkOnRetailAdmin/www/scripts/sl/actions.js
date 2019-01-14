@@ -1,6 +1,7 @@
 ﻿var actions;
 var fetchAction;
 var actionsChain;
+var action_debug = false;
 
 function actions_init() {
 
@@ -89,7 +90,7 @@ function _fetch_action_create(req, callback) {
         },
 
         __cb: function (resp) {
-            //log(resp);
+            if (action_debug) log(resp);
             try {
                 resp = JSON.parse(resp);
             } catch (ex) {

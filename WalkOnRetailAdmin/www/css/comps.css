@@ -14,3 +14,9 @@
 select:focus, select:active {
     border-color: #85b7d9 !important;
 }
+
+.toe {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

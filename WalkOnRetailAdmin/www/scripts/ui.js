@@ -2,6 +2,7 @@
 var pages = {};
 var page_prev;
 var page_current;
+var param_current;
 
 var ui = {};
 
@@ -62,22 +63,29 @@ function addToHistory(page) {
     navHistory.push(page);
 }
 
+function reloadPage() {
+    if (page_current) {
+        navigate(page_current.slug, param_current, false, true);
+    }
+}
+
 function goBack() {
     if (navHistory.length < 1) return;
     navHistory.pop();
     navigate(navHistory.pop() || 'home', null, true);
 }
 
-function navigate(page_slug, param, isBack) {
+function navigate(page_slug, param, isBack, forceReload) {
     var page = pages[page_slug];
     if (!page) return;
 
     addToHistory(page_slug);
 
-    if (page_current && page_current.slug == page_slug) return;
+    if (!forceReload && page_current && page_current.slug == page_slug) return;
 
     page_prev = page_current;
     page_current = page;
+    param_current = param;
 
     if (page.updater && !isBack) {
         page.updater(param);

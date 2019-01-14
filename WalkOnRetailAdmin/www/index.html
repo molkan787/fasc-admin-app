@@ -600,9 +600,46 @@
             <h3>List of Stores</h3>
             <div id="stores_list">
             </div>
+
+            <div id="stores_popup_add" class="popup">
+                <h4>Create new store</h4>
+                <label>Type store name</label>
+                <div class="ui input fullw">
+                    <input id="stores_pp_add_name" type="text" placeholder="Store name">
+                </div>
+                <button id="stores_pp_add_btn" class="ui button fullw"><i class="plus icon"></i>Create store</button>
+
+                <div id="stores_pp_add_dimmer" class="ui active inverted dimmer" style="display: none">
+                    <div class="ui text loader"></div>
+                </div>
+            </div>
+
+            <div id="stores_popup_options" class="popup">
+                <h4>Store options</h4>
+                <label>Store name</label>
+                <span id="stores_pp_options_name"></span>
+                <button id="stores_pp_options_del" class="ui button fullw"><i class="delete icon"></i>Delete permanetly</button>
+            </div>
+
+            <div id="stores_popup_del" class="popup">
+                <h4>Delete Store</h4>
+                <div class="ui red message" style="text-align: center;">
+                    Store "<span id="stores_pp_del_name">Surjan Kiarana</span>" will be deleted permanetly
+                </div>
+                <label>Type the password</label>
+                <div class="ui input fullw">
+                    <input id="stores_pp_del_pwd" type="password" placeholder="Master admin password" autofocus>
+                </div>
+                <button id="stores_pp_del_btn" class="ui red button fullw"><i class="delete icon"></i>Delete permanetly</button>
+                <div id="stores_pp_del_dimmer" class="ui active inverted dimmer" style="display: none">
+                    <div class="ui text loader"></div>
+                </div>
+            </div>
+
             <div id="stores_dimmer" class="ui active inverted dimmer" style="display: none">
                 <div class="ui text loader"></div>
             </div>
+
         </div>
 
         <div id="page_store" class="page ui segment">

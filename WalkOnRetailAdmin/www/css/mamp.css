@@ -21,3 +21,58 @@
 #stores_list > div > label{
     float: right;
 }
+#stores_popup_del {
+    width: 70%;
+    height: 280px;
+    margin-left: -35%;
+    margin-top: -140px;
+    text-align: center;
+}
+#stores_popup_del > h4, #stores_popup_options > h4 {
+    text-align: center;
+    border-bottom: 1px solid #aaa;
+    padding-bottom: 10px;
+}
+#stores_popup_del > div > input {
+    text-align: center;
+    margin-top: 7px;
+}
+#stores_popup_del > button {
+    position: absolute;
+    top: 242px;
+    left: 0;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+#stores_pp_del_name{
+    font-weight: bold;
+}
+#stores_popup_options {
+    width: 70%;
+    height: 177px;
+    margin-left: -35%;
+    margin-top: -88px;
+    text-align: center;
+}
+#stores_popup_options > label{
+    border-bottom: 1px solid #aaa;
+    color: #888;
+}
+#stores_popup_options > span {
+    display: inline-block;
+    width: 100%;
+    height: 50px;
+    margin-top: 5px;
+    font-size: 20px;
+}
+
+#stores_popup_add{
+    width: 70%;
+    height: 200px;
+    margin-left: -35%;
+    margin-top: -100px;
+}
+#stores_popup_add > div{
+    margin-top: 7px;
+    margin-bottom: 44px;
+}
