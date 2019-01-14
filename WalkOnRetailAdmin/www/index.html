@@ -77,9 +77,9 @@
                 <i class="setting icon"></i> Master Setting
             </a>
             <a class="item" action="stores">
-                <i class="shopping bag icon"></i> Stores
+                <i class="building icon"></i> Stores
             </a>
-            <div class="lm_sep">Store Pages</div>
+            <div class="lm_sep">Store Admin Pages</div>
             <a class="item" action="home">
                 <i class="home icon"></i> Dashboard
             </a>
@@ -524,30 +524,70 @@
         </div>
 
         <div id="page_setting" class="page ui segment">
-            <h4>Store: <span id="set_store_name">Surjan Kiarna</span></h4>
-            <div class="ui form">
-                <div class="field">
-                    <label>Minimum order value</label>
-                    <div class="ui right labeled input">
-                        <input id="set_min_total" type="text" placeholder="0">
-                        <label class="ui label">&#8377;</label>
+            <div class="ui top attached tabular menu" for="set_tabs">
+                <div class="active item">Store</div>
+                <div class="item">Contact</div>
+
+            </div>
+            
+            <div id="set_tabs">
+
+                <div class="ui bottom attached active tab segment">
+
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Minimum order value</label>
+                            <div class="ui right labeled input">
+                                <input id="set_min_total" type="text" placeholder="0">
+                                <label class="ui label">&#8377;</label>
+                            </div>
+                        </div>
+                        <div class="field set_timing_sec">
+                            <label>Shipping timing</label>
+                            <div class="ui labeled input">
+                                <label class="ui label">Starting time</label>
+                                <select id="set_timing_from"></select>
+                            </div>
+                            <div class="ui labeled input">
+                                <label class="ui label">Ending time</label>
+                                <select id="set_timing_to"></select>
+                            </div>
+                            <div class="ui labeled input">
+                                <label class="ui label">Shipping slot</label>
+                                <select id="set_timing_slot"></select>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
-                <div class="field set_timing_sec">
-                    <label>Shipping timing</label>
-                    <div class="ui labeled input">
-                        <label class="ui label">Starting time</label>
-                        <select id="set_timing_from"></select>
-                    </div>
-                    <div class="ui labeled input">
-                        <label class="ui label">Ending time</label>
-                        <select id="set_timing_to"></select>
-                    </div>
-                    <div class="ui labeled input">
-                        <label class="ui label">Shipping slot</label>
-                        <select id="set_timing_slot"></select>
-                    </div>
+
+                <div class="ui bottom attached tab segment">
+                    <form class="ui form">
+                        <div class="field set_contact_field">
+                            <label>Store name</label>
+                            <div class="ui labeled input">
+                                <label class="ui label">Name</label>
+                                <input id="set_name" type="text" placeholder="Store name">
+                            </div>
+                        </div>
+                        <div class="field set_contact_field">
+                            <label>Contact information</label>
+                            <div class="ui labeled input">
+                                <label class="ui label">Phone</label>
+                                <input id="set_phone" type="text" placeholder="Phone number">
+                            </div>
+                            <div class="ui labeled input">
+                                <label class="ui label">Email</label>
+                                <input id="set_email" type="text" placeholder="Email address">
+                            </div>
+                        </div>
+                        <div class="field set_addr_field">
+                            <label>Store address</label>
+                            <textarea id="set_address"></textarea>
+                        </div>
+                    </form>
                 </div>
+
             </div>
 
             <div id="setting_dimmer" class="ui active inverted dimmer" style="display: none">

@@ -16,6 +16,7 @@
 }
 #stores_list > div > h4 > span{
     color: #777;
+    font-size: 0.8em;
 }
 #stores_list > div > label{
     float: right;

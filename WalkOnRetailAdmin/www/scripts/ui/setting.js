@@ -3,11 +3,15 @@ function setting_init() {
     setting = {
         elt: get('page_setting'),
         elts: {
-            storeName: get('set_store_name'),
+            name: get('set_name'),
+            phone: get('set_phone'),
+            email: get('set_email'),
+            address: get('set_address'),
             minTotal: get('set_min_total'),
             timingFrom: get('set_timing_from'),
             timingTo: get('set_timing_to'),
-            timingSlot: get('set_timing_slot')
+            timingSlot: get('set_timing_slot'),
+
         },
 
         dimc: ui.dimmer.create('setting_dimmer'),
@@ -27,6 +31,10 @@ function setting_init() {
             val(this.elts.timingFrom, data.timing_from);
             val(this.elts.timingTo, data.timing_to);
             val(this.elts.timingSlot, data.timing_slot);
+            val(this.elts.name, data.info.name || '');
+            val(this.elts.phone, data.info.telephone || '');
+            val(this.elts.email, data.info.email || '');
+            val(this.elts.address, data.info.address || '');
         },
 
         save: function () {
@@ -34,7 +42,11 @@ function setting_init() {
                 min_total: val(this.elts.minTotal),
                 timing_from: val(this.elts.timingFrom),
                 timing_to: val(this.elts.timingTo),
-                timing_slot: val(this.elts.timingSlot)
+                timing_slot: val(this.elts.timingSlot),
+                name: val(this.elts.name),
+                telephone: val(this.elts.phone),
+                email: val(this.elts.email),
+                address: val(this.elts.address)
             };
             this.dimc.show('Saving');
             this.saveAction.do(data);

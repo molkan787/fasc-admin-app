@@ -39,11 +39,11 @@ body{
     position: fixed;
     z-index: 2120;
     top: 0;
-    width: 70%;
+    width: 18rem;
     height: 100%;
     background-color: white;
     box-shadow: 0 0 5px black;
-    left: -70%;
+    left: -18rem;
     display: none;
 }
 #left_menu > div.menu {

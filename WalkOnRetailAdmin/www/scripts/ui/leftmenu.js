@@ -11,7 +11,7 @@ function leftmenu_init() {
         },
         _close_anim: {
             targets: '#left_menu',
-            left: '-70%',
+            left: '-18rem',
             easing: 'easeOutExpo',
             duration: 500,
             complete: function () {
