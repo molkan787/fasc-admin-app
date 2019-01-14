@@ -45,7 +45,7 @@
     <script type="text/javascript" src="scripts/ui/category.js"></script>
     <script type="text/javascript" src="scripts/ui/setting.js"></script>
     <script type="text/javascript" src="scripts/ui/stores.js"></script>
-    <script type="text/javascript" src="scripts/ui/store.js"></script>
+    <script type="text/javascript" src="scripts/ui/master_setting.js"></script>
     <script type="text/javascript" src="scripts/ui/dialogs.js"></script>
     <script type="text/javascript" src="scripts/ui/popup.js"></script>
     <script type="text/javascript" src="scripts/ui/uiu.js"></script>
@@ -642,9 +642,28 @@
 
         </div>
 
-        <div id="page_store" class="page ui segment">
-            Store page
-            <div id="store_dimmer" class="ui active inverted dimmer" style="display: none">
+        <div id="page_master_setting" class="page ui segment">
+
+            <div class="ui top attached tabular menu" for="mset_tabs">
+                <div class="active item">General</div>
+
+            </div>
+
+            <div id="mset_tabs">
+                <div class="ui bottom attached active tab segment">
+
+                    <div class="ui form">
+                        <div class="field mset_logo_sec">
+                            <label>Store Logo</label>
+                            <img id="mset_logo" src=""/> <br />
+                            <button id="mset_logo_btn" class="ui button">Change</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="master_setting_dimmer" class="ui active inverted dimmer" style="display: none">
                 <div class="ui text loader"></div>
             </div>
         </div>

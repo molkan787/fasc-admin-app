@@ -195,6 +195,7 @@ function mx_init() {
             },
 
             getData: function () {
+                this.changed = false;
                 if (this.autoRelease) {
                     return this.imgElt.src;
                 } else {

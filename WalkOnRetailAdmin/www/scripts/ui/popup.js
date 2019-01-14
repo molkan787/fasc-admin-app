@@ -22,7 +22,7 @@ function ui_popup_init() {
         },
 
         animCompleted: function () {
-            this.elt.style.display = 'none';
+            if (this.elt) this.elt.style.display = 'none';
             this.elt = null;
             if (this.nextElt) {
                 this.show(this.nextElt, true);
