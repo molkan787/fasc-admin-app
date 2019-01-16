@@ -1,13 +1,14 @@
 ﻿
 function do_tests() {
-    //test_1();
+    test_1();
     //test_2();
     //test_3();
 }
 
 function test_1() {
     //registerPage('home', get('page_home'), 'Dashboard', null);
-    ui.popup.show('stores_popup_add');
+    //users.showAddForm();
+    //ui.popup.show('users_password_popup');
 }
 
 function test_2() {

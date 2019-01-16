@@ -4,6 +4,7 @@ function ui_popup_init() {
         elt: null,
         isOpen: false,
         nextElt: null,
+        closeBtn: null,
 
         showAnimation: {
             targets: '',
@@ -52,9 +53,18 @@ function ui_popup_init() {
         anime(this.hideAnimation);
     };
 
+    ui.popup.setCloseButton = function (elt) {
+        this.closeBtn = elt;
+        elt.onclick = this.closeBtnClick;
+    };
+
+    ui.popup.closeBtnClick = function () {
+        ui.popup.closeBtn = null;
+        ui.popup.hide();
+    };
 
     ui.mx.bbp.setClickHandler(1, function () {
-        ui.popup.hide();
+        if (!ui.popup.closeBtn) ui.popup.hide();
     });
 
 }

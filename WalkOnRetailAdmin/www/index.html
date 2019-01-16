@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="css/categories.css">
     <link rel="stylesheet" type="text/css" href="css/setting.css">
     <link rel="stylesheet" type="text/css" href="css/mamp.css">
+    <link rel="stylesheet" type="text/css" href="css/users.css">
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
@@ -44,6 +45,7 @@
     <script type="text/javascript" src="scripts/ui/categories.js"></script>
     <script type="text/javascript" src="scripts/ui/category.js"></script>
     <script type="text/javascript" src="scripts/ui/setting.js"></script>
+    <script type="text/javascript" src="scripts/ui/users.js"></script>
     <script type="text/javascript" src="scripts/ui/stores.js"></script>
     <script type="text/javascript" src="scripts/ui/master_setting.js"></script>
     <script type="text/javascript" src="scripts/ui/dialogs.js"></script>
@@ -58,9 +60,9 @@
 
 
     <div id="header">
-        <img id="header_menu_img" src="images/icons/menu.png" />
-        <span id="title">WalkOnRetail Admin</span>
         <i id="headbar_action_icon" class="setting icon"></i>
+        <img id="header_menu_img" src="images/icons/menu.png" />
+        <h4 class="toe" id="title">WalkOnRetail Admin</h4>
     </div>
 
     <div class="bbp p0" id="bbp_0"></div>
@@ -75,6 +77,9 @@
             <div class="lm_sep">Master Admin Pages</div>
             <a class="item" action="master_setting">
                 <i class="setting icon"></i> Master Setting
+            </a>
+            <a class="item" action="users" param="master">
+                <i class="users icon"></i> Master Users
             </a>
             <a class="item" action="stores">
                 <i class="building icon"></i> Stores
@@ -97,6 +102,9 @@
             </a>
             <a class="item" action="banners">
                 <i class="newspaper icon"></i> Banners
+            </a>
+            <a class="item" action="users" param="normal">
+                <i class="users icon"></i> Users
             </a>
             <a class="item" action="setting">
                 <i class="setting icon"></i> Setting
@@ -594,6 +602,81 @@
                 <div class="ui text loader">Loading</div>
             </div>
 
+        </div>
+
+        <div id="page_users" class="page ui segment">
+            <h4>Users list</h4>
+            <div id="users_list">
+            </div>
+
+            <div id="users_options_popup" class="popup ui segment">
+                <h4 class="toe">m_xerath</h4>
+                <label><i class="user icon"></i>Username: <span id="user_opts_username"></span></label> <br />
+                <label><i class="user circle icon"></i>Name: <span id="user_opts_name"></span></label> <br />
+                <label><i class="shield alternate icon"></i>Access: <span id="user_opts_type"></span></label> <br />
+                <label id="user_options_status_lbl">
+                    <i id="user_opts_status_icon" class="check circle icon"></i>
+                    Status: <span id="user_opts_status"></span>
+                </label>
+                <div style="height: 36px;"></div>
+                <button class="ui button fullw" id="user_opts_reset" action="reset"> <i class="lock icon"></i> Reset password </button>
+                <button class="ui button fullw" id="user_opts_change_status" action="suspend">
+                    <i id="user_opts_change_status_icon" class="ban icon"></i> <span id="user_opts_change_status_text"></span>
+                </button>
+                <button class="ui button fullw" id="user_opts_delete" action="delete"> <i class="delete icon"></i> Delete user </button>
+
+                <div id="users_options_dimmer" class="ui active inverted dimmer" style="display: none">
+                    <div class="ui text loader">Loading</div>
+                </div>
+            </div>
+
+            <div id="users_add_popup" class="popup ui segment">
+                <h4 id="users_add_header" class="toe">Add new user</h4>
+                <div class="ui form">
+                    <div class="field">
+                        <label>Type</label>
+                        <select id="users_add_type">
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Fullname</label>
+                        <input type="text" id="users_add_name" placeholder="Fullname" />
+                    </div>
+                    <div class="field">
+                        <label>Username</label>
+                        <input type="text" id="users_add_username" placeholder="Username" />
+                    </div>
+                    <button class="ui button fullw" id="users_add_btn">
+                        <i class="plus icon"></i>
+                        Create
+                    </button>
+                </div>
+
+                <div id="users_add_dimmer" class="ui active inverted dimmer" style="display: none">
+                    <div class="ui text loader"></div>
+                </div>
+            </div>
+
+            <div id="users_password_popup" class="popup ui segment">
+                <h4 id="users_add_header" class="toe">User password</h4>
+
+                <label>
+                    <i class="user icon"></i>
+                    Username<br /> <span id="users_pwd_user"></span>
+                </label>
+                <br />
+                <label>
+                    <i class="lock icon"></i>
+                    Password<br /> <span id="users_pwd_pwd"></span>
+                </label>
+
+                <button class="ui tiny button fullw" id="users_pwd_btn">Close</button>
+
+            </div>
+
+            <div id="users_dimmer" class="ui active inverted dimmer" style="display: none">
+                <div class="ui text loader">Loading</div>
+            </div>
         </div>
 
         <div id="page_stores" class="page ui segment">

@@ -28,6 +28,7 @@ function ui_init() {
     categories_init();
     category_init();
     setting_init();
+    users_init();
     stores_init();
     master_setting_init();
 
@@ -37,7 +38,7 @@ function ui_init() {
     uiis.init_components();
 
     //dm.registerCallback(() => { navigate('categories'); });
-    navigate('master_setting');
+    navigate('users', 'master');
 
     lm.onNavigate = navigate;
 }
@@ -81,7 +82,7 @@ function navigate(page_slug, param, isBack, forceReload) {
 
     addToHistory(page_slug);
 
-    if (!forceReload && page_current && page_current.slug == page_slug) return;
+    if (!forceReload && page_current && page_current.slug == page_slug && param == param_current) return;
 
     page_prev = page_current;
     page_current = page;

@@ -38,7 +38,7 @@ function leftmenu_init() {
 
             lm.close();
             if (lm.onNavigate) {
-                lm.onNavigate(this.getAttribute('action'));
+                lm.onNavigate(this.getAttribute('action'), this.getAttribute('param'));
             }
         }
     };
