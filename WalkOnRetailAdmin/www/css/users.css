@@ -19,7 +19,7 @@
     margin-left: -35%;
     margin-top: -150px;
 }
-#users_options_popup > h4 {
+#users_options_popup > h4, .pp_title {
     border-bottom: 1px solid #aaa;
     padding-bottom: 10px;
     text-align: center;

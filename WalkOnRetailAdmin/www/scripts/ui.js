@@ -38,7 +38,7 @@ function ui_init() {
     uiis.init_components();
 
     //dm.registerCallback(() => { navigate('categories'); });
-    navigate('users', 'master');
+    navigate('master_setting', null, false);
 
     lm.onNavigate = navigate;
 }

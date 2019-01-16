@@ -1,6 +1,6 @@
 ﻿
 function do_tests() {
-    test_1();
+    //test_1();
     //test_2();
     //test_3();
 }
@@ -8,7 +8,7 @@ function do_tests() {
 function test_1() {
     //registerPage('home', get('page_home'), 'Dashboard', null);
     //users.showAddForm();
-    //ui.popup.show('users_password_popup');
+    ui.popup.show('mset_cities_popup');
 }
 
 function test_2() {

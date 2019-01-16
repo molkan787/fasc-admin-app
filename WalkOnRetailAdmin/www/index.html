@@ -74,43 +74,51 @@
             <div class="item">
                 <img src="images/slogo.png" />
             </div>
-            <div class="lm_sep">Master Admin Pages</div>
-            <a class="item" action="master_setting">
-                <i class="setting icon"></i> Master Setting
-            </a>
-            <a class="item" action="users" param="master">
-                <i class="users icon"></i> Master Users
-            </a>
-            <a class="item" action="stores">
-                <i class="building icon"></i> Stores
-            </a>
-            <div class="lm_sep">Store Admin Pages</div>
-            <a class="item" action="home">
-                <i class="home icon"></i> Dashboard
-            </a>
-            <a class="item" action="orders">
-                <i class="cart icon"></i> Orders
-            </a>
-            <a class="item" action="products">
-                <i class="box icon"></i> Products
-            </a>
-            <a class="item" action="customers">
-                <i class="users icon"></i> Customers
-            </a>
-            <a class="item" action="categories">
-                <i class="clone icon"></i> Categories
-            </a>
-            <a class="item" action="banners">
-                <i class="newspaper icon"></i> Banners
-            </a>
-            <a class="item" action="users" param="normal">
-                <i class="users icon"></i> Users
-            </a>
-            <a class="item" action="setting">
-                <i class="setting icon"></i> Setting
-            </a>
+            <div>
+                <div class="lm_sep">Master Admin Pages</div>
+                <a class="item" action="master_setting">
+                    <i class="setting icon"></i> Master Setting
+                </a>
+                <a class="item" action="users" param="master">
+                    <i class="users icon"></i> Master Users
+                </a>
+                <a class="item" action="stores">
+                    <i class="building icon"></i> Stores
+                </a>
+                <div class="lm_sep">Store Admin Pages</div>
+                <a class="item" action="home">
+                    <i class="home icon"></i> Dashboard
+                </a>
+                <a class="item" action="pos">
+                    <i class="fax icon"></i> POS
+                </a>
+                <a class="item" action="orders">
+                    <i class="cart icon"></i> Orders
+                </a>
+                <a class="item" action="products">
+                    <i class="box icon"></i> Products
+                </a>
+                <a class="item" action="customers">
+                    <i class="users icon"></i> Customers
+                </a>
+                <a class="item" action="categories">
+                    <i class="clone icon"></i> Categories
+                </a>
+                <a class="item" action="banners">
+                    <i class="newspaper icon"></i> Banners
+                </a>
+                <a class="item" action="users" param="normal">
+                    <i class="users icon"></i> Users
+                </a>
+                <a class="item" action="setting">
+                    <i class="setting icon"></i> Setting
+                </a>
+                <a class="item" action="account">
+                    <i class="user circle icon"></i> Account
+                </a>
+                <span class="appversion">App Version: 0.9.0</span>
+            </div>
         </div>
-        <span class="appversion">App Version: 0.9.0</span>
     </div>
 
     <div id="pages">
@@ -729,7 +737,7 @@
 
             <div class="ui top attached tabular menu" for="mset_tabs">
                 <div class="active item">General</div>
-
+                <div class="item">Cities</div>
             </div>
 
             <div id="mset_tabs">
@@ -738,11 +746,33 @@
                     <div class="ui form">
                         <div class="field mset_logo_sec">
                             <label>Store Logo</label>
-                            <img id="mset_logo" src=""/> <br />
+                            <img id="mset_logo" src="" /> <br />
                             <button id="mset_logo_btn" class="ui button">Change</button>
                         </div>
                     </div>
 
+                </div>
+                <div class="ui bottom attached tab segment">
+                    <div id="mset_add_city"> <i class="plus circle icon"></i>Add city </div>
+                    <div id="mset_cities"></div>
+                </div>
+            </div>
+
+            <div id="mset_cities_popup" class="popup ui segment">
+                <h4 id="mset_cities_pp_title" class="pp_title">Rename city</h4>
+                <div class="ui form">
+                    <div class="field">
+                        <label>English</label>
+                        <input type="text" id="mset_cities_pp_name_1" placeholder="Name in english" />
+                    </div>
+                    <div class="field">
+                        <label>Hindi</label>
+                        <input type="text" id="mset_cities_pp_name_2" placeholder="Name in hindi" />
+                    </div>
+                    <button id="mset_cities_pp_btn" class="ui button fullw">Save</button>
+                </div>
+                <div id="mset_cities_dimmer" class="ui active inverted dimmer" style="display: none">
+                    <div class="ui text loader"></div>
                 </div>
             </div>
 
@@ -751,6 +781,12 @@
             </div>
         </div>
 
+    </div>
+
+    <div id="menu_popup" class="popup">
+        <h4 id="menu_popup_title"></h4>
+        <div id="menu_popup_list">
+        </div>
     </div>
 
     <div id="fab">

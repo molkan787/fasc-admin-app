@@ -220,4 +220,34 @@ function mx_init() {
     };
 
     // =============================
+
+    contextMenu = {
+        elt: get('menu_popup'),
+        eltTitle: get('menu_popup_title'),
+        eltList: get('menu_popup_list'),
+        show: function (title, items, callback) {
+            this.callback = callback;
+            var height = items.length * 40 + 80;
+            this.elt.style.height = height + 'px';
+            this.elt.style.marginTop = '-' + (height / 2) + 'px';
+            val(this.eltTitle, title);
+            val(this.eltList, '');
+            for (var i = 0; i < items.length; i++) {
+                var div = crt_elt('div', this.eltList);
+                val(div, items[i].text);
+                attr(div, 'action', items[i].action);
+                attr(div, 'nah', items[i].noAutoHide ? '1' : '0');
+                div.onclick = this.itemClick;
+            }
+            ui.popup.show(this.elt);
+        },
+
+        itemClick: function () {
+            if (attr(this, 'nah') != '1') ui.popup.hide();
+            var action = attr(this, 'action');
+            if (contextMenu.callback) {
+                contextMenu.callback(action);
+            }
+        }
+    };
 }
