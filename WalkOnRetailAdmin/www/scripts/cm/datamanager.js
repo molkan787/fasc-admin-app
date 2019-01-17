@@ -44,11 +44,15 @@ function dm_init() {
     };
 
     dm.setStoreId = function (store_id, callback) {
-        dm.asdCallback = callback;
         dm.storeId = store_id;
+        this.reloadAsd(callback);
+    };
+
+    dm.reloadAsd = function (callback) {
         this.cats = {};
         this.subcats = {};
         dm.asdAction.do();
+        dm.asdCallback = callback;
     };
 
     dm.asdAction = fetchAction.create('common/asd', dm.asdActionCallback);

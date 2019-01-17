@@ -10,6 +10,7 @@
     confirm_customer_delete: 'Do you really want to delete customer "{%1}" ?',
     confirm_store_delete: 'Do you really want to delete store "{%1}" ?',
     confirm_city_delete: 'Do you really want to delete {%1} "{%2}" ?',
+    confirm_cat_delete: 'Do you really want to category "{%1}" ?',
     warn_store_del: 'Store "{%1}" will be permanently deleted',
     wrong_password: 'Wrong password',
     enter_password: 'Please type the password',

@@ -38,7 +38,7 @@ function ui_init() {
     uiis.init_components();
 
     //dm.registerCallback(() => { navigate('categories'); });
-    navigate('stores', null, false);
+    navigate('categories', null, false);
 
     lm.onNavigate = navigate;
 }

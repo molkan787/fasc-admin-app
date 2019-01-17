@@ -36,12 +36,18 @@ function category_init() {
         loadCat: function (data) {
             this.currentCat = data.category_id;
             val(this.elts.subs, '');
-            val(this.elts.img, data.image);
-            val(this.elts.name1, data.name[1]);
-            val(this.elts.name2, data.name[2]);
-            for (var sub in data.subs) {
-                if (data.subs.hasOwnProperty(sub)) {
-                    this.createPanel(data.subs[sub]);
+            if (data.category_id == 'new') {
+                val(this.elts.img, 'images/document_blank.png');
+                val(this.elts.name1, '');
+                val(this.elts.name2, '');
+            } else {
+                val(this.elts.img, data.image);
+                val(this.elts.name1, data.name[1]);
+                val(this.elts.name2, data.name[2]);
+                for (var sub in data.subs) {
+                    if (data.subs.hasOwnProperty(sub)) {
+                        this.createPanel(data.subs[sub]);
+                    }
                 }
             }
         },
@@ -155,13 +161,13 @@ function category_init() {
         },
 
         saveActionCallback: function (action) {
+            this.dimc.hide();
             if (action.status == 'OK') {
                 msg.show(txt('msg_1'));
-                goBack();
+                navigate('category', action.data.cat_id, false, true);
             } else {
                 msg.show(txt('error_2'));
             }
-            this.dimc.hide();
         },
 
         // Handlers
