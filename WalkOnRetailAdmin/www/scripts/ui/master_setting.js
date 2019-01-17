@@ -161,9 +161,9 @@ function master_setting_init() {
                 this.loadData(action.data);
             } else {
                 msg.show(txt('error_3'));
+                goBack();
             }
             this.dimc.hide();
-            goBack();
         },
         uploadActionCallback: function (action) {
             if (action.status == 'OK') {

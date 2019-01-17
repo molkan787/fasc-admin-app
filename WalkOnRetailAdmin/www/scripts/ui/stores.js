@@ -11,15 +11,21 @@ function stores_init() {
             optionsPopup: get('stores_popup_options'),
             optionsName: get('stores_pp_options_name'),
             optionsDelBtn: get('stores_pp_options_del'),
+            optionsVisit: get('stores_pp_options_visit'),
             addPopup: get('stores_popup_add'),
+            addCity: get('stores_pp_add_city'),
+            addRegion: get('stores_pp_add_region'),
             addName: get('stores_pp_add_name'),
+            addOwner: get('stores_pp_add_owner'),
             addBtn: get('stores_pp_add_btn')
         },
         dimc: ui.dimmer.create('stores_dimmer'),
         dimcDeletePopup: ui.dimmer.create('stores_pp_del_dimmer'),
         dimcAddPopup: ui.dimmer.create('stores_pp_add_dimmer'),
+        dimcOptionsPopup: ui.dimmer.create('stores_pp_options_dimmer'),
 
         storesData: {},
+        citiesData: {},
         currentStore: null,
 
         loadAction: null,
@@ -27,6 +33,21 @@ function stores_init() {
         addAction: null,
 
         // methods
+        getCityName: function (city_id, parent_id) {
+            var isChild = typeof parent_id != 'undefined';
+            var city = this.citiesData[isChild ? parent_id : city_id] || {};
+            if (isChild) {
+                var childs = city.childs || [];
+                for (var i = 0; i < childs.length; i++) {
+                    if (childs[i].city_id == city_id) {
+                        return childs[i].name_1;
+                    }
+                }   
+                return '---';
+            } else {
+                return city.name_1 || '---';
+            }
+        },
         update: function () {
             this.dimc.show();
             this.loadAction.do();
@@ -59,15 +80,29 @@ function stores_init() {
         },
         addStore: function () {
             var storeName = val(this.elts.addName);
+            var storeOwner = val(this.elts.addOwner);
+            var storeCity = val(this.elts.addCity);
+            var storeRegion = val(this.elts.addRegion);
+            if (!storeCity) {
+                msg.show(txt('select_store_city'));
+                return;
+            } else if(this.citiesData[storeCity].childs.length > 0 && !storeRegion) {
+                msg.show(txt('select_store_region'));
+                return;
+            }
             if (storeName.length < 5) {
                 msg.show(txt('valid_store_name'));
+                return;
+            }
+            if (storeOwner.length < 8) {
+                msg.show(txt('valid_store_owner'));
                 return;
             }
             var _this = this;
             msg.confirm(txt('confirm_add_store', storeName), function (answer) {
                 if (answer == 'yes') {
                     _this.dimcAddPopup.show();
-                    _this.addAction.do({name: storeName});
+                    _this.addAction.do({ name: storeName, owner_name: storeOwner, city_id: storeCity, region_id: storeRegion});
                 }
             });
         },
@@ -79,10 +114,24 @@ function stores_init() {
             var icon = crt_elt('i', btn);
             var h4_1 = crt_elt('h4', div);
             var h4_2 = crt_elt('h4', div);
+            var h4_3 = crt_elt('h4', div);
             var span_2 = crt_elt('label', h4_1);
             var span_1 = crt_elt('span', h4_1);
             var span_4 = crt_elt('label', h4_2);
             var span_3 = crt_elt('span', h4_2);
+
+            var regionName = this.getCityName(data.region_id, data.city_id);
+            if (regionName != '---') {
+                var h4_4 = crt_elt('h4', div);
+                val(h4_4, '<i class="map marker alternate icon"></i>' + regionName);
+                var span_6 = crt_elt('span', h4_4);
+                val(span_6, ' (Region)');
+            } else {
+                div.className = 'smaller';
+            }
+            val(h4_3, '<i class="map marker alternate icon"></i>' + this.getCityName(data.city_id));
+            var span_5 = crt_elt('span', h4_3);
+            val(span_5, ' (City)');
 
             btn.className = 'ui label';
             icon.className = 'setting icon';
@@ -102,11 +151,17 @@ function stores_init() {
             this.elts.list.appendChild(div);
         },
 
-        loadStores: function (data) {
-            val(this.elts.list, '');
-            for (var i = 0; i < data.length; i++) {
-                this.createPanel(data[i]);
+        loadData: function (data) {
+            var stores = data.stores;
+            var cities = data.cities;
+            for (var i = 0; i < cities.length; i++) {
+                this.citiesData[cities[i].city_id] = cities[i];
             }
+            val(this.elts.list, '');
+            for (var i = 0; i < stores.length; i++) {
+                this.createPanel(stores[i]);
+            }
+            setOptions(this.elts.addCity, data.cities, '---', 'name_1', 'city_id');
         },
 
         showOptions: function (store_id) {
@@ -124,13 +179,15 @@ function stores_init() {
         },
         showAddForm: function () {
             val(this.elts.addName, '');
+            val(this.elts.addCity, '');
+            this.elts.addRegion.innerHTML = '';
             ui.popup.show(this.elts.addPopup);
         },
 
         // Callbacks
         loadActionCallback: function (action){
             if (action.status == 'OK') {
-                this.loadStores(action.data);
+                this.loadData(action.data);
             } else {
                 msg.show(txt('error_3'));
                 goBack();
@@ -152,14 +209,18 @@ function stores_init() {
         addActionCallback: function (action) {
             if (action.status == 'OK') {
                 msg.show(txt('store_created'));
-                this.dimcAddPopup.hide();
-                ui.popup.hide();
+                users.showUserPassword(action.data.admin, action.data.password, 'Store Admin');
                 reloadPage();
             } else {
                 msg.show(txt('error_txt1'));
             }
+            this.dimcAddPopup.hide();
         },
 
+        storeChangedCallback: function (action) {
+            stores.dimcOptionsPopup.hide();
+            ui.popup.hide();
+        },
         // Handlers
         optionsBtnClick: function () {
             stores.showOptions(attr(this, 'store_id'));
@@ -172,12 +233,24 @@ function stores_init() {
         },
         addBtnClick: function () {
             stores.addStore();
+        },
+        visitBtnClick: function () {
+            stores.dimcOptionsPopup.show();
+            dm.setStoreId(stores.currentStore.store_id, stores.storeChangedCallback);
+            //ui.popup.hide();
+        },
+        cityChanged: function () {
+            var city = stores.citiesData[this.value];
+            var cities = (city) ? city.childs : [];
+            setOptions(stores.elts.addRegion, cities, '---', 'name_1', 'city_id');
         }
     };
 
     stores.elts.optionsDelBtn.onclick = stores.deleteBtnClick1;
     stores.elts.delBtn.onclick = stores.deleteBtnClick2;
     stores.elts.addBtn.onclick = stores.addBtnClick;
+    stores.elts.addCity.onchange = stores.cityChanged;
+    stores.elts.optionsVisit.onclick = stores.visitBtnClick;
 
     stores.loadAction = fetchAction.create('setting/list_stores', function (action) { stores.loadActionCallback(action) });
     stores.deleteAction = fetchAction.create('setting/delete_store', function (action) { stores.deleteActionCallback(action) });

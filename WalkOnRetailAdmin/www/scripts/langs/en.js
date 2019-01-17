@@ -13,8 +13,11 @@
     warn_store_del: 'Store "{%1}" will be permanently deleted',
     wrong_password: 'Wrong password',
     enter_password: 'Please type the password',
-    valid_store_name: 'Please type a valid store name',
-    store_created: 'Store was successfully created!',
+    valid_store_name: 'Please type a valid store name(At least 5 characters)',
+    valid_store_owner: 'Please type a valid store owner name (At least 8 characters)',
+    select_store_city: 'Please select a City',
+    select_store_region: 'Please select a Region',
+    store_created: 'Store was successfully created! And an Admin account was created for this store.',
     confirm_add_store: 'Do you confirm adding store with a name "{%1}" ?',
 
     invalid_city_names: 'Names are too short, Please type at least 2 charatcters',
@@ -39,7 +42,7 @@
     user_3: 'Accountant',
     user_4: 'C R',
     user_11: 'Store Admin',
-    user_12: 'Store Sub Admin',
+    user_12: 'Sub Admin',
     user_13: 'Inventory Boy',
     user_14: 'Delivery Boy'
 };

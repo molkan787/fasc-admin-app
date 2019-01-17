@@ -2,12 +2,13 @@
 function dm_oca_init() {
     dm = {
         // Properties
-        apiBaseURL: 'http://fasc.local/index.php?api_token=key&route=api/',
+        apiBaseURL: 'http://fasc.local/index.php?store_id={%1}&api_token={%2}&route=api/',
         //apiBaseURL: 'http://192.168.1.5/fasc/index.php?api_token=key&route=api/',
 
         // Methods
         _getApiUrl: function (req, params) {
-            var url = this.apiBaseURL + req;
+            var url = this.apiBaseURL.replace('{%1}', this.storeId).replace('{%2}', this.apiToken);
+            url += req;
 
             if (params && typeof params == 'object') {
                 if (typeof params.push == 'function') {

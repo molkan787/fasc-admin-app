@@ -156,8 +156,7 @@
                     </div>
                     <div class="field">
                         <label>Sub Category</label>
-                        <select disabled id="prts_filter_subcat">
-                        </select>
+                        <select disabled id="prts_filter_subcat"></select>
                     </div>
                     <div class="field">
                         <label>Stock</label>
@@ -170,7 +169,7 @@
                     </div>
                     <div class="field">
                         <label>Name</label>
-                        <input id="prts_filter_name" type="text" placeholder="Search by product name"/>
+                        <input id="prts_filter_name" type="text" placeholder="Search by product name" />
                     </div>
 
                     <button id="prts_filters_submit" class="ui button fullw" type="submit">Submit</button>
@@ -317,7 +316,7 @@
                     </div>
                     <div class="field">
                         <label>Order date</label>
-                        <input type="date" id="ords_filters_order_date"/>
+                        <input type="date" id="ords_filters_order_date" />
                     </div>
 
                     <button id="ords_filters_submit" class="ui button fullw" type="submit">Submit</button>
@@ -488,7 +487,7 @@
         <div id="page_categories" class="page ui segment">
             <div id="cats_list">
                 <div class="cats_item">
-                    <img src="http://fasc.local/image/cache/catalog/ayurvedic_icon-120x120.png"/>
+                    <img src="http://fasc.local/image/cache/catalog/ayurvedic_icon-120x120.png" />
                     <h3>Ayurvedic</h3>
                 </div>
             </div>
@@ -498,7 +497,7 @@
             </div>
 
         </div>
-        
+
         <div id="page_category" class="page ui segment">
             <div class="ui form">
                 <div class="field cat_namesec">
@@ -545,7 +544,7 @@
                 <div class="item">Contact</div>
 
             </div>
-            
+
             <div id="set_tabs">
 
                 <div class="ui bottom attached active tab segment">
@@ -643,8 +642,7 @@
                 <div class="ui form">
                     <div class="field">
                         <label>Type</label>
-                        <select id="users_add_type">
-                        </select>
+                        <select id="users_add_type"></select>
                     </div>
                     <div class="field">
                         <label>Fullname</label>
@@ -665,23 +663,6 @@
                 </div>
             </div>
 
-            <div id="users_password_popup" class="popup ui segment">
-                <h4 id="users_add_header" class="toe">User password</h4>
-
-                <label>
-                    <i class="user icon"></i>
-                    Username<br /> <span id="users_pwd_user"></span>
-                </label>
-                <br />
-                <label>
-                    <i class="lock icon"></i>
-                    Password<br /> <span id="users_pwd_pwd"></span>
-                </label>
-
-                <button class="ui tiny button fullw" id="users_pwd_btn">Close</button>
-
-            </div>
-
             <div id="users_dimmer" class="ui active inverted dimmer" style="display: none">
                 <div class="ui text loader">Loading</div>
             </div>
@@ -693,11 +674,26 @@
             </div>
 
             <div id="stores_popup_add" class="popup">
-                <h4>Create new store</h4>
-                <label>Type store name</label>
-                <div class="ui input fullw">
-                    <input id="stores_pp_add_name" type="text" placeholder="Store name">
+                <h4 class="pp_title">Create new store</h4>
+                <div class="ui form">
+                    <div class="field">
+                        <label>Store City</label>
+                        <select id="stores_pp_add_city"></select>
+                    </div>
+                    <div class="field">
+                        <label>Store Region</label>
+                        <select id="stores_pp_add_region"></select>
+                    </div>
+                    <div class="field">
+                        <label>Store name</label>
+                        <input id="stores_pp_add_name" type="text" placeholder="Store name">
+                    </div>
+                    <div class="field">
+                        <label>Store owner</label>
+                        <input id="stores_pp_add_owner" type="text" placeholder="Fullname">
+                    </div>
                 </div>
+
                 <button id="stores_pp_add_btn" class="ui button fullw"><i class="plus icon"></i>Create store</button>
 
                 <div id="stores_pp_add_dimmer" class="ui active inverted dimmer" style="display: none">
@@ -709,7 +705,11 @@
                 <h4>Store options</h4>
                 <label>Store name</label>
                 <span id="stores_pp_options_name"></span>
+                <button id="stores_pp_options_visit" class="ui button fullw"><i class="periscope icon"></i>Visit as this Store</button>
                 <button id="stores_pp_options_del" class="ui button fullw"><i class="delete icon"></i>Delete permanetly</button>
+                <div id="stores_pp_options_dimmer" class="ui active inverted dimmer" style="display: none">
+                    <div class="ui text loader"></div>
+                </div>
             </div>
 
             <div id="stores_popup_del" class="popup">
@@ -780,6 +780,23 @@
                 <div class="ui text loader"></div>
             </div>
         </div>
+
+    </div>
+
+    <div id="users_password_popup" class="popup ui segment">
+        <h4 id="users_pwd_header" class="toe">User password</h4>
+
+        <label>
+            <i class="user icon"></i>
+            Username<br /> <span id="users_pwd_user"></span>
+        </label>
+        <br />
+        <label>
+            <i class="lock icon"></i>
+            Password<br /> <span id="users_pwd_pwd"></span>
+        </label>
+
+        <button class="ui tiny button fullw" id="users_pwd_btn">Close</button>
 
     </div>
 

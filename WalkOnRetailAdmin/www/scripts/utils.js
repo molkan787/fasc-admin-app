@@ -81,8 +81,11 @@ function get_primary_val_property(elt) {
         return 'innerHTML';
 }
 
-function setOptions(parent, options, incAll) {
+function setOptions(parent, options, incAll, textProp, valueProp) {
     parent.innerHTML = '';
+
+    var p_t = (typeof textProp == 'undefined') ? 'text' : textProp;
+    var p_v = (typeof valueProp == 'undefined') ? 'id' : valueProp;
     
     if (options) {
         attr_rm(parent, 'disabled');
@@ -92,18 +95,18 @@ function setOptions(parent, options, incAll) {
     }
 
     if (typeof incAll != 'undefined') {
-        var opt = crt_elt('option', parent);
+        var opt = crt_elt('option');
         opt.value = '';
-        if (typeof incAll == 'boolean')
-            val(opt, 'All');
-        else
-            val(opt, incAll);
+        if (typeof incAll == 'boolean' && incAll)
+        { val(opt, 'All'); parent.appendChild(opt); }
+        else if (typeof incAll != 'boolean')
+        { val(opt, incAll); parent.appendChild(opt); }
     }
 
     for (var i = 0; i < options.length; i++) {
         var opt = crt_elt('option', parent);
-        val(opt, options[i].text);
-        opt.value = options[i].id;
+        val(opt, options[i][p_t]);
+        opt.value = options[i][p_v];
     }
     parent.selectedIndex = 0;
 }

@@ -1,6 +1,7 @@
 ﻿var fasc;
 function ui_fasc_init() {
     fasc = ui.fasc = {
+        storeId: 0,
         // Properties
         currencySymbol: '&#8377;',
 

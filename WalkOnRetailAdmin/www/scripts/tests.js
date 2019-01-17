@@ -8,11 +8,11 @@ function do_tests() {
 function test_1() {
     //registerPage('home', get('page_home'), 'Dashboard', null);
     //users.showAddForm();
-    ui.popup.show('mset_cities_popup');
+    ui.popup.show('stores_popup_options');
 }
 
 function test_2() {
-    customers.showCustomer();
+    stores.showAddForm();
 }
 
 function test_3() {

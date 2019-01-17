@@ -25,7 +25,8 @@ function users_init() {
             pwdPopup: get('users_password_popup'),
             pwdUser: get('users_pwd_user'),
             pwdPwd: get('users_pwd_pwd'),
-            pwdBtn: get('users_pwd_btn')
+            pwdBtn: get('users_pwd_btn'),
+            pwdHeader: get('users_pwd_header')
         },
 
         currentType: 2,
@@ -142,7 +143,8 @@ function users_init() {
             ui.popup.show(this.elts.addPopup);
         },
 
-        showUserPassword: function (user, pwd) {
+        showUserPassword: function (user, pwd, title) {
+            val(this.elts.pwdHeader, title || 'User Password');
             val(this.elts.pwdUser, user);
             val(this.elts.pwdPwd, pwd);
             ui.popup.setCloseButton(this.elts.pwdBtn)
