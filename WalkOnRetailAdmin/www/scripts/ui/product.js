@@ -8,6 +8,7 @@ function ui_product_init() {
             Title: get('prt_title'),
             Desc: get('prt_description'),
             Stock: get('prt_stock'),
+            Barcode: get('prt_barcode'),
             Image: get('prt_image'),
             Price: get('prt_price'),
             Discount: get('prt_discount'),
@@ -77,6 +78,7 @@ function ui_product_init() {
             val(this.elts.Lang, 1);
             val(this.elts.ID, data.product_id);
             val(this.elts.Stock, data.stock || '');
+            val(this.elts.Barcode, data.barcode || '');
             val(this.elts.Image, data.image || 'images/document_blank.png');
             val(this.elts.Price, ui.fasc.formatPrice(data.price || 0, true));
             val(this.elts.Discount, data.discount_amt || '');
@@ -131,6 +133,7 @@ function ui_product_init() {
                 pid: this.currentProduct,
                 desc: JSON.stringify(this.data.desc),
                 stock: val(this.elts.Stock),
+                barcode: val(this.elts.Barcode),
                 price: val(this.elts.Price),
                 discount_amt: val(this.elts.Discount),
                 discount_type: val(this.elts.DiscountType),
