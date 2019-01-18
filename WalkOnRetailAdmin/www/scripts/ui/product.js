@@ -77,7 +77,7 @@ function ui_product_init() {
             this.data.lang = '1';
             val(this.elts.Lang, 1);
             val(this.elts.ID, data.product_id);
-            val(this.elts.Stock, data.stock || '');
+            val(this.elts.Stock, data.quantity || '');
             val(this.elts.Barcode, data.barcode || '');
             val(this.elts.Image, data.image || 'images/document_blank.png');
             val(this.elts.Price, ui.fasc.formatPrice(data.price || 0, true));
@@ -189,7 +189,7 @@ function ui_product_init() {
                 } else if (chain.currentStep == 'data') {
                     msg.show(txt('msg_1'));
                     this.dimc.hide();
-                    goBack();
+                    goBack(true);
                 }
 
             } else {

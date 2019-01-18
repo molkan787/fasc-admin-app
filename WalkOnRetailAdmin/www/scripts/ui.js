@@ -31,14 +31,16 @@ function ui_init() {
     users_init();
     stores_init();
     master_setting_init();
+    pos_init();
 
     ui_popup_init();
     dialogs_init();
 
     uiis.init_components();
+    BarcodeScanner_init();
 
     //dm.registerCallback(() => { navigate('categories'); });
-    navigate('product', 'new', false);
+    navigate('pos');
 
     lm.onNavigate = navigate;
 }
@@ -70,10 +72,10 @@ function reloadPage() {
     }
 }
 
-function goBack() {
+function goBack(relaod) {
     if (navHistory.length < 1) return;
     navHistory.pop();
-    navigate(navHistory.pop() || 'home', null, true);
+    navigate(navHistory.pop() || 'home', null, true, relaod);
 }
 
 function navigate(page_slug, param, isBack, forceReload) {
@@ -88,7 +90,7 @@ function navigate(page_slug, param, isBack, forceReload) {
     page_current = page;
     param_current = param;
 
-    if (page.updater && !isBack) {
+    if (page.updater && (!isBack || forceReload)) {
         page.updater(param);
     }
 

@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/setting.css">
     <link rel="stylesheet" type="text/css" href="css/mamp.css">
     <link rel="stylesheet" type="text/css" href="css/users.css">
+    <link rel="stylesheet" type="text/css" href="css/pos.css">
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
@@ -30,6 +31,7 @@
 
     <script type="text/javascript" src="scripts/sl.js"></script>
     <script type="text/javascript" src="scripts/sl/actions.js"></script>
+    <script type="text/javascript" src="scripts/sl/barcodeScanner.js"></script>
 
     <script type="text/javascript" src="scripts/ui/leftmenu.js"></script>
     <script type="text/javascript" src="scripts/ui/uiis.js"></script>
@@ -48,6 +50,7 @@
     <script type="text/javascript" src="scripts/ui/users.js"></script>
     <script type="text/javascript" src="scripts/ui/stores.js"></script>
     <script type="text/javascript" src="scripts/ui/master_setting.js"></script>
+    <script type="text/javascript" src="scripts/ui/pos.js"></script>
     <script type="text/javascript" src="scripts/ui/dialogs.js"></script>
     <script type="text/javascript" src="scripts/ui/popup.js"></script>
     <script type="text/javascript" src="scripts/ui/uiu.js"></script>
@@ -126,6 +129,53 @@
         <div class="page" id="page_home">
             <h3>Dashboard</h3>
             <p>Coming soon!</p>
+        </div>
+
+        <div id="page_pos" class="page ui segment">
+            <div id="pos_sec1" class="pos_sec sec1">
+                <div class="y_scroll first">
+                    <table id="pos_table1">
+                        <colgroup>
+                            <col width="55%" />
+                            <col width="20%" />
+                            <col width="25%" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price (&#8377;)</th>
+                                <th>Qty</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="y_scroll second">
+                    <table id="pos_table2">
+                        <tbody id="pos_c_items"></tbody>
+                    </table>
+                </div>
+                <div class="third">
+                    <div class="ui labeled input" style="height: 36px;">
+                        <label class="ui label">Total</label>
+                        <input id="pos_total" type="text" value="0.00" disabled />
+                    </div>
+                    <button id="pos_btn_clear" class="ui button">Clear</button>
+                    <button id="pos_btn_submit" class="ui button">Submit</button>
+                </div>
+            </div>
+            <div id="pos_sec2" class="pos_sec sec2">
+                <div class="top_sec">
+                    <div id="pos_search_par" class="ui labeled input">
+                        <label class="ui label">Search</label>
+                        <input id="pos_search" type="text" placeholder="Search by name or type Barcode" disabled />
+                    </div>
+                </div>
+                <div id="pos_a_items" class="items">
+                    <div id="pos_loaddata_con">
+                        <button id="pos_loaddata_btn" class="ui button">Load Products</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="page ui segment" id="page_products">
@@ -245,7 +295,7 @@
                             </select>
                         </div>
                         <div class="field">
-                            <label>Prize (&#8377;)</label>
+                            <label>Price (&#8377;)</label>
                             <input id="prt_price" type="text" placeholder="0.00 &#8377;">
                         </div>
                         <div class="field">

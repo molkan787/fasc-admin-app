@@ -45,11 +45,11 @@ function ui_order_init() {
 
         loadOrder: function (data) {
             this.currentOrder = data;
-            val(this.elts.customer, data.customer);
-            val(this.elts.phone, data.telephone);
+            val(this.elts.customer, data.customer || 'Walk on Customer');
+            val(this.elts.phone, data.telephone || '---');
             val(this.elts.total, fasc.formatPrice(data.total, true));
             val(this.elts.delDate, data.date_added);
-            val(this.elts.delAddr, data.shipping_address_1 + ', ' + data.shipping_city);
+            val(this.elts.delAddr, data.shipping_address_1 || '---' + ', ' + data.shipping_city);
             val(this.elts.orderDate, data.date_added);
 
             var isc = (data.order_status_id == 5);
@@ -82,7 +82,7 @@ function ui_order_init() {
                     this.loadOrder(this.currentOrder);
                 } else {
                     msg.show(txt('msg_2', 'Order'));
-                    goBack();
+                    goBack(true);
                 }
                 ui.popup.hide();
             } else {

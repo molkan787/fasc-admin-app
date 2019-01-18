@@ -49,11 +49,14 @@ function attr_rm(elt, attr_name) {
 function class_rm(elt, className) {
     var _class = elt.className;
     _class = _class.replace(className, '');
-    elt.className = _class;
+    if (elt.className != _class)
+        elt.className = _class;
 }
 
 function class_add(elt, className) {
-    elt.className = (elt.className + ' ' + className).replace('  ', ' ');
+    if (elt.className.indexOf(className) == -1) {
+        elt.className = (elt.className + ' ' + className).replace('  ', ' ');
+    }
 }
 
 function get(element_id) {

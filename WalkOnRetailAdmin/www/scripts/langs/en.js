@@ -38,6 +38,9 @@
 
     msg_new_pwd: 'Here is the new password for user "{%1}" : {%2}',
 
+    pos_success: 'The order was successfully placed! \nOrder Id: {%1}',
+    pos_confirm: 'Do you confirm submit of the order with a total of {%1} ?',
+
     user_1: 'Master Admin',
     user_2: 'Master Sub Admin',
     user_3: 'Accountant',

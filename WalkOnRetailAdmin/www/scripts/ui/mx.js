@@ -44,9 +44,18 @@ function mx_init() {
     // ========== Dimmer ===========
 
     ui.dimmer = {
-        create: function (elt_id) {
+        create: function (elt_id, createIt) {
+            if (createIt) {
+                var elt = crt_elt('div', get(elt_id));
+                var sub = crt_elt('div', elt);
+                elt.className = 'ui active inverted dimmer';
+                elt.style.display = 'none';
+                sub.className = 'ui text loader';
+            } else {
+                var elt = get(elt_id);
+            }
             var dimc = {
-                elt: get(elt_id),
+                elt: elt,
                 visibile: false,
                 show: function (text) {
                     var txt = (typeof text == 'undefined') ? 'Loading' : text;
