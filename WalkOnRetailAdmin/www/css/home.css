@@ -1,0 +1,15 @@
+﻿#page_home{
+    padding: 0;
+}
+#page_home > div.segments{
+    border-radius: 0 !important;
+}
+#page_home > div.ct-chart {
+    margin-left: -12px;
+    margin-top: 20px;
+    margin-bottom: -20px;
+    width: 100%;
+}
+.sca{
+    text-align: center;
+}

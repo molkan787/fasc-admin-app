@@ -19,16 +19,16 @@
     margin-top: -200px;
 }
 #cust_popup {
-    width: 80vw !important;
-    height: 44vh;
-    margin-left: -40vw;
-    margin-top: -22vh;
-    padding: 4vw !important;
+    width: 80% !important;
+    height: 280px;
+    margin-left: -40%;
+    margin-top: -140px;
+    padding: 13px !important;
 }
 #cust_popup > h3, #cust_popup > button {
-    margin: 0 0 2vw 0;
+    margin: 0 0 8px 0;
 }
-#cust_popup > div.spacer{
+#cust_popup > div.spacer {
     width: 100%;
-    height: 7vh;
+    height: 42px;
 }

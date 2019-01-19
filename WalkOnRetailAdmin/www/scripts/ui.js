@@ -32,6 +32,7 @@ function ui_init() {
     stores_init();
     master_setting_init();
     pos_init();
+    home_init();
 
     ui_popup_init();
     dialogs_init();
@@ -39,8 +40,7 @@ function ui_init() {
     uiis.init_components();
     BarcodeScanner_init();
 
-    //dm.registerCallback(() => { navigate('categories'); });
-    navigate('pos');
+    navigate('home');
 
     lm.onNavigate = navigate;
 }

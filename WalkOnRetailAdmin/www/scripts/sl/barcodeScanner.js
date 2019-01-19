@@ -11,7 +11,7 @@ function BarcodeScanner_init() {
             setTimeout(function () {
                 if (bcs_chars.length >= 10) {
                     var barcode = bcs_chars.join("");
-                    console.log("Barcode Scanned: " + barcode);
+                    //console.log("Barcode Scanned: " + barcode);
                     pos.search(barcode, true);
                 }
                 bcs_chars = [];

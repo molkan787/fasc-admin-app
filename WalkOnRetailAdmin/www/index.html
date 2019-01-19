@@ -17,6 +17,8 @@
     <link rel="stylesheet" type="text/css" href="css/mamp.css">
     <link rel="stylesheet" type="text/css" href="css/users.css">
     <link rel="stylesheet" type="text/css" href="css/pos.css">
+    <link rel="stylesheet" type="text/css" href="css/home.css">
+    <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
@@ -38,6 +40,7 @@
     <script type="text/javascript" src="scripts/ui/fasc.js"></script>
     <script type="text/javascript" src="scripts/ui/header.js"></script>
     <script type="text/javascript" src="scripts/ui/mx.js"></script>
+    <script type="text/javascript" src="scripts/ui/home.js"></script>
     <script type="text/javascript" src="scripts/ui/products.js"></script>
     <script type="text/javascript" src="scripts/ui/product.js"></script>
     <script type="text/javascript" src="scripts/ui/orders.js"></script>
@@ -57,6 +60,7 @@
     <script type="text/javascript" src="scripts/ui.js"></script>
     <script type="text/javascript" src="scripts/tests.js"></script>
     <script type="text/javascript" src="scripts/index.js"></script>
+    <script type="text/javascript" src="scripts/chartist.min.js"></script>
     <title>WalkOnRetailAdmin</title>
 </head>
 <body>
@@ -127,8 +131,114 @@
     <div id="pages">
 
         <div class="page" id="page_home">
-            <h3>Dashboard</h3>
-            <p>Coming soon!</p>
+            <div id="home_chart_sales" class="ct-chart ct-perfect-fourth"></div>
+            <div class="ui segments">
+                <div class="ui segment sca">
+                    <div class="ui tiny orange statistic">
+                        <div class="value" id="stats_total_sales">
+                            0
+                        </div>
+                        <div class="label">
+                            Total Sales
+                        </div>
+                    </div>
+                </div>
+                <div class="ui horizontal segments">
+                    <div class="ui segment sca">
+                        <div class="ui mini statistic">
+                            <div class="value" id="stats_walkon_sales">
+                                0
+                            </div>
+                            <div class="label">
+                                Walk on Sales
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui segment sca">
+                        <div class="ui mini statistic">
+                            <div class="value" id="stats_online_sales">
+                                0
+                            </div>
+                            <div class="label">
+                                Online Sales
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="home_chart_orders" class="ct-chart ct-perfect-fourth"></div>
+            <div class="ui segments">
+                <div class="ui segment sca">
+                    <div class="ui tiny orange statistic">
+                        <div class="value" id="stats_total_orders">
+                            0
+                        </div>
+                        <div class="label">
+                            Total Orders
+                        </div>
+                    </div>
+                </div>
+                <div class="ui horizontal segments">
+                    <div class="ui segment sca">
+                        <div class="ui mini statistic">
+                            <div class="value" id="stats_completed_orders">
+                                0
+                            </div>
+                            <div class="label">
+                                Completed
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui segment sca">
+                        <div class="ui mini statistic">
+                            <div class="value" id="stats_pending_orders">
+                                0
+                            </div>
+                            <div class="label">
+                                Pending
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="home_chart_customers" class="ct-chart ct-perfect-fourth"></div>
+            <div class="ui segments">
+                <div class="ui segment sca">
+                    <div class="ui tiny orange statistic">
+                        <div class="value" id="stats_total_customers">
+                            0
+                        </div>
+                        <div class="label">
+                            Total Customers
+                        </div>
+                    </div>
+                </div>
+                <div class="ui horizontal segments">
+                    <div class="ui segment sca">
+                        <div class="ui mini statistic">
+                            <div class="value" id="stats_verified_customers">
+                                0
+                            </div>
+                            <div class="label">
+                                Verified
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui segment sca">
+                        <div class="ui mini statistic">
+                            <div class="value" id="stats_notverified_customers">
+                                0
+                            </div>
+                            <div class="label">
+                                Not Verified
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div id="page_pos" class="page ui segment">
