@@ -8,7 +8,7 @@ function do_tests() {
 function test_1() {
     //registerPage('home', get('page_home'), 'Dashboard', null);
     //users.showAddForm();
-    ui.popup.show('stores_popup_options');
+    ui.popup.show('home_popup');
 }
 
 function test_2() {

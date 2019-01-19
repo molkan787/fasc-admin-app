@@ -13,3 +13,13 @@
 .sca{
     text-align: center;
 }
+
+#home_popup{
+    width: 60%;
+    height: 160px;
+    margin-left: -30%;
+    margin-top: -80px;
+}
+#home_popup > div > button {
+    margin-top: 27px !important;
+}

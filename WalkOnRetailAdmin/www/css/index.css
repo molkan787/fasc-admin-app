@@ -134,6 +134,8 @@ body{
     opacity: 0;
     display: none;
     max-width: unset !important;
+    width: 260px !important;
+    margin-left: -130px !important;
 }
 .popup::before {
     display: none !important;

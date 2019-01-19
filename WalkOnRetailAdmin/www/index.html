@@ -131,7 +131,7 @@
     <div id="pages">
 
         <div class="page" id="page_home">
-            <div id="home_chart_sales" class="ct-chart ct-perfect-fourth"></div>
+            <div id="home_chart_sales" class="ct-chart"></div>
             <div class="ui segments">
                 <div class="ui segment sca">
                     <div class="ui tiny orange statistic">
@@ -167,7 +167,7 @@
                 </div>
             </div>
 
-            <div id="home_chart_orders" class="ct-chart ct-perfect-fourth"></div>
+            <div id="home_chart_orders" class="ct-chart"></div>
             <div class="ui segments">
                 <div class="ui segment sca">
                     <div class="ui tiny orange statistic">
@@ -203,7 +203,7 @@
                 </div>
             </div>
 
-            <div id="home_chart_customers" class="ct-chart ct-perfect-fourth"></div>
+            <div id="home_chart_customers" class="ct-chart"></div>
             <div class="ui segments">
                 <div class="ui segment sca">
                     <div class="ui tiny orange statistic">
@@ -236,6 +236,22 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div id="home_popup" class="popup">
+                <div class="ui form">
+                    <div class="field">
+                        <label>Show data for</label>
+                        <select id="home_pp_range">
+                            <option value="7">Last week</option>
+                            <option value="10">Last 10 Days</option>
+                            <option value="20">Last 20 Days</option>
+                            <option value="30">Last 30 Days</option>
+                            <option value="60">Last 60 Days</option>
+                        </select>
+                    </div>
+                    <button id="home_pp_submit" class="ui button fullw">Submit</button>
                 </div>
             </div>
 

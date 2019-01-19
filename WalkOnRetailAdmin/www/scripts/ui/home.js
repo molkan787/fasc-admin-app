@@ -12,18 +12,21 @@ function home_init() {
             pendingOrders: get('stats_pending_orders'),
             totalCustomers: get('stats_total_customers'),
             verifiedCustomers: get('stats_verified_customers'),
-            notVerifiedCustomers: get('stats_notverified_customers')
+            notVerifiedCustomers: get('stats_notverified_customers'),
+            popup: get('home_popup'),
+            popupRange: get('home_pp_range'),
+            popupSubmit: get('home_pp_submit')
         },
 
         loadAction: null,
 
-        days: 30,
+        days: 10,
 
         dimmer: ui.dimmer.create('page_home', true),
 
         update: function () {
             this.dimmer.show();
-            this.loadAction.do('report/general&days=' + this.days);
+            this.loadAction.do(null, 'report/general&days=' + this.days);
         },
 
         loadData: function (data) {
@@ -42,7 +45,42 @@ function home_init() {
             // Preparing charts data
             var spd = data.salesPerDay;
             var spd_l = [];
-            var spd_v = [];
+            var spd_v = [[], []];
+            for (var day in spd) {
+                if (spd.hasOwnProperty(day)) {
+                    spd_l.push(day.substr(-5));
+                    spd_v[0].push(spd[day].w);
+                    spd_v[1].push(spd[day].o);
+                }
+            }
+            initChart('home_chart_sales', spd_l, spd_v);
+
+            spd = data.ordersPerDay;
+            spd_l = [];
+            spd_v = [];
+            for (var day in spd) {
+                if (spd.hasOwnProperty(day)) {
+                    spd_l.push(day.substr(-5));
+                    spd_v.push(spd[day]);
+                }
+            }
+            initChart('home_chart_orders', spd_l, [spd_v]);
+
+            spd = data.customersPerDay;
+            spd_l = [];
+            spd_v = [];
+            for (var day in spd) {
+                if (spd.hasOwnProperty(day)) {
+                    spd_l.push(day.substr(-5));
+                    spd_v.push(spd[day]);
+                }
+            }
+            initChart('home_chart_customers', spd_l, [spd_v]);
+        },
+
+        showPopup: function () {
+            val(this.elts.popupRange, this.days);
+            ui.popup.show(this.elts.popup);
         },
 
         // Callbacks
@@ -53,29 +91,30 @@ function home_init() {
                 msg.show(txt('error_3'));
             }
             this.dimmer.hide();
+        },
+
+        // Handlers
+        submitBtnClick: function () {
+            ui.popup.hide();
+            home.days = val(home.elts.popupRange);
+            home.update();
         }
+
     };
 
     home.loadAction = fetchAction.create('', function (action) { home.loadActionCallback(action) });
 
-    var data = {
-        // A labels array that can contain any sort of values
-        labels: ['01/18', '01/19', '01/20', '01/21', '01/22'],
-        // Our series array that contains series objects or in this case series data arrays
-        series: [
-            [500, 200, 400, 200, 0],
-            [800, 300, 700, 600, 400]
-        ]
-    };
-
-    // Create a new line chart object where as first parameter we pass in a selector
-    // that is resolving to our chart container element. The Second parameter
-    // is the actual data object.
-    new Chartist.Line('#home_chart_sales', data);
-    new Chartist.Line('#home_chart_orders', data);
-    new Chartist.Line('#home_chart_customers', data);
+    home.elts.popupSubmit.onclick = home.submitBtnClick;
 
     registerPage('home', home.elt, 'Dashboard', function () {
         home.update();
-    });
+    }, null, { icon: 'calendar', handler: function () { home.showPopup() } });
+}
+
+function initChart(elt, labels, series) {
+    var data = {
+        labels: labels,
+        series: series
+    };
+    new Chartist.Line('#' + elt, data, {width: '100%', height: '300px'});
 }

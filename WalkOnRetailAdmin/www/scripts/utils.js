@@ -197,3 +197,21 @@ function getBase64(file, callback, failCallback) {
             failCallback(error);
     };
 }
+
+function timeToDate(time) {
+    var d = new Date(time);
+    var y = d.getFullYear();
+    var m = '0' + (d.getMonth() + 1);
+    var d = '0' + d.getDate();
+    return y + '-' + m.substr(-2) + '-' + d.substr(-2);
+}
+
+function getTodaysTime() {
+    var timestamp = Date.now();
+    var dateStr = timeToDate(timestamp);
+    return new Date(dateStr).getTime();
+}
+
+function getDayMillis() {
+    return 60 * 60 * 24 * 1000;
+}
