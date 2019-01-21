@@ -33,6 +33,7 @@ function ui_init() {
     master_setting_init();
     pos_init();
     home_init();
+    account_init();
 
     ui_popup_init();
     dialogs_init();
@@ -40,7 +41,7 @@ function ui_init() {
     uiis.init_components();
     BarcodeScanner_init();
 
-    navigate('home');
+    navigate('account');
 
     lm.onNavigate = navigate;
 }

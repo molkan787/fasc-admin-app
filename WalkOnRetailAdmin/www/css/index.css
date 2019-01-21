@@ -181,3 +181,13 @@ body{
     margin-bottom: -1px;
     user-select: none;
 }
+
+.fullop{
+    opacity: 1 !important;
+}
+.nomargin{
+    margin: 0;
+}
+.nomargin_o{
+    margin: 0 !important;
+}

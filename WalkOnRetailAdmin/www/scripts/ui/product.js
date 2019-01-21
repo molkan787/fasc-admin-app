@@ -9,6 +9,8 @@ function ui_product_init() {
             Desc: get('prt_description'),
             Stock: get('prt_stock'),
             Barcode: get('prt_barcode'),
+            Spf: get('prt_spf'),
+            SpfUnit: get('prt_spf_unit'),
             Image: get('prt_image'),
             Price: get('prt_price'),
             Discount: get('prt_discount'),
@@ -79,6 +81,8 @@ function ui_product_init() {
             val(this.elts.ID, data.product_id);
             val(this.elts.Stock, data.quantity || '');
             val(this.elts.Barcode, data.barcode || '');
+            val(this.elts.Spf, data.spf || '');
+            val(this.elts.SpfUnit, data.spf_unit || '');
             val(this.elts.Image, data.image || 'images/document_blank.png');
             val(this.elts.Price, ui.fasc.formatPrice(data.price || 0, true));
             val(this.elts.Discount, data.discount_amt || '');
@@ -134,6 +138,8 @@ function ui_product_init() {
                 desc: JSON.stringify(this.data.desc),
                 stock: val(this.elts.Stock),
                 barcode: val(this.elts.Barcode),
+                spf: val(this.elts.Spf),
+                spf_unit: val(this.elts.SpfUnit),
                 price: val(this.elts.Price),
                 discount_amt: val(this.elts.Discount),
                 discount_type: val(this.elts.DiscountType),

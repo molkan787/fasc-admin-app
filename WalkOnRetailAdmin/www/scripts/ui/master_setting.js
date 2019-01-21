@@ -11,7 +11,10 @@ function master_setting_init() {
             cppName1: get('mset_cities_pp_name_1'),
             cppName2: get('mset_cities_pp_name_2'),
             cppBtn: get('mset_cities_pp_btn'),
-            addCityBtn: get('mset_add_city')
+            addCityBtn: get('mset_add_city'),
+            lang: get('mset_lang'),
+            companyInfo: get('mset_company_info'),
+            shareAppText: get('mset_share_app_text')
         },
 
         dimc: ui.dimmer.create('master_setting_dimmer'),
@@ -30,7 +33,9 @@ function master_setting_init() {
         imgSlt: null,
 
         data: {
-            cities: {}
+            cities: {},
+            gls: null,
+            lang: 1
         },
 
         loadAction: null,
@@ -46,6 +51,7 @@ function master_setting_init() {
         },
 
         loadData: function (data) {
+            var gls = this.data.gls = data.gls;
             val(this.elts.logo, data.logo);
             val(this.elts.cities, '');
             for (var i = 0; i < data.cities.length; i++) {
@@ -54,12 +60,36 @@ function master_setting_init() {
                 city._childs = {};
                 this.createCityPanel(city);
             }
+
+            var lang = val(this.elts.lang);
+            val(this.elts.companyInfo, gls.company_info[lang]);
+            val(this.elts.shareAppText, gls.share_app_text[lang]);
         },
         save: function () {
             if (this.imgSlt.changed) {
                 this.uploadAction.do(this.imgSlt.getData());
-                this.dimc.show();
+            } else {
+                this.saveAction.do({ gls: this.getGls() });
             }
+            this.dimc.show();
+        },
+
+        getGls: function () {
+            var com_info = val(this.elts.companyInfo);
+            var share_text = val(this.elts.shareAppText);
+            this.data.gls.company_info[this.data.lang] = com_info;
+            this.data.gls.share_app_text[this.data.lang] = share_text;
+            return JSON.stringify(this.data.gls);
+        },
+
+        updateGls: function () {
+            var com_info = val(this.elts.companyInfo);
+            var share_text = val(this.elts.shareAppText);
+            this.data.gls.company_info[this.data.lang] = com_info;
+            this.data.gls.share_app_text[this.data.lang] = share_text;
+            this.data.lang = val(this.elts.lang);
+            val(this.elts.companyInfo, this.data.gls.company_info[this.data.lang]);
+            val(this.elts.shareAppText, this.data.gls.share_app_text[this.data.lang]);
         },
 
         saveCity: function () {
@@ -167,7 +197,7 @@ function master_setting_init() {
         },
         uploadActionCallback: function (action) {
             if (action.status == 'OK') {
-                this.saveAction.do({logo: action.data.filename });
+                this.saveAction.do({ logo: action.data.filename, gls: this.getGls() });
             } else {
                 msg.show(txt('error_2'));
                 this.dimc.hide();
@@ -215,6 +245,9 @@ function master_setting_init() {
 
         addCityBtnClick: function () {
             masterSetting.showEditForm('new');
+        },
+        langChanged: function () {
+            masterSetting.updateGls();
         }
     };
 
@@ -228,6 +261,7 @@ function master_setting_init() {
 
     masterSetting.elts.cppBtn.onclick = masterSetting.saveCityBtnClick;
     masterSetting.elts.addCityBtn.onclick = masterSetting.addCityBtnClick;
+    masterSetting.elts.lang.onchange = masterSetting.langChanged;
 
     registerPage('master_setting', masterSetting.elt, 'Master Setting', function (param) {
         masterSetting.update(param);

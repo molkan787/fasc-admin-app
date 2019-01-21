@@ -20,6 +20,9 @@
     select_store_region: 'Please select a Region',
     store_created: 'Store was successfully created! And an Admin account was created for this store.',
     confirm_add_store: 'Do you confirm adding store with a name "{%1}" ?',
+    invalid_password: 'Password should be at least 8 characters long.',
+    passwords_doesnt_match: 'New passwords does not match',
+    password_success: 'The password was successfully updated!',
 
     invalid_city_names: 'Names are too short, Please type at least 2 charatcters',
 
@@ -31,6 +34,7 @@
     action_confirm_unsuspend: 'Do you really want to Unsuspend user "{%1}" ?',
     action_confirm_delete: 'Do you really want to Permanently Delete  user "{%1}" ?',
 
+    updating: 'Updating',
     action_progress_reset: 'Reseting',
     action_progress_suspend: 'Suspending',
     action_progress_unsuspend: 'Unsuspending',

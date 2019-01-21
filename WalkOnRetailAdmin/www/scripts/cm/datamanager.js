@@ -4,7 +4,7 @@ function dm_init() {
     dm_oca_init();
     cm.dm = dm;
     dm.storeId = 0;
-    dm.apiToken = 'key';
+    dm.apiToken = window.localStorage.getItem('api_token');
     dm.callbacks = [];
     dm.registerCallback = function (callback) {
         this.callbacks.push(callback);
@@ -23,6 +23,7 @@ function dm_init() {
     };
 
     dm.asdActionCallback = function (action) {
+        account.data = action.data.user;
         if (action.status == 'OK') {
             dm.setAsd(action.data);
             if (dm.asdCallback) dm.asdCallback('OK');
