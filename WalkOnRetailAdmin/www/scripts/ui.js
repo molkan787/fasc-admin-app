@@ -42,7 +42,7 @@ function ui_init() {
     uiis.init_components();
     BarcodeScanner_init();
 
-    navigate('account');
+    //navigate('account');
 
     lm.onNavigate = navigate;
 }
@@ -81,6 +81,10 @@ function goBack(relaod) {
 }
 
 function navigate(page_slug, param, isBack, forceReload) {
+    if (page_slug == 'logout') {
+        confirmLogout();
+        return;
+    }
     var page = pages[page_slug];
     if (!page) return;
 
@@ -130,4 +134,13 @@ function navigate(page_slug, param, isBack, forceReload) {
     } else {
         ui.fab.style.display = 'none';
     }
+}
+
+function confirmLogout() {
+    msg.confirm(txt('confirm_logout'), function (answer) {
+        if (answer == 'yes') {
+            dm.setToken('');
+            ls.show();
+        }
+    });
 }

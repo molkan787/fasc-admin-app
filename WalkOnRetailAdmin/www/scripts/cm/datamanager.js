@@ -31,9 +31,12 @@ function dm_init() {
 
     dm.asdActionCallback = function (action) {
         if (action.status == 'OK') {
-            dm.setAsd(action.data);
+            dm.setAsd(action.data); 
             if (dm.asdCallback) dm.asdCallback('OK');
-            else ls.hide();
+            else {
+                lm.setAvPages(action.data.user);
+                ls.hide();
+            }
         } else if (action.error_code == 'NO_USER') {
             ls.showLogin();
         } else {

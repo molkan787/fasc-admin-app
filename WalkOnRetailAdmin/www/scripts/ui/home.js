@@ -106,7 +106,7 @@ function home_init() {
 
     home.elts.popupSubmit.onclick = home.submitBtnClick;
 
-    registerPage('home', home.elt, 'Dashboard', function () {
+    registerPage('dashboard', home.elt, 'Dashboard', function () {
         home.update();
     }, null, { icon: 'calendar', handler: function () { home.showPopup() } });
 }

@@ -17,7 +17,7 @@ function ls_init() {
         login: function () {
             var username = val(this.elts.loginUsername);
             var password = val(this.elts.loginPassword);
-            if (username.length < 7 || password.length < 8) {
+            if (username.length < 5 || password.length < 8) {
                 msg.show(txt('fill_all_input'));
                 return;
             }
@@ -36,6 +36,7 @@ function ls_init() {
         },
         hide: function () {
             if (!this.visible) return;
+            this.visible = false;
             anime({
                 targets: "#loading_screen",
                 opacity: 0,
@@ -44,6 +45,20 @@ function ls_init() {
                 complete: function () {
                     ls.elt.style.display = 'none';
                 }
+            });
+        },
+
+        show: function () {
+            if (this.visible) return;
+            this.visible = true;
+            val(this.elts.loginPassword, '');
+            switchElements('ls_spinner', 'ls_login');
+            this.elt.style.display = 'block';
+            anime({
+                targets: "#loading_screen",
+                opacity: 1,
+                easing: 'easeOutExpo',
+                duration: 300
             });
         },
 

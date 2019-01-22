@@ -83,19 +83,19 @@
             <div class="item">
                 <img src="images/slogo.png" />
             </div>
-            <div>
-                <div class="lm_sep">Master Admin Pages</div>
-                <a class="item" action="master_setting">
+            <div id="lm_items">
+                <div id="lm_sep_1" class="lm_sep">Master Admin Pages</div>
+                <a id="lm_item_ms" class="item" action="master_setting">
                     <i class="setting icon"></i> Master Setting
                 </a>
-                <a class="item" action="users" param="master">
+                <a id="lm_item_mu" class="item" action="users" param="master">
                     <i class="users icon"></i> Master Users
                 </a>
                 <a class="item" action="stores">
                     <i class="building icon"></i> Stores
                 </a>
-                <div class="lm_sep">Store Admin Pages</div>
-                <a class="item" action="home">
+                <div id="lm_sep_2" class="lm_sep">Store Admin Pages</div>
+                <a class="item" action="dashboard">
                     <i class="home icon"></i> Dashboard
                 </a>
                 <a class="item" action="pos">
@@ -122,8 +122,12 @@
                 <a class="item" action="setting">
                     <i class="setting icon"></i> Setting
                 </a>
+                <div class="lm_sep">Account</div>
                 <a class="item" action="account">
                     <i class="user circle icon"></i> Account
+                </a>
+                <a class="item" action="logout">
+                    Logout
                 </a>
                 <span class="appversion">App Version: 0.9.0</span>
             </div>

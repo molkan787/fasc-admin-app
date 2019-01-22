@@ -100,6 +100,12 @@ function ui_order_init() {
                 attr(this.elts.btnPending, 'disabled', '1');
                 attr_rm(this.elts.btnCompleted, 'disabled');
             }
+            var writeAccess = (parseInt(account.data.ai.orders) == 2);
+            if (writeAccess) {
+                attr_rm(this.elts.btnDelete, 'disabled');
+            } else {
+                attr(this.elts.btnDelete, 'disabled', '1');
+            }
             ui.popup.show(this.elts.optionsPopup);
         },
 

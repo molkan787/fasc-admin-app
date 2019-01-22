@@ -165,10 +165,16 @@ function stores_init() {
         },
 
         showOptions: function (store_id) {
+            var writeAccess = (parseInt(account.data.ai.stores) == 2);
             var data = this.storesData[store_id];
             this.currentStore = data;
             if (!data) return;
             val(this.elts.optionsName, data.name);
+            if (writeAccess) {
+                attr_rm(this.elts.optionsDelBtn, 'disabled');
+            } else {
+                attr(this.elts.optionsDelBtn, 'disabled', '1');
+            }
             ui.popup.show(this.elts.optionsPopup);
         },
 

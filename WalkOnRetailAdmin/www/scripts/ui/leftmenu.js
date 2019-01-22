@@ -40,6 +40,37 @@ function leftmenu_init() {
             if (lm.onNavigate) {
                 lm.onNavigate(this.getAttribute('action'), this.getAttribute('param'));
             }
+        },
+
+        setAvPages: function (userData) {
+            if (parseInt(userData.fullaccess) == 1) {
+                navigate('stores');
+                return;
+            }
+            var ai = userData.ai;
+            var items = get_bt('a', get('lm_items'));
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                var act = attr(item, 'action');
+                var aii = ai[act];
+                if (typeof aii != 'undefined' && parseInt(aii) == 0) {
+                    item.style.display = 'none';
+                }
+            }
+            if (parseInt(userData.user_type) == 1) {
+                get('lm_item_ms').style.display = 'unset';
+                get('lm_item_mu').style.display = 'unset';
+            } else {
+                get('lm_item_ms').style.display = 'none';
+                get('lm_item_mu').style.display = 'none';
+            }
+
+            if (parseInt(userData.user_type) > 10) {
+                get('lm_sep_1').style.display = 'none';
+                get('lm_sep_2').style.display = 'none';
+            }
+
+            navigate(navPerUser[userData.user_type]);
         }
     };
 
@@ -53,3 +84,14 @@ function leftmenu_init() {
         lm.close();
     });
 }
+
+var navPerUser = {
+    1: 'stores',
+    2: 'stores',
+    3: 'stores',
+    4: 'pos',
+    11: 'dashboard',
+    12: 'dashboard',
+    13: 'products',
+    14: 'orders'
+};

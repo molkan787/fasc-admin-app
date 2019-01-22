@@ -25,6 +25,7 @@
     password_success: 'The password was successfully updated!',
     fill_all_input: 'Please fill all fields correctly.',
     user_not_found: 'This username does not exist',
+    confirm_logout: 'Are you sure you want to logout?',
 
     invalid_city_names: 'Names are too short, Please type at least 2 charatcters',
 
