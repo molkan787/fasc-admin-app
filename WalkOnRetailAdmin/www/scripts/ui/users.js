@@ -66,8 +66,10 @@ function users_init() {
         loadData: function (items) {
             val(this.elts.list, '');
             for (var i = 0; i < items.length; i++) {
-                this.data.users[items[i].user_id] = items[i];
-                this.createPanel(items[i]);
+                var user = items[i];
+                if (user.user_type == 11 && account.data.user_type != 1) continue;
+                this.data.users[user.user_id] = user;
+                this.createPanel(user);
             }
         },
 

@@ -215,3 +215,23 @@ function getTodaysTime() {
 function getDayMillis() {
     return 60 * 60 * 24 * 1000;
 }
+
+function switchElements(fromElt, toElt) {
+    anime({
+        targets: "#" + fromElt,
+        opacity: 0,
+        easing: 'easeOutExpo',
+        duration: 300,
+        complete: function () {
+            get(fromElt).style.display = "none";
+            var elt = get(toElt);
+            elt.style.display = (elt.tagName == 'IMG') ? 'inline-block' : 'block';
+            anime({
+                targets: "#" + toElt,
+                opacity: 1,
+                easing: 'easeOutExpo',
+                duration: 300
+            });
+        }
+    });
+}

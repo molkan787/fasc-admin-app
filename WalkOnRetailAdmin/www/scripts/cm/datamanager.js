@@ -6,6 +6,12 @@ function dm_init() {
     dm.storeId = 0;
     dm.apiToken = window.localStorage.getItem('api_token');
     dm.callbacks = [];
+
+    dm.setToken = function (token) {
+        this.apiToken = token;
+        window.localStorage.setItem('api_token', token);
+    };
+
     dm.registerCallback = function (callback) {
         this.callbacks.push(callback);
     };
@@ -19,18 +25,21 @@ function dm_init() {
     dm.setAsd = function (data) {
         this.cats = data.categories.cats;
         this.subcats = data.categories.subcats;
+        account.data = data.user;
         dm.callCallbacks();
     };
 
     dm.asdActionCallback = function (action) {
-        account.data = action.data.user;
         if (action.status == 'OK') {
             dm.setAsd(action.data);
             if (dm.asdCallback) dm.asdCallback('OK');
+            else ls.hide();
+        } else if (action.error_code == 'NO_USER') {
+            ls.showLogin();
         } else {
             dm.storeId = 0;
             if (dm.asdCallback) dm.asdCallback('FAIL');
-            else msg.show('We could not load data.');
+            else msg.show(txt('error_3'));
         }
     };
 
@@ -57,5 +66,10 @@ function dm_init() {
     };
 
     dm.asdAction = fetchAction.create('common/asd', dm.asdActionCallback);
-    dm.asdAction.do();
+
+    if (dm.apiToken) {
+        dm.asdAction.do();
+    } else {
+        setTimeout(function () { ls.showLogin(); }, 200);
+    }
 }

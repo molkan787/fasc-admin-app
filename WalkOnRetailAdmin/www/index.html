@@ -56,6 +56,7 @@
     <script type="text/javascript" src="scripts/ui/pos.js"></script>
     <script type="text/javascript" src="scripts/ui/dialogs.js"></script>
     <script type="text/javascript" src="scripts/ui/account.js"></script>
+    <script type="text/javascript" src="scripts/ui/ls.js"></script>
     <script type="text/javascript" src="scripts/ui/popup.js"></script>
     <script type="text/javascript" src="scripts/ui/uiu.js"></script>
     <script type="text/javascript" src="scripts/ui.js"></script>
@@ -800,7 +801,7 @@
             </div>
 
             <div id="users_options_popup" class="popup ui segment">
-                <h4 class="toe">m_xerath</h4>
+                <h4 class="toe">User</h4>
                 <label><i class="user icon"></i>Username: <span id="user_opts_username"></span></label> <br />
                 <label><i class="user circle icon"></i>Name: <span id="user_opts_name"></span></label> <br />
                 <label><i class="shield alternate icon"></i>Access: <span id="user_opts_type"></span></label> <br />
@@ -1010,9 +1011,9 @@
                     <div class="ui form">
                         <div class="field set_cpf">
                             <label>Change password</label>
-                            <input id="acc_pwd_old" type="text" placeholder="Current password" />
-                            <input id="acc_pwd_new" type="text" placeholder="New password" />
-                            <input id="acc_pwd_ret" type="text" placeholder="Retype new password" />
+                            <input id="acc_pwd_old" type="password" placeholder="Current password" />
+                            <input id="acc_pwd_new" type="password" placeholder="New password" />
+                            <input id="acc_pwd_ret" type="password" placeholder="Retype new password" />
                             <button id="acc_pwd_btn" class="ui button fullw">Change password</button>
                         </div>
                     </div>
@@ -1021,6 +1022,23 @@
             
         </div>
 
+    </div>
+
+    <div id="loading_screen">
+        <img src="images/slogo.png"/>
+        <h3>Administration</h3>
+        <img id="ls_spinner" class="spinner" src="images/spinner.gif"/>
+        <div id="ls_login" class="ui form" style="display: none">
+            <div class="field">
+                <label>Username</label>
+                <input id="ls_login_username" type="text" placeholder="Username" />
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input id="ls_login_password" type="password" placeholder="Password" />
+            </div>
+            <button id="ls_login_btn" class="ui button fullw">Login</button>
+        </div>
     </div>
 
     <div id="users_password_popup" class="popup ui segment">

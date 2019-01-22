@@ -23,6 +23,8 @@
     invalid_password: 'Password should be at least 8 characters long.',
     passwords_doesnt_match: 'New passwords does not match',
     password_success: 'The password was successfully updated!',
+    fill_all_input: 'Please fill all fields correctly.',
+    user_not_found: 'This username does not exist',
 
     invalid_city_names: 'Names are too short, Please type at least 2 charatcters',
 
