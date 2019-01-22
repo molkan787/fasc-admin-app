@@ -27,6 +27,8 @@
     user_not_found: 'This username does not exist',
     confirm_logout: 'Are you sure you want to logout?',
 
+    select_store_to_visit: 'Please select store you want to visit, This can be done from Stores page.',
+
     invalid_city_names: 'Names are too short, Please type at least 2 charatcters',
 
     fullname_must_be: 'The Fullname must be longer than 8 characters & shorter than 40 characters',

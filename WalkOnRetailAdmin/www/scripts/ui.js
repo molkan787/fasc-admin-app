@@ -89,7 +89,7 @@ function navigate(page_slug, param, isBack, forceReload) {
     if (!page) return;
 
     addToHistory(page_slug);
-
+    
     if (!forceReload && page_current && page_current.slug == page_slug && param == param_current) return;
 
     page_prev = page_current;
@@ -104,7 +104,7 @@ function navigate(page_slug, param, isBack, forceReload) {
 
     page_current.element.style.display = 'block';
 
-    var backButton = false;
+    var backButton = (attr(page.element, 'rbb') == '1');
 
     if (typeof page.title == 'string') {
         val(ui.title, page.title);

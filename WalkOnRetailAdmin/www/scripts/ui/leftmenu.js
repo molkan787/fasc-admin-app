@@ -32,13 +32,23 @@ function leftmenu_init() {
         },
 
         nav_click: function () {
+            var action = this.getAttribute('action');
+            var param = this.getAttribute('param');
+            var rss = this.getAttribute('rss');
+
+            if ((rss || param == 'normal') && parseInt(account.data.user_type) < 10 && dm.storeId == 0) {
+                msg.show(txt('select_store_to_visit'));
+                return;
+            }
+
+
             if (lm.current_item) lm.current_item.className = 'item';
             this.className = 'item active';
             lm.current_item = this;
 
             lm.close();
             if (lm.onNavigate) {
-                lm.onNavigate(this.getAttribute('action'), this.getAttribute('param'));
+                lm.onNavigate(action, param);
             }
         },
 
