@@ -11,6 +11,7 @@ function ui_order_init() {
             statusText: get('ord_status_text'),
             statusIcon: get('ord_status_icon'),
             delDate: get('ord_del_date'),
+            delTiming: get('ord_del_timing'),
             delAddr: get('ord_del_addr'),
             orderDate: get('ord_order_date'),
             itemsTable: get('ord_items_table'),
@@ -48,7 +49,8 @@ function ui_order_init() {
             val(this.elts.customer, data.customer || 'Walk on Customer');
             val(this.elts.phone, data.telephone || '---');
             val(this.elts.total, fasc.formatPrice(data.total, true));
-            val(this.elts.delDate, data.date_added);
+            val(this.elts.delDate, data.del_date);
+            val(this.elts.delTiming, data.del_timing);
             val(this.elts.delAddr, data.shipping_address_1 || '---' + ', ' + data.shipping_city);
             val(this.elts.orderDate, data.date_added);
 

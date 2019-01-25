@@ -542,6 +542,8 @@
                 <div class="ui segment">
                     <span>Delivery date:</span>
                     <h4> <i class="calendar alternate icon"></i> <span id="ord_del_date"></span> </h4>
+                    <span>Delivery timing:</span>
+                    <h4> <i class="time icon"></i> <span id="ord_del_timing"></span> </h4>
                     <span>Delivery address:</span>
                     <h4> <i class="map marker alternate icon"></i> <span id="ord_del_addr"></span> </h4>
                 </div>
@@ -758,6 +760,13 @@
                             <div class="ui labeled input" style="display: none">
                                 <label class="ui label">Shipping slot</label>
                                 <select id="set_timing_slot"></select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Order on phone</label>
+                            <div class="ui labeled input">
+                                <label class="ui label">Phone</label>
+                                <input type="text" id="set_order_phone" placeholder="7007007000"/>
                             </div>
                         </div>
                     </div>

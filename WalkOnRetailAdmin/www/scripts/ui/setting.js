@@ -11,6 +11,7 @@ function setting_init() {
             timingFrom: get('set_timing_from'),
             timingTo: get('set_timing_to'),
             timingSlot: get('set_timing_slot'),
+            orderPhone: get('set_order_phone')
 
         },
 
@@ -35,6 +36,7 @@ function setting_init() {
             val(this.elts.phone, data.info.telephone || '');
             val(this.elts.email, data.info.email || '');
             val(this.elts.address, data.info.address || '');
+            val(this.elts.orderPhone, data.info.order_phone || '');
         },
 
         save: function () {
@@ -46,7 +48,8 @@ function setting_init() {
                 name: val(this.elts.name),
                 telephone: val(this.elts.phone),
                 email: val(this.elts.email),
-                address: val(this.elts.address)
+                address: val(this.elts.address),
+                order_phone: val(this.elts.orderPhone)
             };
             this.dimc.show('Saving');
             this.saveAction.do(data);
