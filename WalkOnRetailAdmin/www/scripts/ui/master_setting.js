@@ -158,11 +158,12 @@ function master_setting_init() {
             var h4 = crt_elt('h4', div);
             var btn = crt_elt('button', h4);
             var icon = crt_elt('i', h4);
+            var span = crt_elt('span', h4);
             var btn_icon = crt_elt('i', btn);
             btn.className = 'ui label';
             btn_icon.className = 'ellipsis horizontal icon';
             icon.className = 'map marker alternate icon';
-            h4.append(data.name_1);
+            val(span, data.name_1);
             if (data.childs.length) {
                 var ul = crt_elt('ul', div);
                 for (var i = 0; i < data.childs.length; i++) {

@@ -155,7 +155,7 @@ function pos_init() {
             var l_i2 = crt_elt('i', lbl);
 
             td1.className = 'first toe';
-            td1.append(data.name);
+            td1.appendChild(crt_txt(data.name));
             val(img, data.image);
             val(td2, fasc.formatPrice(data.price, true));
             lbl.className = 'ui label';

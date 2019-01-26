@@ -169,10 +169,10 @@ function users_init() {
             var i2 = crt_elt('i', lbl2);
             var i3 = crt_elt('i', lbl3);
             var i4 = crt_elt('i', lbl4);
-            lbl1.append('Username: ');
-            lbl2.append('Name: ');
-            lbl3.append('Status: ');
-            lbl4.append('Access: ');
+            lbl1.appendChild(crt_txt('Username: '));
+            lbl2.appendChild(crt_txt('Name: '));
+            lbl3.appendChild(crt_txt('Status: '));
+            lbl4.appendChild(crt_txt('Access: '));
             var span1 = crt_elt('span', lbl1);
             var span2 = crt_elt('span', lbl2);
             var span3 = crt_elt('span', lbl3);

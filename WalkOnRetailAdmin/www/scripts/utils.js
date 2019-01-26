@@ -17,6 +17,19 @@ function crt_elt(tagname, parent, id) {
     return elt;
 }
 
+function crt_txt(text, parent) {
+    var elt = document.createElement('span');
+    elt.innerHTML = text;
+    if (parent) {
+        if (typeof parent == 'string') {
+            elt.id = parent;
+        } else {
+            parent.appendChild(elt);
+        }
+    }
+    return elt;
+}
+
 function style(elt, styles) {
     for (var p in styles) {
         if (styles.hasOwnProperty(p)) {

@@ -21,6 +21,13 @@
         do_tests();
     };
 
+    //window.onerror = function (msg, url, lineNo, columnNo, error) {
+    //    if (lineNo) alert(msg + " -- " + lineNo);
+    //    else alert(msg);
+
+    //    return false;
+    //}
+
     function onPause() {
         // TODO: This application has been suspended. Save application state here.
     };

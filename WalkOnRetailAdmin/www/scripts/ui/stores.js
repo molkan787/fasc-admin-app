@@ -135,7 +135,8 @@ function stores_init() {
 
             btn.className = 'ui label';
             icon.className = 'setting icon';
-            btn.append('Options');
+            var t_txt = crt_elt('span', btn);
+            val(t_txt, 'Options');
             attr(btn, 'store_id', data.store_id);
 
             val(span_1, ' (id:' + data.store_id + ')');
