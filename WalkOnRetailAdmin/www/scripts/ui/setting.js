@@ -90,7 +90,7 @@ function setting_init() {
     }
     for (var i = 1; i < 9; i++) {
         var opt1 = crt_elt('option', setting.elts.timingSlot);
-        val(opt1, i + ' Hour' + (i > 1 ? 's' : ''));
+        val(opt1, getTimeTextSS(i));
         opt1.value = i;
     }
 
@@ -100,4 +100,17 @@ function setting_init() {
     registerPage('setting', setting.elt, 'Setting', function () { setting.update(); },
         { icon: 'save', handler: setting.saveBtnClick });
 
+}
+
+function getTimeTextSS(i) {
+    var str = '';
+    var mi = i % 4;
+    var hours = (i - mi) / 4;
+    if (hours > 0) {
+        str = hours + ' Hour' + (hours > 1 ? 's ' : ' ');
+    }
+    if (mi > 0) {
+        str += (mi * 15) + ' Minutes';
+    }
+    return str;
 }

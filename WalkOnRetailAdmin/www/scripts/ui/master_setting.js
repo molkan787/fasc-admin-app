@@ -16,7 +16,8 @@ function master_setting_init() {
             addCityBtn: get('mset_add_city'),
             lang: get('mset_lang'),
             companyInfo: get('mset_company_info'),
-            shareAppText: get('mset_share_app_text')
+            shareAppText: get('mset_share_app_text'),
+            welcomeText: get('mset_welcome_text')
         },
 
         dimc: ui.dimmer.create('master_setting_dimmer'),
@@ -69,6 +70,7 @@ function master_setting_init() {
             var lang = val(this.elts.lang);
             val(this.elts.companyInfo, gls.company_info[lang]);
             val(this.elts.shareAppText, gls.share_app_text[lang]);
+            val(this.elts.welcomeText, gls.welcome_text[lang]);
         },
         save: function () {
             this.data.logo = '';
@@ -80,19 +82,24 @@ function master_setting_init() {
         getGls: function () {
             var com_info = val(this.elts.companyInfo);
             var share_text = val(this.elts.shareAppText);
+            var welcome_text = val(this.elts.welcomeText);
             this.data.gls.company_info[this.data.lang] = com_info;
             this.data.gls.share_app_text[this.data.lang] = share_text;
+            this.data.gls.welcome_text[this.data.lang] = welcome_text;
             return JSON.stringify(this.data.gls);
         },
 
         updateGls: function () {
             var com_info = val(this.elts.companyInfo);
             var share_text = val(this.elts.shareAppText);
+            var welcome_text = val(this.elts.welcomeText);
             this.data.gls.company_info[this.data.lang] = com_info;
             this.data.gls.share_app_text[this.data.lang] = share_text;
+            this.data.gls.welcome_text[this.data.lang] = welcome_text;
             this.data.lang = val(this.elts.lang);
             val(this.elts.companyInfo, this.data.gls.company_info[this.data.lang]);
             val(this.elts.shareAppText, this.data.gls.share_app_text[this.data.lang]);
+            val(this.elts.welcomeText, this.data.gls.welcome_text[this.data.lang]);
         },
 
         saveCity: function () {
