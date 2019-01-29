@@ -28,6 +28,7 @@ function setting_init() {
         },
 
         loadData: function (data) {
+            log(data)
             val(this.elts.minTotal, data.min_total);
             val(this.elts.timingFrom, data.timing_from);
             val(this.elts.timingTo, data.timing_to);

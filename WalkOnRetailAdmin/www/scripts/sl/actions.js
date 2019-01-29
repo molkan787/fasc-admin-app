@@ -57,9 +57,10 @@ function _fetch_action_create(req, callback) {
         callback: callback,
         data: null,
 
-        do: function (params, req) {
+        do: function (params, req, ref) {
             if (this.isBusy) return false;
             if (typeof req == 'string') this.req = req;
+            if (typeof ref == 'string') this.ref = ref;
             this.isBusy = true;
             var isPostReq = (typeof params == 'string');
             this.params = params;

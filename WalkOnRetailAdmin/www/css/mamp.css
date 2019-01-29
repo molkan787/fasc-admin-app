@@ -92,11 +92,13 @@
 #mset_tabs > div{
     border: none;
 }
-.mset_logo_sec > img{
+.mset_logo_sec > img {
     max-width: 100%;
     max-height: 120px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    min-width: 100px;
+    min-height: 50px;
 }
 #mset_cities > div{
     border: 1px solid #ccc;

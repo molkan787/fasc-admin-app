@@ -5,6 +5,8 @@ function master_setting_init() {
         elts: {
             logo: get('mset_logo'),
             logoBtn: get('mset_logo_btn'),
+            lsAd: get('mset_ls_ad'),
+            lsAdBtn: get('mset_ls_ad_btn'),
             cities: get('mset_cities'),
             citiesPopup: get('mset_cities_popup'),
             cppTitle: get('mset_cities_pp_title'),
@@ -35,7 +37,9 @@ function master_setting_init() {
         data: {
             cities: {},
             gls: null,
-            lang: 1
+            lang: 1,
+            logo: '',
+            ls_ad: ''
         },
 
         loadAction: null,
@@ -53,6 +57,7 @@ function master_setting_init() {
         loadData: function (data) {
             var gls = this.data.gls = data.gls;
             val(this.elts.logo, data.logo);
+            val(this.elts.lsAd, data.ls_ad);
             val(this.elts.cities, '');
             for (var i = 0; i < data.cities.length; i++) {
                 var city = data.cities[i];
@@ -66,11 +71,9 @@ function master_setting_init() {
             val(this.elts.shareAppText, gls.share_app_text[lang]);
         },
         save: function () {
-            if (this.imgSlt.changed) {
-                this.uploadAction.do(this.imgSlt.getData());
-            } else {
-                this.saveAction.do({ gls: this.getGls() });
-            }
+            this.data.logo = '';
+            this.data.ls_ad = '';
+            this.doNextSaveAction();
             this.dimc.show();
         },
 
@@ -186,6 +189,20 @@ function master_setting_init() {
             this.elts.cities.appendChild(div);
         },
 
+        doNextSaveAction: function () {
+            if (this.imgSlt_logo.changed) {
+                this.uploadAction.do(this.imgSlt_logo.getData(), 'image/upBase64&folder=logos', 'logo');
+            } else if (this.imgSlt_lsAd.changed) {
+                this.uploadAction.do(this.imgSlt_lsAd.getData(), 'image/upBase64&folder=ls_ads', 'ls_ad');
+            } else {
+                this.saveAction.do({
+                    logo: this.data.logo,
+                    ls_ad: this.data.ls_ad,
+                    gls: this.getGls()
+                });
+            }
+        },
+
         // Callbacks
         loadActionCallback: function (action) {
             if (action.status == 'OK') {
@@ -198,7 +215,8 @@ function master_setting_init() {
         },
         uploadActionCallback: function (action) {
             if (action.status == 'OK') {
-                this.saveAction.do({ logo: action.data.filename, gls: this.getGls() });
+                this.data[action.ref] = action.data.filename;
+                this.doNextSaveAction();
             } else {
                 msg.show(txt('error_2'));
                 this.dimc.hide();
@@ -253,12 +271,13 @@ function master_setting_init() {
     };
 
     masterSetting.loadAction = fetchAction.create('setting/get_master_setting', function (action) { masterSetting.loadActionCallback(action); });
-    masterSetting.uploadAction = fetchAction.create('image/upBase64&folder=logos', function (action) { masterSetting.uploadActionCallback(action); });
+    masterSetting.uploadAction = fetchAction.create('image/upBase64', function (action) { masterSetting.uploadActionCallback(action); });
     masterSetting.saveAction = fetchAction.create('setting/update_master_setting', function (action) { masterSetting.saveActionCallback(action); });
     masterSetting.deleteAction = fetchAction.create('cities/delete', function (action) { masterSetting.deleteActionCallback(action); });
     masterSetting.editAction = fetchAction.create('cities/edit', function (action) { masterSetting.editActionCallback(action); });
 
-    masterSetting.imgSlt = imageSelector.init(masterSetting.elts.logoBtn, masterSetting.elts.logo);
+    masterSetting.imgSlt_logo = imageSelector.init(masterSetting.elts.logoBtn, masterSetting.elts.logo);
+    masterSetting.imgSlt_lsAd = imageSelector.init(masterSetting.elts.lsAdBtn, masterSetting.elts.lsAd);
 
     masterSetting.elts.cppBtn.onclick = masterSetting.saveCityBtnClick;
     masterSetting.elts.addCityBtn.onclick = masterSetting.addCityBtnClick;

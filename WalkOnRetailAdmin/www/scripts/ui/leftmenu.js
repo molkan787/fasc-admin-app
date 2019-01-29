@@ -80,7 +80,9 @@ function leftmenu_init() {
                 get('lm_sep_2').style.display = 'none';
             }
 
-            navigate(navPerUser[userData.user_type]);
+            //navigate(navPerUser[userData.user_type]);
+            log('TODO: Default Page per User');
+            navigate('master_setting');
         }
     };
 
