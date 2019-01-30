@@ -8,7 +8,9 @@ function category_init() {
             img: get('cat_img'),
             imgBtn: get('cat_img_btn'),
             name1: get('cat_name_1'),
-            name2: get('cat_name_2')
+            name2: get('cat_name_2'),
+            imgSec: get('cat_img_sec'),
+            subsSec: get('cat_subs_sec')
         },
 
         data: {},
@@ -19,15 +21,34 @@ function category_init() {
         loadAction: null,
         saveAction: null,
         uploadAction: null,
+        deleteAction: null,
 
         imgSlt: null,
 
         // Methods
-        update: function (param) {
+        update: function (params) {
+            this.parent = params.parent;
+            this.cat_id = params.id;
+            this.gtype = params.gtype;
+            this.deepLevel = params.deepLevel;
+
+            if (this.deepLevel == 1) {
+                this.elts.imgSec.style.display = '';
+            } else {
+                this.elts.imgSec.style.display = 'none';
+            }
+            if (this.deepLevel > 2 || (this.deepLevel > 1 && this.gtype == '1')) {
+                this.elts.subsSec.style.display = 'none';
+            } else {
+                this.elts.subsSec.style.display = '';
+            }
+            val('cat_subs_text', cat_get_Item_name(this.gtype, this.deepLevel + 1, true));
+
+            var cat_id = params.id;
             this.imgSlt.reset();
-            if (param != 'new') {
+            if (cat_id != 'new') {
                 this.dimc.show();
-                this.loadAction.do({ cat_id: param });
+                this.loadAction.do({ cat_id: cat_id });
             } else {
                 this.loadCat({category_id: 'new'});
             }
@@ -53,29 +74,25 @@ function category_init() {
         },
 
         getData: function () {
-            var subs = { toUpdate: {}, toDelete: [], toAdd: [] };
-            foreach(get_bc('subcat_item'), function (elt) {
-                var ise = (attr(elt, 'state') == 'enabled');
-                var origin_id = attr(elt, 'origin_id');
-                if (ise) {
-                    var inps = get_bt('input', elt);
-                    var names = { 1: val(inps[0]), 2: val(inps[1]) };
-                    if (origin_id) subs.toUpdate[origin_id] = names;
-                    else subs.toAdd.push(names);
-                } else if (origin_id) {
-                    subs.toDelete.push(origin_id);
-                }
-            });
+            var name1 = val(this.elts.name1);
+            var name2 = val(this.elts.name2);
             return {
+                gtype: this.gtype,
+                parent: this.parent,
                 cat_id: this.currentCat,
-                name1: val(this.elts.name1),
-                name2: val(this.elts.name2),
-                subs: JSON.stringify(subs)
+                name1: name1,
+                name2: name2
             };
 
         },
 
         save: function () {
+            var name1 = val(this.elts.name1);
+            var name2 = val(this.elts.name2);
+            if (name1.length < 2 || name2.length < 2) {
+                msg.show(txt('fill_all_input'));
+                return;
+            }
             this.dimc.show('Saving');
             if (this.imgSlt.changed) {
                 this.uploadAction.do(this.imgSlt.getData());
@@ -83,36 +100,6 @@ function category_init() {
                 var data = this.getData();
                 this.saveAction.do(data);
             }
-        },
-
-        createPanel: function (data, insertFirst) {
-            var div = crt_elt('div');
-            var btn = crt_elt('button', div);
-            var h4 = crt_elt('h4', div);
-            var txt1 = crt_elt('label', div);
-            var input1 = crt_elt('input', div);
-            var txt2 = crt_elt('label', div);
-            var input2 = crt_elt('input', div);
-
-            val(btn, 'Remove');
-            val(h4, data[1] || 'New Subcategory');
-            val(input1, data[1] || '');
-            val(input2, data[2] || '');
-            val(txt1, 'English');
-            val(txt2, 'Hindi');
-            
-            input1.className = input2.className = 'subcat_input';
-
-            btn.className = 'ui tiny label';
-            div.className = 'subcat_item';
-            attr(div, 'origin_id', data.category_id);
-            attr(div, 'state', 'enabled');
-            btn.onclick = this.toggleBtnClick;
-
-            if (insertFirst)
-                insertNodeAsFirst(div, this.elts.subs);
-            else
-                this.elts.subs.appendChild(div);
         },
 
         toggleState: function (elt, btnElt) {
@@ -164,35 +151,111 @@ function category_init() {
             this.dimc.hide();
             if (action.status == 'OK') {
                 msg.show(txt('msg_1'));
-                navigate('category', action.data.cat_id, false, true);
+                var params = { id: action.data.cat_id, deepLevel: this.deepLevel, gtype: this.gtype, parent: this.parent };
+                reloadPage(params);
             } else {
                 msg.show(txt('error_2'));
             }
         },
 
+        deleteActionCallback: function (action) {
+            if (action.status == 'OK') {
+                uiu.removeElt('cat_panel_' + action.params.cat_id, true);
+            } else {
+                msg.show(txt('error_txt1'));
+            }
+            this.dimc.hide();
+        },
+
+        // Methods
+        deleteCategory: function (cat_id) {
+            var cat = this.items[cat_id];
+            if (!cat) return;
+            var _this = this;
+            var itemName = cat_get_Item_name(category.gtype, category.deepLevel + 1);
+            var msgText = txt('confirm_city_delete', itemName, cat.text);
+            msg.confirm(msgText, function (answer) {
+                if (answer == 'yes') {
+                    _this.dimc.show('Deleting');
+                    _this.deleteAction.do({ cat_id: cat_id });
+                }
+            });
+        },
+
+        // UI Methods
+        createPanel: function (data) {
+            var div = crt_elt('div');
+            var h3 = crt_elt('h3', div);
+            var btn = crt_elt('label', div);
+            var icon = crt_elt('i', btn);
+            
+            val(h3, data['1']);
+            div.className = 'cats_item';
+            btn.className = 'ui label';
+            icon.className = 'delete icon';
+
+            btn.onclick = this.deleteBtnClick;
+
+            attr(btn, 'cancelclick', '1');
+            attr(icon, 'cancelclick', '1');
+            attr(btn, 'cat_id', data.category_id);
+            attr(div, 'cat_id', data.category_id);
+            div.onclick = this.panelClick;
+            div.id = 'cat_panel_' + data.category_id;
+
+            this.elts.subs.appendChild(div);
+        },
+
         // Handlers
-        toggleBtnClick: function () {
-            category.toggleState(this.parentNode, this);
+        panelClick: function (e) {
+            if (attr(e.srcElement, 'cancelclick')) return;
+            navigate('category', { id: attr(this, 'cat_id'), deepLevel: category.deepLevel + 1, gtype: category.gtype, parent: category.cat_id });
         },
 
         addButtonClick: function () {
-            category.createPanel({}, true);
+            if (category.cat_id == 'new') {
+                var cItem = cat_get_Item_name(category.gtype, category.deepLevel);
+                var nItem = cat_get_Item_name(category.gtype, category.deepLevel + 1, true);
+                var text = txt('save_before_adding', cItem, nItem);
+                msg.show(text);
+                return;
+            }
+            navigate('category', { id: 'new', deepLevel: category.deepLevel + 1, gtype: category.gtype, parent: category.cat_id });
         },
 
         saveButtonClick: function () {
             category.save();
+        },
+
+        deleteBtnClick: function () {
+            category.deleteCategory(attr(this, 'cat_id'));
         }
     };
 
     category.loadAction = fetchAction.create('category/info', function (action) { category.loadActionCallback(action); });
     category.saveAction = fetchAction.create('category/save', function (action) { category.saveActionCallback(action); });
     category.uploadAction = fetchAction.create('image/upBase64&folder=categories', function (action) { category.uploadActionCallback(action); });
+    category.deleteAction = fetchAction.create('category/delete', function (action) { category.deleteActionCallback(action); });
 
     category.imgSlt = imageSelector.init(category.elts.imgBtn, category.elts.img);
 
     category.elts.add.onclick = category.addButtonClick;
 
-    registerPage('category', category.elt, 'Category details', function (param) {
-        category.update(param);
+    registerPage('category', category.elt, function (params) {
+        var gname = cat_get_Item_name(params.gtype, params.deepLevel);
+        if (params.id == 'new') {
+            return 'Add new ' + gname;
+        } else {
+            return gname + ' Details';
+        }
+    }, function (params) {
+        category.update(params);
     }, { icon: 'save', handler: category.saveButtonClick });
+}
+
+function cat_get_Item_name(gtype, deepLevel, plur) {
+    var gname = deepLevel == 3 ? 'Child ' : '';
+    if (deepLevel > 1) gname += 'Sub-';
+    gname += gtype == '1' ? (plur ? 'Brands' : 'Brand') : (plur ? 'Categories' : 'Category');
+    return gname;
 }

@@ -58,26 +58,32 @@ function registerPage(slug, element, title, updater, headbarAction, fab) {
     };
 }
 
-function addToHistory(page) {
-    for (var i = 0; i < navHistory.length; i++) {
-        if (navHistory[i] == page) {
-            navHistory.splice(i, 1);
-            break;
-        }
-    }
-    navHistory.push(page);
+function addToHistory(page, param) {
+    //for (var i = 0; i < navHistory.length; i++) {
+    //    if (navHistory[i].slug == page) {
+    //        navHistory.splice(i, 1);
+    //        break;
+    //    }
+    //}
+    navHistory.push({ slug: page, param: param});
 }
 
-function reloadPage() {
+function reloadPage(newParam) {
+    var param = newParam || param_current;
     if (page_current) {
-        navigate(page_current.slug, param_current, false, true);
+        if (navHistory.length > 0) {
+            navHistory.pop();
+        }
+        navigate(page_current.slug, param, false, true);
     }
 }
 
-function goBack(relaod) {
+function goBack(reload) {
     if (navHistory.length < 1) return;
     navHistory.pop();
-    navigate(navHistory.pop() || 'home', null, true, relaod);
+    var page = navHistory.pop();
+    if (page.slug == 'category') reload = true;
+    navigate(page.slug || 'home', page.param, true, reload);
 }
 
 function navigate(page_slug, param, isBack, forceReload) {
@@ -88,7 +94,7 @@ function navigate(page_slug, param, isBack, forceReload) {
     var page = pages[page_slug];
     if (!page) return;
 
-    addToHistory(page_slug);
+    addToHistory(page_slug, param);
     
     if (!forceReload && page_current && page_current.slug == page_slug && param == param_current) return;
 

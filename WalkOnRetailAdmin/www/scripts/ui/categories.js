@@ -36,8 +36,10 @@ function categories_init() {
             this.elts.list.appendChild(div);
         },
         
-        update: function () {
+        update: function (param) {
+            this.gtype = param;
             this.dimc.show();
+            val(this.elts.list, '');
             var _this = this;
             dm.reloadAsd(function () {
                 _this.loadCats(dm.cats);
@@ -46,12 +48,13 @@ function categories_init() {
         },
 
         loadCats: function (data) {
-            val(this.elts.list, '');
             this.items = {};
             for (var i = 0; i < data.length; i++) {
                 var cat = data[i];
-                this.items[cat.id] = cat;
-                this.createPanel(cat);
+                if (cat.gtype == this.gtype) {
+                    this.items[cat.id] = cat;
+                    this.createPanel(cat);
+                }
             }
         },
 
@@ -59,7 +62,8 @@ function categories_init() {
             var cat = this.items[cat_id];
             if (!cat) return;
             var _this = this;
-            var msgText = txt('confirm_cat_delete', cat.text);
+            var txtName = this.gtype == '1' ? 'confirm_brand_delete' : 'confirm_cat_delete';
+            var msgText = txt(txtName, cat.text);
             msg.confirm(msgText, function (answer) {
                 if (answer == 'yes') {
                     _this.dimc.show('Deleting');
@@ -81,17 +85,22 @@ function categories_init() {
         // Handlers
         panelClick: function (e) {
             if (attr(e.srcElement, 'cancelclick')) return;
-            navigate('category', attr(this, 'cat_id'));
+            navigate('category', { id: attr(this, 'cat_id'), deepLevel: 1, gtype: cats.gtype, parent: 0 });
         },
         deleteBtnClick: function () {
             cats.deleteCategory(attr(this, 'cat_id'));
+        },
+        addBtnClick: function () {
+            navigate('category', {id: 'new', gtype: cats.gtype, deepLevel: 1});
         }
     };
 
     cats.deleteAction = fetchAction.create('category/delete', function (action) { cats.deleteActionCallback(action); });
-
-    registerPage('categories', cats.elt, 'Categories', function () {
-        cats.update();
-    }, { icon: 'plus', handler: function () { navigate('category', 'new'); }});
+    
+    registerPage('categories', cats.elt, function (param) {
+        return param == '1' ? 'Brands' : 'Categories';
+    }, function (param) {
+        cats.update(param);
+    }, { icon: 'plus', handler: cats.addBtnClick});
 
 }

@@ -110,8 +110,11 @@
                 <a class="item" action="customers" rss="1">
                     <i class="users icon"></i> Customers
                 </a>
-                <a class="item" action="categories" rss="1">
+                <a class="item" action="categories" param="0" rss="1">
                     <i class="clone icon"></i> Categories
+                </a>
+                <a class="item" action="categories" param="1" rss="1">
+                    <i class="clone icon"></i> Brands
                 </a>
                 <a class="item" action="banners" rss="1">
                     <i class="newspaper icon"></i> Banners
@@ -705,13 +708,13 @@
                         <input type="text" id="cat_name_2" placeholder="Category name in Hindi">
                     </div>
                 </div>
-                <div class="field cat_imgsec">
+                <div id="cat_img_sec" class="field cat_imgsec">
                     <label>Image</label>
-                    <img id="cat_img" src="http://fasc.local/image/cache/catalog/ayurvedic_icon-120x120.png" />
+                    <img id="cat_img" src="" />
                     <button id="cat_img_btn" class="ui button">Change image</button>
                 </div>
-                <div class="field cat_imgsec" style="padding-top: 10px">
-                    <label>Sub categories</label>
+                <div id="cat_subs_sec" class="field cat_imgsec" style="padding-top: 10px">
+                    <label id="cat_subs_text">Sub categories</label>
                     <div id="subcats_add">
                         <i class="plus circle icon"></i>
                         Add
