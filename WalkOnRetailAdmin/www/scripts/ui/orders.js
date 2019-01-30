@@ -29,16 +29,16 @@ function ui_orders_init() {
             var h3_t = crt_elt('h3', div_t);
             var span_c = crt_elt('span', div_c);
             var h4_c = crt_elt('h4', div_c);
-
-            var isc = (data.order_status == 'Complete');
+            
+            var status_id = parseInt(data.order_status_id);
 
             div_par.className = 'ord_item';
-            div_s.className = isc ? 'completed' : 'pending';
+            div_s.className = ord_getStatusClass(status_id);
             div_t.className = 'total';
             div_c.className = 'customer';
 
-            icon.className = (isc ? 'check' : 'time') + ' icon';
-            val(span_s, (isc ? 'Completed' : 'Pending'));
+            icon.className = ord_getStatusIcon(status_id) + ' icon';
+            val(span_s, ord_getStatusText(status_id));
             val(span_t, 'Total');
             val(h3_t, ui.fasc.formatPrice(data.total));
             val(span_c, 'Customer');
@@ -106,4 +106,29 @@ function ui_orders_init() {
     registerPage('orders', orders.elt, 'Orders', function (param) {
         orders.update(param);
     }, null, { icon: 'filter', handler: function () { orders.showFilters() }});
+}
+
+function ord_getStatusText(status_id) {
+    if (status_id == 5)
+        return 'Completed';
+    else if (status_id == 7)
+        return 'Canceled';
+    else
+        return 'Pending';
+}
+function ord_getStatusIcon(status_id) {
+    if (status_id == 5)
+        return 'check circle';
+    else if (status_id == 7)
+        return 'ban';
+    else
+        return 'time';
+}
+function ord_getStatusClass(status_id) {
+    if (status_id == 5)
+        return 'completed';
+    else if (status_id == 7)
+        return 'canceled';
+    else
+        return 'pending';
 }

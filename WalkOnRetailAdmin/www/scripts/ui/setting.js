@@ -11,8 +11,8 @@ function setting_init() {
             timingFrom: get('set_timing_from'),
             timingTo: get('set_timing_to'),
             timingSlot: get('set_timing_slot'),
-            orderPhone: get('set_order_phone')
-
+            orderPhone: get('set_order_phone'),
+            delCost: get('set_delcost')
         },
 
         dimc: ui.dimmer.create('setting_dimmer'),
@@ -38,6 +38,7 @@ function setting_init() {
             val(this.elts.email, data.info.email || '');
             val(this.elts.address, data.info.address || '');
             val(this.elts.orderPhone, data.info.order_phone || '');
+            val(this.elts.delCost, data.fast_del_cost || '0');
         },
 
         save: function () {
@@ -50,7 +51,8 @@ function setting_init() {
                 telephone: val(this.elts.phone),
                 email: val(this.elts.email),
                 address: val(this.elts.address),
-                order_phone: val(this.elts.orderPhone)
+                order_phone: val(this.elts.orderPhone),
+                fast_del_cost: val(this.elts.delCost)
             };
             this.dimc.show('Saving');
             this.saveAction.do(data);

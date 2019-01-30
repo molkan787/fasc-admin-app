@@ -54,10 +54,11 @@ function ui_order_init() {
             val(this.elts.delAddr, data.shipping_address_1 || '---' + ', ' + data.shipping_city);
             val(this.elts.orderDate, data.date_added);
 
-            var isc = (data.order_status_id == 5);
-            this.elts.statusCon.className = 'status ' + (isc ? 'completed' : 'pending');
-            this.elts.statusIcon.className = 'icon ' + (isc ? 'check' : 'time');
-            val(this.elts.statusText, isc ? 'Completed' : 'Pending');
+            var status_id = parseInt(data.order_status_id);
+
+            this.elts.statusCon.className = 'status ' + ord_getStatusClass(status_id);
+            this.elts.statusIcon.className = 'icon ' + ord_getStatusIcon(status_id);
+            val(this.elts.statusText, ord_getStatusText(status_id));
 
             val(this.elts.itemsTable, '');
 

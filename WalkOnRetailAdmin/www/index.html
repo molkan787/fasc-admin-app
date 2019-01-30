@@ -776,7 +776,7 @@
                             </div>
                         </div>
                         <div class="field set_timing_sec">
-                            <label>Shipping timing</label>
+                            <label>Regular delivery</label>
                             <div class="ui labeled input">
                                 <label class="ui label">Starting time</label>
                                 <select id="set_timing_from"></select>
@@ -785,9 +785,16 @@
                                 <label class="ui label">Ending time</label>
                                 <select id="set_timing_to"></select>
                             </div>
+                        </div>
+                        <div class="field set_timing_sec">
+                            <label>Fast delivery</label>
                             <div class="ui labeled input">
-                                <label class="ui label">Fast delivery</label>
+                                <label class="ui label">Delivery Time</label>
                                 <select id="set_timing_slot"></select>
+                            </div>
+                            <div class="ui labeled input">
+                                <label class="ui label">Delivery Cost</label>
+                                <input id="set_delcost" type="number"/>
                             </div>
                         </div>
                         <div class="field">
@@ -964,6 +971,7 @@
                 <div class="active item">General</div>
                 <div class="item">Cities</div>
                 <div class="item">GLS</div>
+                <div class="item">Other</div>
             </div>
 
             <div id="mset_tabs">
@@ -1012,6 +1020,29 @@
                         <div class="field">
                             <label>Welcome text</label>
                             <textarea id="mset_welcome_text"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui bottom attached tab segment">
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Time to cancel order</label>
+                            <div class="ui labeled input labeled_select">
+                                <div class="ui label">
+                                    Time
+                                </div>
+                                <select id="mset_cancel_timeout"></select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Order on Phone</label>
+                            <div class="ui labeled input">
+                                <div class="ui label">
+                                    Default number
+                                </div>
+                                <input type="text" id="mset_order_phone" />
+                            </div>
                         </div>
                     </div>
                 </div>

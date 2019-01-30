@@ -220,3 +220,13 @@ body{
     margin-top: 50px;
     margin-left: -30px;
 }
+
+.labeled_select > label {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.labeled_select > select {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}

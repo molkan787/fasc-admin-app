@@ -27,6 +27,9 @@
 .ord_item > div.completed{
     color: limegreen;
 }
+.ord_item > div.canceled {
+    color: red;
+}
 .ord_item > div.total {
     width: 100px;
 }
@@ -56,6 +59,9 @@
 }
 .status.completed{
     color: limegreen;
+}
+.status.canceled {
+    color: red;
 }
 
 #page_order{

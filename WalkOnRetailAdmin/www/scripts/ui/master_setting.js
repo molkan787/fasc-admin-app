@@ -17,7 +17,9 @@ function master_setting_init() {
             lang: get('mset_lang'),
             companyInfo: get('mset_company_info'),
             shareAppText: get('mset_share_app_text'),
-            welcomeText: get('mset_welcome_text')
+            welcomeText: get('mset_welcome_text'),
+            orderPhone: get('mset_order_phone'),
+            cancelTimeout: get('mset_cancel_timeout')
         },
 
         dimc: ui.dimmer.create('master_setting_dimmer'),
@@ -59,6 +61,8 @@ function master_setting_init() {
             var gls = this.data.gls = data.gls;
             val(this.elts.logo, data.logo);
             val(this.elts.lsAd, data.ls_ad);
+            val(this.elts.orderPhone, data.order_phone);
+            val(this.elts.cancelTimeout, data.cancel_timeout);
             val(this.elts.cities, '');
             for (var i = 0; i < data.cities.length; i++) {
                 var city = data.cities[i];
@@ -205,6 +209,8 @@ function master_setting_init() {
                 this.saveAction.do({
                     logo: this.data.logo,
                     ls_ad: this.data.ls_ad,
+                    order_phone: val(this.elts.orderPhone),
+                    cancel_timeout: val(this.elts.cancelTimeout),
                     gls: this.getGls()
                 });
             }
@@ -293,4 +299,11 @@ function master_setting_init() {
     registerPage('master_setting', masterSetting.elt, 'Master Setting', function (param) {
         masterSetting.update(param);
     }, { icon: 'save', handler: function () { masterSetting.save() } });
+
+
+    for (var i = 1; i < 9; i++) {
+        var opt1 = crt_elt('option', masterSetting.elts.cancelTimeout);
+        val(opt1, getTimeTextSS(i));
+        opt1.value = i * 900;
+    }
 }
