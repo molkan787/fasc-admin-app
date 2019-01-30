@@ -138,6 +138,13 @@ function ui_products_init() {
         { icon: 'filter', handler: function () { products.showFilterPopup() } });
 
     dm.registerCallback(function () {
-        setOptions(products.elts.filterCat, dm.cats, true);
+        var cats = [];
+        for (var i = 0; i < dm.cats.length; i++) {
+            var cat = dm.cats[i];
+            if (cat.gtype == '0') {
+                cats.push(cat);
+            }
+        }
+        setOptions(products.elts.filterCat, cats, true);
     });
 }

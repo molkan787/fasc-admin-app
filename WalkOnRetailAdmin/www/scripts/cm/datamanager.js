@@ -29,6 +29,37 @@ function dm_init() {
         dm.callCallbacks();
     };
 
+    dm.updateCat = function (parent, data, gtype) {
+        var items = parseInt(parent) ? this.subcats[parent] : this.cats;
+        var found = false;
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (item.id == data.category_id) {
+                found = true;
+                item.text = data.name[1];
+                break;
+            }
+        }
+        if (!found) {
+            items.push({
+                id: data.category_id,
+                text: data.name[1],
+                gtype: gtype
+            });
+        }
+        dm.callCallbacks();
+    };
+
+    dm.deleteCat = function (parent, cat_id) {
+        var items = parseInt(parent) ? this.subcats[parent] : this.cats;
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].id == cat_id) {
+                items.splice(i, 1);
+            }
+        }
+        dm.callCallbacks();
+    };
+
     dm.asdActionCallback = function (action) {
         if (action.status == 'OK') {
             dm.setAsd(action.data); 

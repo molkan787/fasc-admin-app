@@ -75,6 +75,7 @@ function categories_init() {
         // Callbacks
         deleteActionCallback: function (action) {
             if (action.status == 'OK') {
+                dm.deleteCat(0, action.params.cat_id);
                 uiu.removeElt('cat_panel_' + action.params.cat_id, true);
             } else {
                 msg.show(txt('error_txt1'));

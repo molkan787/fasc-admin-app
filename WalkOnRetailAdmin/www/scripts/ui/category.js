@@ -128,6 +128,7 @@ function category_init() {
         // Callbacks
         loadActionCallback: function (action) {
             if (action.status == 'OK') {
+                dm.updateCat(this.parent, action.data, this.gtype);
                 this.loadCat(action.data);
             } else {
                 msg.show(txt('error_3'));
@@ -160,6 +161,7 @@ function category_init() {
 
         deleteActionCallback: function (action) {
             if (action.status == 'OK') {
+                dm.deleteCat(this.cat_id, action.params.cat_id);
                 uiu.removeElt('cat_panel_' + action.params.cat_id, true);
             } else {
                 msg.show(txt('error_txt1'));
