@@ -19,6 +19,9 @@ function ui_product_init() {
             HSN: get('prt_hsn'),
             Cat: get('prt_cat'),
             Subcat: get('prt_subcat'),
+            ChildSubcat: get('prt_child_subcat'),
+            Brand: get('prt_brand'),
+            SubBrand: get('prt_subbrand'),
             Images: get('prt_images'),
             AddImageBtn: get('prt_add_image_btn')
         },
@@ -89,11 +92,19 @@ function ui_product_init() {
             val(this.elts.DiscountType, data.discount_type);
             val(this.elts.GST, data.gst || '');
             val(this.elts.HSN, data.hsn || '');
-            val(this.elts.Cat, data.cat || '0');
-            val(this.elts.Subcat, data.subcat || '0');
             val(this.elts.Images, '');
             val(this.elts.Title, data.d[1].name || '');
             val(this.elts.Desc, data.d[1].description || '');
+
+            val(this.elts.Cat, data.cat || '0');
+            this.elts.Cat.onchange();
+            val(this.elts.Subcat, data.subcat || '0');
+            this.elts.Subcat.onchange();
+            val(this.elts.ChildSubcat, data.child_subcat || '0');
+
+            val(this.elts.Brand, data.brand || '0');
+            this.elts.Brand.onchange();
+            val(this.elts.SubBrand, data.sub_brand || '0');
 
             this.elts.Images.appendChild(this.elts.AddImageBtn);
             var _this = this;
@@ -147,6 +158,9 @@ function ui_product_init() {
                 hsn: val(this.elts.HSN),
                 cat: val(this.elts.Cat),
                 subcat: val(this.elts.Subcat),
+                child_subcat: val(this.elts.ChildSubcat),
+                brand: val(this.elts.Brand),
+                sub_brand: val(this.elts.SubBrand),
                 image: this.data.prtImage,
                 images_to_keep: this.data.prtOldImages,
                 images_to_add: this.data.prtNewImages
@@ -205,7 +219,11 @@ function ui_product_init() {
         },
 
         catChanged: function () {
-            setOptions(product.elts.Subcat, dm.subcats[val(this)], '---');
+            var subElt = get(attr(this, 'subelt'));
+            setOptions(subElt, dm.subcats[val(this)], '---');
+            if (typeof subElt.onchange == 'function') {
+                subElt.onchange();
+            }
         },
 
         imageAdded: function (imageData) {
@@ -231,11 +249,19 @@ function ui_product_init() {
     // ===============================
 
 
-    product.elts.Cat.onchange = product.catChanged;
+    product.elts.Cat.onchange = product.elts.Subcat.onchange = product.elts.Brand.onchange = product.catChanged;
     product.elts.Lang.onchange = product.langChanged;
 
     dm.registerCallback(function () {
-        setOptions(product.elts.Cat, dm.cats, '---');
+        var cats = [];
+        var brands = [];
+        for (var i = 0; i < dm.cats.length; i++) {
+            var item = dm.cats[i];
+            if (item.gtype == '1') brands.push(item);
+            else cats.push(item);
+        }
+        setOptions(product.elts.Cat, cats, '---');
+        setOptions(product.elts.Brand, brands, '---');
     });
 
     product.imgSlt = imageSelector.init(get('prt_btn_change_img'), get('prt_image'));

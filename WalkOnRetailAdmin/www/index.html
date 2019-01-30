@@ -367,7 +367,7 @@
             <div class="ui top attached tabular menu" for="prt_tabs">
                 <div class="active item">Desciption</div>
                 <div class="item">Data</div>
-
+                <div class="item">Category & Brand</div>
             </div>
             <div id="prt_tabs">
                 <div class="ui bottom attached active tab segment">
@@ -418,18 +418,6 @@
                     <div class="ui form">
 
                         <div class="field">
-                            <label>Category</label>
-                            <select id="prt_cat">
-                                <option value="0"></option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label>Sub category</label>
-                            <select id="prt_subcat">
-                                <option value="0"></option>
-                            </select>
-                        </div>
-                        <div class="field">
                             <label>Price (&#8377;)</label>
                             <input id="prt_price" type="text" placeholder="0.00 &#8377;">
                         </div>
@@ -474,6 +462,43 @@
                             <label>HSN</label>
                             <input id="prt_hsn" type="text" placeholder="HSN">
                         </div>
+                    </div>
+                </div>
+
+                <div class="ui bottom attached tab segment">
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Category</label>
+                            <select id="prt_cat" subelt="prt_subcat">
+                                <option value="0"></option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Sub category</label>
+                            <select id="prt_subcat" subelt="prt_child_subcat">
+                                <option value="0"></option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Child Sub category</label>
+                            <select id="prt_child_subcat">
+                                <option value="0"></option>
+                            </select>
+                        </div>
+                        <hr /> <!------------------------->
+                        <div class="field">
+                            <label>Brand</label>
+                            <select id="prt_brand" subelt="prt_subbrand">
+                                <option value="0"></option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Sub Brand</label>
+                            <select id="prt_subbrand">
+                                <option value="0"></option>
+                            </select>
+                        </div>
+
                     </div>
                 </div>
             </div>
