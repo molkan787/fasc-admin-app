@@ -47,6 +47,8 @@
     padding: 1vw;
     border-radius: 5px;
     text-align: center;
+    width: 326px;
+    margin: auto;
 }
 .promo_item {
     display: inline-block;
@@ -54,7 +56,7 @@
     border: 1px solid #ccc;
     height: 128px;
     margin-bottom: 5px;
-    margin-right: 6px;
+    margin-right: 5px;
     box-shadow: 1px 2px 4px #ddd;
     margin-left: 0px;
     text-align: right;

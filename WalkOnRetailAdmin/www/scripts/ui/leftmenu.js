@@ -53,7 +53,7 @@ function leftmenu_init() {
         },
 
         setAvPages: function (userData) {
-            navigate('promos', 'new'); return;
+            //navigate('promos', 'new'); return;
             if (parseInt(userData.fullaccess) == 1) {
                 navigate('stores');
                 return;

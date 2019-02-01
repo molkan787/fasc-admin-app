@@ -1,4 +1,4 @@
 ﻿
 function do_tests() {
-    dm.storeId = 1;
+    //dm.storeId = 1;
 }
