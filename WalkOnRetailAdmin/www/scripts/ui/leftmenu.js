@@ -53,6 +53,7 @@ function leftmenu_init() {
         },
 
         setAvPages: function (userData) {
+            navigate('promos', 'new'); return;
             if (parseInt(userData.fullaccess) == 1) {
                 navigate('stores');
                 return;
@@ -80,9 +81,7 @@ function leftmenu_init() {
                 get('lm_sep_2').style.display = 'none';
             }
 
-            //navigate(navPerUser[userData.user_type]);
-            log('TODO: Default Page per User');
-            navigate('master_setting');
+            navigate(navPerUser[userData.user_type]);
         }
     };
 

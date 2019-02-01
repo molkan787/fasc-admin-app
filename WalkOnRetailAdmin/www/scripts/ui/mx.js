@@ -214,6 +214,13 @@ function mx_init() {
 
             reset: function () {
                 this.changed = false;
+                //uiu.removeElt(this.inpElt);
+                this.inpElt = crt_elt('input', ui.voidContainer);
+                attr(this.inpElt, 'type', 'file');
+                var _this = this;
+                this.inpElt.onchange = function () {
+                    _this.update();
+                };
             }
         };
 

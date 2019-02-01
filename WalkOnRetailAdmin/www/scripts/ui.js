@@ -35,6 +35,8 @@ function ui_init() {
     home_init();
     account_init();
     ls_init();
+    promos_init();
+    promo_init();
 
     ui_popup_init();
     dialogs_init();

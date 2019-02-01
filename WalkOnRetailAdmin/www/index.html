@@ -18,12 +18,14 @@
     <link rel="stylesheet" type="text/css" href="css/users.css">
     <link rel="stylesheet" type="text/css" href="css/pos.css">
     <link rel="stylesheet" type="text/css" href="css/home.css">
+    <link rel="stylesheet" type="text/css" href="css/promos.css">
     <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
     <script type="text/javascript" src="scripts/utils.js"></script>
     <script type="text/javascript" src="scripts/anime.min.js"></script>
+    <script type="text/javascript" src="scripts/Sortable.min.js"></script>
 
     <script type="text/javascript" src="scripts/langs/en.js"></script>
 
@@ -56,6 +58,8 @@
     <script type="text/javascript" src="scripts/ui/pos.js"></script>
     <script type="text/javascript" src="scripts/ui/dialogs.js"></script>
     <script type="text/javascript" src="scripts/ui/account.js"></script>
+    <script type="text/javascript" src="scripts/ui/promos.js"></script>
+    <script type="text/javascript" src="scripts/ui/promo.js"></script>
     <script type="text/javascript" src="scripts/ui/ls.js"></script>
     <script type="text/javascript" src="scripts/ui/popup.js"></script>
     <script type="text/javascript" src="scripts/ui/uiu.js"></script>
@@ -118,6 +122,9 @@
                 </a>
                 <a class="item" action="banners" rss="1">
                     <i class="newspaper icon"></i> Banners
+                </a>
+                <a class="item" action="promos" rss="1">
+                    <i class="newspaper icon"></i> Branding and Promotion
                 </a>
                 <a class="item" action="users" param="normal">
                     <i class="users icon"></i> Users
@@ -794,14 +801,14 @@
                             </div>
                             <div class="ui labeled input">
                                 <label class="ui label">Delivery Cost</label>
-                                <input id="set_delcost" type="number"/>
+                                <input id="set_delcost" type="number" />
                             </div>
                         </div>
                         <div class="field">
                             <label>Order on phone</label>
                             <div class="ui labeled input">
                                 <label class="ui label">Phone</label>
-                                <input type="text" id="set_order_phone" placeholder="7007007000"/>
+                                <input type="text" id="set_order_phone" placeholder="7007007000" />
                             </div>
                         </div>
                     </div>
@@ -1072,9 +1079,7 @@
         </div>
 
         <div id="page_account" class="page ui segment">
-            <h4 class="header" id="acc_fullname">
-                
-            </h4>
+            <h4 class="header" id="acc_fullname"></h4>
             <div class="ui segments nomargin_o">
                 <div class="ui segment">
                     <div class="ui form">
@@ -1100,7 +1105,43 @@
                     </div>
                 </div>
             </div>
-            
+
+        </div>
+
+        <div id="page_promos" class="page ui segment">
+            <h4>Drag &amp; Drop to Reorder
+                <button id="promos_add_btn" class="ui label" style="float: right">
+                    <i class="plus icon"></i>Add
+                </button>
+            </h4>
+            <div id="promos_items"></div>
+        </div>
+
+        <div id="page_promo" class="page ui segment" rbb="1">
+            <div class="ui form">
+                <div class="field">
+                    <label>Format</label>
+                    <select id="promo_format">
+                        <option value="1">Full width</option>
+                        <option value="2">Half width</option>
+                        <option value="3">1/3 of width</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Image</label>
+                    <div id="promo_img_con" class="promo_format1">
+                        <img id="promo_img" src="" />
+                        <span></span>
+                        <span class="third"></span>
+                    </div>
+                    <button id="promo_img_btn" class="ui button" style="margin: 10px;">Change image</button>
+                </div>
+                <hr />
+                <div class="field">
+                    <label>Link</label>
+                    <textarea id="promo_link" placeholder="Seperate products IDs by ',' ex: 47,57,32"></textarea>
+                </div>
+            </div>
         </div>
 
     </div>
