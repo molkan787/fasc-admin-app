@@ -12,7 +12,9 @@ function setting_init() {
             timingTo: get('set_timing_to'),
             timingSlot: get('set_timing_slot'),
             orderPhone: get('set_order_phone'),
-            delCost: get('set_delcost')
+            delCost: get('set_delcost'),
+            razorKey: get('set_razor_key'),
+            razorSecret: get('set_razor_secret')
         },
 
         dimc: ui.dimmer.create('setting_dimmer'),
@@ -39,6 +41,8 @@ function setting_init() {
             val(this.elts.address, data.info.address || '');
             val(this.elts.orderPhone, data.info.order_phone || '');
             val(this.elts.delCost, data.fast_del_cost || '0');
+            val(this.elts.razorKey, data.razor_key || '');
+            val(this.elts.razorSecret, '');
         },
 
         save: function () {
@@ -52,7 +56,9 @@ function setting_init() {
                 email: val(this.elts.email),
                 address: val(this.elts.address),
                 order_phone: val(this.elts.orderPhone),
-                fast_del_cost: val(this.elts.delCost)
+                fast_del_cost: val(this.elts.delCost),
+                razor_key: val(this.elts.razorKey),
+                razor_secret: val(this.elts.razorSecret)
             };
             this.dimc.show('Saving');
             this.saveAction.do(data);
@@ -69,6 +75,7 @@ function setting_init() {
         },
         saveActionCallback: function (action) {
             if (action.status == 'OK') {
+                val(this.elts.razorSecret, '');
                 msg.show(txt('msg_1'));
             } else {
                 msg.show(txt('error_2'));

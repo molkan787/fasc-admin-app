@@ -19,6 +19,8 @@
         cm_init();
         ui_init();
         do_tests();
+
+        document.addEventListener("backbutton", ui_device_backBtn_click, false);
     };
 
     //window.onerror = function (msg, url, lineNo, columnNo, error) {

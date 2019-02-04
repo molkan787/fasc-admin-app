@@ -1,7 +1,7 @@
-﻿//window.log = function (log_content) {
-//    console.log(log_content);
-//};
-window.log = console.log;
+﻿window.log = function (log_content) {
+    console.log(log_content);
+};
+//window.log = console.log;
 function crt_elt(tagname, parent, id) {
     var elt = document.createElement(tagname);
     if (parent) {

@@ -19,7 +19,11 @@ function ui_order_init() {
             optionsPopup: get('order_popup'),
             btnCompleted: get('ord_btn_com'),
             btnPending: get('ord_btn_pen'),
-            btnDelete: get('ord_btn_del')
+            btnDelete: get('ord_btn_del'),
+
+            paidStatus: get('paid_status'),
+            paidIcon: get('paid_icon'),
+            paidText: get('paid_text')
         },
 
         loadAction: null,
@@ -53,6 +57,11 @@ function ui_order_init() {
             val(this.elts.delTiming, data.del_timing);
             val(this.elts.delAddr, data.shipping_address_1 || '---' + ', ' + data.shipping_city);
             val(this.elts.orderDate, data.date_added);
+
+            var paid = data.paid;
+            this.elts.paidStatus.className = 'paid_status ' + (paid ? 'paid' : 'not_paid');
+            this.elts.paidIcon.className = 'icon ' + (paid ? 'check circle' : 'circle outline');
+            val(this.elts.paidText, paid ? 'Paid' : 'Not Paid');
 
             var status_id = parseInt(data.order_status_id);
 

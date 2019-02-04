@@ -152,3 +152,7 @@ function confirmLogout() {
         }
     });
 }
+
+function ui_device_backBtn_click() {
+    goBack();
+}

@@ -137,3 +137,13 @@
     margin-left: -35vw;
     margin-top: -125px;
 }
+
+.paid_status{
+    font-size: 16px;
+}
+.paid_status.paid{
+    color: limegreen;
+}
+.paid_status.not_paid{
+    color: grey;
+}

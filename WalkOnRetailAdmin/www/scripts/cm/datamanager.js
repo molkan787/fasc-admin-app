@@ -3,7 +3,7 @@
 function dm_init() {
     dm_oca_init();
     cm.dm = dm;
-    dm.storeId = 0;
+    dm.storeId = 1;
     dm.apiToken = window.localStorage.getItem('api_token');
     dm.callbacks = [];
 

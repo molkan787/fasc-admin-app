@@ -53,24 +53,23 @@ function leftmenu_init() {
         },
 
         setAvPages: function (userData) {
-            //navigate('promos', 'new'); return;
-            if (parseInt(userData.fullaccess) == 1) {
-                navigate('stores');
-                return;
-            }
+            //navigate('setting', 'new'); return;
             var ai = userData.ai;
             var items = get_bt('a', get('lm_items'));
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
                 var act = attr(item, 'action');
+                if (act == 'promos') act = 'banners';
                 var aii = ai[act];
                 if (typeof aii != 'undefined' && parseInt(aii) == 0) {
                     item.style.display = 'none';
+                } else {
+                    item.style.display = 'block';
                 }
             }
             if (parseInt(userData.user_type) == 1) {
-                get('lm_item_ms').style.display = 'unset';
-                get('lm_item_mu').style.display = 'unset';
+                get('lm_item_ms').style.display = 'block';
+                get('lm_item_mu').style.display = 'block';
             } else {
                 get('lm_item_ms').style.display = 'none';
                 get('lm_item_mu').style.display = 'none';
@@ -79,8 +78,15 @@ function leftmenu_init() {
             if (parseInt(userData.user_type) > 10) {
                 get('lm_sep_1').style.display = 'none';
                 get('lm_sep_2').style.display = 'none';
+            } else {
+                get('lm_sep_1').style.display = 'inline-block';
+                get('lm_sep_2').style.display = 'inline-block';
             }
 
+            if (parseInt(userData.fullaccess) == 1) {
+                navigate('stores');
+                return;
+            }
             navigate(navPerUser[userData.user_type]);
         }
     };

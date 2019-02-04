@@ -565,6 +565,7 @@
                     <div class="ui segment">
                         <span>Order total:</span>
                         <h4 class="total"> <i class="rupee sign icon"></i> <span id="ord_total"></span> </h4>
+                        <h4 id="paid_status"> <i id="paid_icon"></i> <span id="paid_text"></span> </h4>
                     </div>
                     <div class="ui segment">
                         <span>Status:</span>
@@ -767,7 +768,7 @@
             <div class="ui top attached tabular menu" for="set_tabs">
                 <div class="active item">Store</div>
                 <div class="item">Contact</div>
-
+                <div class="item">Payment</div>
             </div>
 
             <div id="set_tabs">
@@ -840,6 +841,22 @@
                             <textarea id="set_address"></textarea>
                         </div>
                     </form>
+                </div>
+
+                <div class="ui bottom attached tab segment">
+                    <div class="ui form">
+                        <div class="field set_contact_field">
+                            <label>RazorPay</label>
+                            <div class="ui labeled input">
+                                <label class="ui label">Key</label>
+                                <input type="text" id="set_razor_key" placeholder="RazorPya Key" />
+                            </div>
+                            <div class="ui labeled input">
+                                <label class="ui label">Secret</label>
+                                <input type="text" id="set_razor_secret" placeholder="(Leave empty to not make changes)" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
