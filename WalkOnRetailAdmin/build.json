@@ -1,11 +1,11 @@
 {
      "android": {
-         "release": {
-             "keystore": "",
-             "storePassword": "",
-             "alias": "",
-             "password" : "",
-             "keystoreType": ""
-         }
+      "release": {
+        "keystore": "G:\\Certificates\\Fasc\\wor_admin.keystore",
+        "storePassword": "IZsDyVZwiU80VC1z4KQW",
+        "alias": "WOR_Admin",
+        "password": "IZsDyVZwiU80VC1z4KQW",
+        "keystoreType": ""
+      }
      }
  }

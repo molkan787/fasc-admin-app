@@ -14,19 +14,27 @@ function home_init() {
             verifiedCustomers: get('stats_verified_customers'),
             notVerifiedCustomers: get('stats_notverified_customers'),
             popup: get('home_popup'),
-            popupRange: get('home_pp_range'),
+            popupFrom: get('home_pp_from'),
+            popupTo: get('home_pp_to'),
             popupSubmit: get('home_pp_submit')
         },
 
         loadAction: null,
 
-        days: 10,
+        dateFrom: '',
+        dateTo: '',
 
         dimmer: ui.dimmer.create('page_home', true),
 
         update: function () {
             this.dimmer.show();
-            this.loadAction.do(null, 'report/general&days=' + this.days);
+
+            var d = new Date();
+            if (this.dateTo.length < 1) this.dateTo = dateToString(d);
+            d.setDate(d.getDate() - 6);
+            if (this.dateFrom.length < 1) this.dateFrom = dateToString(d);
+
+            this.loadAction.do({ from: this.dateFrom, to: this.dateTo });
         },
 
         loadData: function (data) {
@@ -38,7 +46,7 @@ function home_init() {
             val(this.elts.completedOrders, data.orders.completed);
             val(this.elts.pendingOrders, data.orders.pending);
 
-            val(this.elts.totalCustomers, data.customers.total);
+            val(this.elts.totalCustomers, data.customers.verified);
             val(this.elts.verifiedCustomers, data.customers.verified);
             val(this.elts.notVerifiedCustomers, data.customers.not_verified);
 
@@ -79,7 +87,8 @@ function home_init() {
         },
 
         showPopup: function () {
-            val(this.elts.popupRange, this.days);
+            val(this.elts.popupFrom, this.dateFrom);
+            val(this.elts.popupTo, this.dateTo);
             ui.popup.show(this.elts.popup);
         },
 
@@ -96,19 +105,25 @@ function home_init() {
         // Handlers
         submitBtnClick: function () {
             ui.popup.hide();
-            home.days = val(home.elts.popupRange);
+            home.dateFrom = val(home.elts.popupFrom);
+            home.dateTo= val(home.elts.popupTo);
             home.update();
         }
 
     };
 
-    home.loadAction = fetchAction.create('', function (action) { home.loadActionCallback(action) });
+    home.loadAction = fetchAction.create('report/general', function (action) { home.loadActionCallback(action) });
 
     home.elts.popupSubmit.onclick = home.submitBtnClick;
 
     registerPage('dashboard', home.elt, 'Dashboard', function () {
         home.update();
     }, null, { icon: 'calendar', handler: function () { home.showPopup() } });
+
+    var d = new Date();
+    attr(home.elts.popupTo, 'min', dateToString(d));
+    d.setDate(d.getDate() - 3);
+    attr(home.elts.popupFrom, 'max', dateToString(d));
 }
 
 function initChart(elt, labels, series) {
@@ -116,5 +131,5 @@ function initChart(elt, labels, series) {
         labels: labels,
         series: series
     };
-    new Chartist.Line('#' + elt, data, {width: '100%', height: '300px'});
+    new Chartist.Bar('#' + elt, data, { width: '100%', height: '300px', seriesBarDistance: 10});
 }

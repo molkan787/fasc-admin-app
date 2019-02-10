@@ -8,6 +8,9 @@ function pos_init() {
             cItems: get('pos_c_items'),
             aItems: get('pos_a_items'),
             total: get('pos_total'),
+            other: get('pos_other'),
+            tax: get('pos_tax'),
+            subTotal: get('pos_subtotal'),
             search: get('pos_search'),
             clearBtn: get('pos_btn_clear'),
             submitBtn: get('pos_btn_submit'),
@@ -20,6 +23,7 @@ function pos_init() {
         products_arr: null,
 
         total: 0,
+        _total: 0,
 
         cart: {},
 
@@ -30,7 +34,7 @@ function pos_init() {
 
         submit: function () {
             var prts = [];
-
+            var other_val = parseFloat(val(this.elts.other));
             for (var pid in this.cart) {
                 if (this.cart.hasOwnProperty(pid) && this.cart[pid] > 0) {
                     var pd = this.products[pid];
@@ -43,12 +47,12 @@ function pos_init() {
                     prts.push(p);
                 }
             }
-
+            if (prts.length < 1) return;
             var _this = this;
             msg.confirm(txt('pos_confirm', fasc.formatPrice(this.total, true) + ' INR'), function (answer) {
                 if (answer == 'yes') {
                     _this.dimmer.show('Submiting');
-                    _this.submitAction.do({ products: JSON.stringify({ items: prts }) });
+                    _this.submitAction.do({ products: JSON.stringify({ items: prts }), other_val: other_val });
                 }
             });
         },
@@ -77,6 +81,7 @@ function pos_init() {
         clearCart: function () {
             this.cart = {};
             this.elts.cItems.innerHTML = '';
+            val(this.elts.other, '0');
             this.updateTotal();
         },
 
@@ -98,14 +103,35 @@ function pos_init() {
 
         updateTotal: function () {
             var total = 0;
+            var subtotal = 0;
+            var total_tax = 0;
             for (var pid in this.cart) {
                 if (this.cart.hasOwnProperty(pid) && this.cart[pid] > 0) {
-                    var price = this.products[pid].price;
-                    total += this.cart[pid] * price;
+                    var p = this.products[pid];
+                    var price = p.price;
+                    var ltotal = this.cart[pid] * price;
+                    total += ltotal;
+                    var tax = ltotal * (p.tax / 100);
+                    total_tax += tax;
+                    subtotal += (ltotal - tax);
                 }
             }
-            this.total = total;
-            val(this.elts.total, fasc.formatPrice(total, true));
+            var other_val = parseFloat(val(this.elts.other));
+
+            this._total = total;
+            this.total = total + other_val;
+
+            val(this.elts.tax, fasc.formatPrice(total_tax, true));
+            val(this.elts.subTotal, fasc.formatPrice(subtotal, true));
+            val(this.elts.total, fasc.formatPrice(this.total, true));
+        },
+
+        _updateTotal: function () {
+            var other_val = parseFloat(val(this.elts.other));
+            this.total = this._total + other_val;
+
+            val(this.elts.other, fasc.formatPrice(other_val, true));
+            val(this.elts.total, fasc.formatPrice(this.total, true));
         },
 
         search: function (text, onlyBarcode) {
@@ -113,7 +139,7 @@ function pos_init() {
             var arr = this.products_arr;
             var l = arr.length;
             var ai = [];
-            if (text.length < 3) {
+            if (text.length < 2) {
                 if (l > 40) l = 40;
                 for (var i = 0; i < l; i++) {
                     ai.push(arr[i]);
@@ -131,7 +157,7 @@ function pos_init() {
                     }
                     return;
                 } else if(!onlyBarcode) {
-                    if (p.name.toLowerCase().indexOf(text) != -1) {
+                    if (p.name.toLowerCase().indexOf(text) != -1 || p.id == text) {
                         ai.push(p);
                         if (ai.length >= 40) {
                             break;
@@ -233,6 +259,9 @@ function pos_init() {
         loadDataBtnClick: function () {
             pos.dimmer.show('Loading data');
             pos.loadAction.do();
+        },
+        otherValueChanged: function () {
+            pos._updateTotal();
         }
     };
 
@@ -240,6 +269,7 @@ function pos_init() {
     pos.elts.search.onkeyup = pos.searchBoxChanged;
     pos.elts.loadDataBtn.onclick = pos.loadDataBtnClick;
     pos.elts.submitBtn.onclick = pos.submitBtnClick;
+    pos.elts.other.onchange = pos.otherValueChanged;
 
     pos.loadAction = fetchAction.create('pos/listProducts', function (action) { pos.loadActionCallback(action) });
     pos.submitAction = fetchAction.create('pos/addOrder', function (action) { pos.submitActionCallback(action) });

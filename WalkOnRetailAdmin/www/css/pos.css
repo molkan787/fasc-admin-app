@@ -24,9 +24,9 @@
     border-top: none !important;
     border-left: 1px solid #aaa;
 }
-#pos_sec1{
+#pos_sec1 {
     padding-top: 32px;
-    padding-bottom: 50px;
+    padding-bottom: 134px;
 }
 #pos_sec1 > div.y_scroll {
     overflow-y: scroll;
@@ -42,10 +42,30 @@
     height: 100%;
 }
 #pos_sec1 > div.third {
-    height: 50px;
+    height: 134px;
     padding: 7px;
     background-color: white;
     border-top: 1px solid #ccc;
+}
+.pos_totals > button{
+    float: left;
+}
+.pos_totals > div {
+    margin: 0 5px 5px 0;
+    float: left;
+    height: 36px;
+}
+.pos_totals > div > label {
+    width: 60px;
+}
+.pos_totals > div > label > span {
+    display: inline-block;
+    margin-top: -5px;
+    margin-bottom: 0;
+    font-size: 12px;
+}
+.pos_totals > div > input{
+    width: 100px;
 }
 #pos_sec1 > div > table {
     width: 100%;

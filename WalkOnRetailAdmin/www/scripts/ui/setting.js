@@ -112,6 +112,7 @@ function setting_init() {
 }
 
 function getTimeTextSS(i) {
+    if (i == 0) return '0 Minutes';
     var str = '';
     var mi = i % 4;
     var hours = (i - mi) / 4;

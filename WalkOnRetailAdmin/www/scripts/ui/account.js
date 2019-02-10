@@ -64,6 +64,11 @@ function account_init() {
         // Handlers
         pwdBtnClick: function () {
             account.changePwd();
+        },
+
+        // -------------
+        hasWriteAccess: function (ai) {
+            return this.data.ai[ai] == '2';
         }
     };
 

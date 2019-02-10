@@ -203,16 +203,21 @@ body{
     padding: 20px;
     background-color: #f9f9f9;
 }
-#loading_screen > img{
-    width: 100%;
-    margin-top: 45%;
+#loading_screen > div {
+    height: 300px;
+    position: relative;
+    top: 50%;
+    margin-top: -150px;
 }
-#loading_screen > h3{
+#loading_screen > div > img{
+    width: 100%;
+}
+#loading_screen > div > h3{
     text-align: center;
     color: #555;
     margin: 0 0 10px 0;
 }
-#loading_screen > img.spinner{
+#loading_screen> div > img.spinner{
     position: relative;
     width: 60px;
     height: 60px;

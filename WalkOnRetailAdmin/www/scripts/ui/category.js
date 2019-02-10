@@ -25,6 +25,16 @@ function category_init() {
 
         imgSlt: null,
 
+        getChildsOrder: function () {
+            var ids = [];
+            var elts = this.elts.subs.children;
+            if (elts.length < 1) return;
+            for (var i = 0; i < elts.length; i++) {
+                ids.push(attr(elts[i], 'cat_id'));
+            }
+            return ids.join(',');
+        },
+
         // Methods
         update: function (params) {
             this.parent = params.parent;
@@ -65,10 +75,8 @@ function category_init() {
                 val(this.elts.img, data.image);
                 val(this.elts.name1, data.name[1]);
                 val(this.elts.name2, data.name[2]);
-                for (var sub in data.subs) {
-                    if (data.subs.hasOwnProperty(sub)) {
-                        this.createPanel(data.subs[sub]);
-                    }
+                for (var i = 0; i < data.subs.length; i++) {
+                    this.createPanel(data.subs[i]);
                 }
             }
         },
@@ -81,7 +89,8 @@ function category_init() {
                 parent: this.parent,
                 cat_id: this.currentCat,
                 name1: name1,
-                name2: name2
+                name2: name2,
+                childs_order: this.getChildsOrder()
             };
 
         },
@@ -190,11 +199,16 @@ function category_init() {
             var h3 = crt_elt('h3', div);
             var btn = crt_elt('label', div);
             var icon = crt_elt('i', btn);
+            var btn2 = crt_elt('label', div);
+            var icon2 = crt_elt('i', btn2);
             
-            val(h3, data['1']);
+            val(h3, data.name);
             div.className = 'cats_item';
             btn.className = 'ui label';
             icon.className = 'delete icon';
+
+            btn2.className = 'ui label handle';
+            icon2.className = 'sort icon';
 
             btn.onclick = this.deleteBtnClick;
 
@@ -242,6 +256,8 @@ function category_init() {
     category.imgSlt = imageSelector.init(category.elts.imgBtn, category.elts.img);
 
     category.elts.add.onclick = category.addButtonClick;
+
+    Sortable.create(category.elts.subs, { handle: '.handle' });
 
     registerPage('category', category.elt, function (params) {
         var gname = cat_get_Item_name(params.gtype, params.deepLevel);

@@ -26,6 +26,7 @@ function stores_init() {
 
         storesData: {},
         citiesData: {},
+        cityStores: null,
         currentStore: null,
 
         loadAction: null,
@@ -109,6 +110,7 @@ function stores_init() {
 
         createPanel: function (data) {
             this.storesData[data.store_id] = data;
+            var isActive = data.store_id == dm.storeId;
             var div = crt_elt('div');
             var btn = crt_elt('label', div);
             var icon = crt_elt('i', btn);
@@ -119,20 +121,24 @@ function stores_init() {
             var span_1 = crt_elt('span', h4_1);
             var span_4 = crt_elt('label', h4_2);
             var span_3 = crt_elt('span', h4_2);
+            if (isActive) {
+                this.addActiveStoreSign(h4_2);
+            }
 
             var regionName = this.getCityName(data.region_id, data.city_id);
-            if (regionName != '---') {
-                var h4_4 = crt_elt('h4', div);
-                val(h4_4, '<i class="map marker alternate icon"></i>' + regionName);
-                var span_6 = crt_elt('span', h4_4);
+            var isRegionStore = (regionName != '---');
+            if (isRegionStore) {
+                val(h4_3, '<i class="map marker alternate icon"></i>' + regionName);
+                var span_6 = crt_elt('span', h4_3);
                 val(span_6, ' (Region)');
             } else {
-                div.className = 'smaller';
+                val(h4_3, '<i class="map marker alternate icon"></i>' + this.getCityName(data.city_id));
+                var span_5 = crt_elt('span', h4_3);
+                val(span_5, ' (City)');
             }
-            val(h4_3, '<i class="map marker alternate icon"></i>' + this.getCityName(data.city_id));
-            var span_5 = crt_elt('span', h4_3);
-            val(span_5, ' (City)');
+            
 
+            div.className = 'store_item';
             btn.className = 'ui label';
             icon.className = 'setting icon';
             var t_txt = crt_elt('span', btn);
@@ -149,10 +155,34 @@ function stores_init() {
 
             btn.onclick = this.optionsBtnClick;
 
-            this.elts.list.appendChild(div);
+            if (isRegionStore) {
+                if (this.cityStores[data.city_id]) {
+                    this.cityStores[data.city_id].appendChild(div);
+                } else {
+                    this.elts.list.appendChild(div);
+                }
+            } else {
+                if (!this.cityStores[data.city_id]) {
+                    this.cityStores[data.city_id] = div;
+                }
+                this.elts.list.appendChild(div);
+            }
+        },
+
+        addActiveStoreSign: function (parent) {
+            var activeLabel = get('active_store_label');
+            if (activeLabel) {
+                parent.appendChild(activeLabel);
+            } else {
+                activeLabel = crt_elt('label', parent);
+            }
+            activeLabel.className = 'active_label';
+            val(activeLabel, '(Active)');
+            activeLabel.id = 'active_store_label';
         },
 
         loadData: function (data) {
+            this.cityStores = {};
             var stores = data.stores;
             var cities = data.cities;
             for (var i = 0; i < cities.length; i++) {
@@ -187,6 +217,7 @@ function stores_init() {
         showAddForm: function () {
             val(this.elts.addName, '');
             val(this.elts.addCity, '');
+            val(this.elts.addOwner, '');
             this.elts.addRegion.innerHTML = '';
             ui.popup.show(this.elts.addPopup);
         },
@@ -225,6 +256,8 @@ function stores_init() {
         },
 
         storeChangedCallback: function (action) {
+            var parent_pan = get('stores_pan_' + dm.storeId);
+            if (parent_pan) stores.addActiveStoreSign(get_bt('h4', parent_pan)[1]);
             stores.dimcOptionsPopup.hide();
             ui.popup.hide();
         },

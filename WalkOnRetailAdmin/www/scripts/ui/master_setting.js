@@ -301,7 +301,7 @@ function master_setting_init() {
     }, { icon: 'save', handler: function () { masterSetting.save() } });
 
 
-    for (var i = 1; i < 9; i++) {
+    for (var i = 0; i < 9; i++) {
         var opt1 = crt_elt('option', masterSetting.elts.cancelTimeout);
         val(opt1, getTimeTextSS(i));
         opt1.value = i * 900;

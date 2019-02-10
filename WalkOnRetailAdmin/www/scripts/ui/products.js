@@ -5,15 +5,21 @@ function ui_products_init() {
         elt: get('page_products'),
         elts: {
             prtsList: get('prts_list'),
+            saveBtn: get('prts_save_btn'),
             filterCat: get('prts_filter_cat'),
             filterSubcat: get('prts_filter_subcat'),
             filterSubmit: get('prts_filters_submit'),
             filterStock: get('prts_filter_stock'),
             filterName: get('prts_filter_name'),
+            filterDiscount: get('prts_filter_discount'),
             filterPopup: get('prts_popup')
         },
         loadAction: null,
         deleteAction: null,
+        saveAction: null,
+
+        currentPage: 0,
+
 
         filters: [],
 
@@ -31,8 +37,10 @@ function ui_products_init() {
             crt_elt('br', div);
             var btn1 = crt_elt('button', div);
             var btn2 = crt_elt('button', div);
+            var btn3 = crt_elt('button', div);
             var i1 = crt_elt('i', btn1);
             var i2 = crt_elt('i', btn2);
+            var i3 = crt_elt('i', btn3);
             var t1 = crt_elt('span', btn1);
             var t2 = crt_elt('span', btn2);
 
@@ -43,8 +51,10 @@ function ui_products_init() {
             var span_class = 'stock ' + (data.quantity == 0 ? 'none' : (data.quantity < 5 ? 'low' : ''));
             span.className = span_class;
             btn1.className = btn2.className = 'ui button';
+            btn3.className = 'ui button handle';
             i1.className = 'edit icon';
             i2.className = 'delete icon';
+            i3.className = 'sort icon nomargin_o';
             val(t1, 'Edit');
             val(t2, 'Delete');
 
@@ -57,6 +67,7 @@ function ui_products_init() {
             btn2.onclick = products.deleteButtonClick;
 
             div.id = 'prt_panel_' + data.product_id;
+            attr(div, 'pid', data.product_id);
 
             return div;
         },
@@ -79,6 +90,7 @@ function ui_products_init() {
             this.fc.setFilter({ name: 'subcat', value: val(this.elts.filterSubcat), text: getSelectedText(this.elts.filterSubcat) });
             this.fc.setFilter({ name: 'stock', value: val(this.elts.filterStock), text: getSelectedText(this.elts.filterStock) });
             this.fc.setFilter({ name: 'name', value: val(this.elts.filterName), text: 'Name: ' + val(this.elts.filterName) });
+            this.fc.setFilter({ name: 'discount', value: val(this.elts.filterDiscount), text: getSelectedText(this.elts.filterDiscount) });
             this.fc.unlock(true);
         },
 
@@ -87,7 +99,20 @@ function ui_products_init() {
             val(this.elts.filterSubcat, this.fc.getValue('subcat'));
             val(this.elts.filterStock, this.fc.getValue('stock'));
             val(this.elts.filterName, this.fc.getValue('name'));
+            val(this.elts.filterDiscount, this.fc.getValue('discount'));
             ui.popup.show(this.elts.filterPopup);
+        },
+
+        saveOrder: function () {
+            var ids = [];
+            var elts = this.elts.prtsList.children;
+            if (elts.length < 1) return;
+            for (var i = 0; i < elts.length; i++) {
+                ids.push(attr(elts[i], 'pid'));
+            }
+            ids = ids.join(',');
+            this.dimc.show();
+            this.saveAction.do({ ids: ids });
         },
 
         // Handlers
@@ -102,6 +127,12 @@ function ui_products_init() {
                 uiu.removeElt('prt_panel_' + action.params.product_id, true);
             } else {
                 msg.show(txt('error_txt1'));
+            }
+            products.dimc.hide();
+        },
+        saveActionCallback: function (action) {
+            if (action.status != 'OK') {
+                msg.show(txt('error_2'));
             }
             products.dimc.hide();
         },
@@ -121,16 +152,21 @@ function ui_products_init() {
         filterSubmitClick: function () {
             ui.popup.hide();
             products.updateFilters();
+        },
+        saveBtnClick: function () {
+            products.saveOrder();
         }
     };
 
     products.elts.filterCat.onchange = products.filterCatChanged;
     products.elts.filterSubmit.onclick = products.filterSubmitClick;
+    products.elts.saveBtn.onclick = products.saveBtnClick;
 
     products.fc = filtersController.create('prts_filters', function () { products.update() }, products.filters);
 
     products.loadAction = fetchAction.create('product/list', products.loadActionCallback);
     products.deleteAction = fetchAction.create('product/delete', products.deleteActionCallback);
+    products.saveAction = fetchAction.create('product/sort_order', products.saveActionCallback);
 
     registerPage('products', products.elt, 'Products', function () {
         products.update();
@@ -147,4 +183,6 @@ function ui_products_init() {
         }
         setOptions(products.elts.filterCat, cats, true);
     });
+
+    Sortable.create(products.elts.prtsList, { handle: '.handle' });
 }

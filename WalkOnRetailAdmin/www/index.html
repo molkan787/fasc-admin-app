@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="css/promos.css">
     <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 
-    <!--<script type="text/javascript" src="cordova.js"></script>-->
+    <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
     <script type="text/javascript" src="scripts/utils.js"></script>
     <script type="text/javascript" src="scripts/anime.min.js"></script>
@@ -31,6 +31,7 @@
 
     <script type="text/javascript" src="scripts/cm/datamanager.js"></script>
     <script type="text/javascript" src="scripts/cm/dds/oca.js"></script>
+    <script type="text/javascript" src="scripts/cm/rtdc.js"></script>
     <script type="text/javascript" src="scripts/cm.js"></script>
 
     <script type="text/javascript" src="scripts/sl.js"></script>
@@ -67,7 +68,8 @@
     <script type="text/javascript" src="scripts/tests.js"></script>
     <script type="text/javascript" src="scripts/index.js"></script>
     <script type="text/javascript" src="scripts/chartist.min.js"></script>
-    <title>WalkOnRetailAdmin</title>
+    <script type="text/javascript" src="scripts/quo.js"></script>
+    <title>WOR Admin</title>
 </head>
 <body>
 
@@ -107,6 +109,7 @@
                 </a>
                 <a class="item" action="orders" rss="1">
                     <i class="cart icon"></i> Orders
+                    <label id="lm_order_count" class="ui red label" style="border-radius: 50px;display: none">0</label>
                 </a>
                 <a class="item" action="products" rss="1">
                     <i class="box icon"></i> Products
@@ -166,7 +169,7 @@
                                 0
                             </div>
                             <div class="label">
-                                Walk on Sales
+                                Walk in Sales
                             </div>
                         </div>
                     </div>
@@ -258,14 +261,12 @@
             <div id="home_popup" class="popup">
                 <div class="ui form">
                     <div class="field">
-                        <label>Show data for</label>
-                        <select id="home_pp_range">
-                            <option value="7">Last week</option>
-                            <option value="10">Last 10 Days</option>
-                            <option value="20">Last 20 Days</option>
-                            <option value="30">Last 30 Days</option>
-                            <option value="60">Last 60 Days</option>
-                        </select>
+                        <label>Show data from</label>
+                        <input type="date" id="home_pp_from" />
+                    </div>
+                    <div class="field">
+                        <label>Show data from</label>
+                        <input type="date" id="home_pp_to" />
                     </div>
                     <button id="home_pp_submit" class="ui button fullw">Submit</button>
                 </div>
@@ -296,9 +297,21 @@
                         <tbody id="pos_c_items"></tbody>
                     </table>
                 </div>
-                <div class="third">
-                    <div class="ui labeled input" style="height: 36px;">
-                        <label class="ui label">Total</label>
+                <div class="third pos_totals">
+                    <div class="ui labeled input">
+                        <label class="ui label"><span>Sub Total</span></label>
+                        <input id="pos_subtotal" type="text" value="0.00" disabled />
+                    </div>
+                    <div class="ui labeled input">
+                        <label class="ui label">GST</label>
+                        <input id="pos_tax" type="text" value="0.00" disabled />
+                    </div>
+                    <div class="ui labeled input">
+                        <label class="ui label">Other</label>
+                        <input id="pos_other" type="text" value="0.00" />
+                    </div>
+                    <div class="ui labeled input">
+                        <label class="ui grey label">Total</label>
                         <input id="pos_total" type="text" value="0.00" disabled />
                     </div>
                     <button id="pos_btn_clear" class="ui button">Clear</button>
@@ -326,6 +339,10 @@
                 <span id="prts_filters" style="line-height: 1.6;">
                 </span>
             </h3>
+
+            <button id="prts_save_btn" class="ui label" style="margin-bottom: 7px;">
+                <i class="save icon"></i> Save Order
+            </button>
 
             <div id="prts_list">
 
@@ -357,6 +374,14 @@
                             <option value="high">High Stock</option>
                             <option value="low">Low Stock</option>
                             <option value="out">Out of Stock</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Discount</label>
+                        <select id="prts_filter_discount">
+                            <option value="">All</option>
+                            <option value="with">With Discount</option>
+                            <option value="without">Without Discount</option>
                         </select>
                     </div>
                     <div class="field">
@@ -575,7 +600,7 @@
                         </h4>
                     </div>
                 </div>
-                <div class="ui segment">
+                <div class="ui segment" id="ord_del_seg">
                     <span>Delivery date:</span>
                     <h4> <i class="calendar alternate icon"></i> <span id="ord_del_date"></span> </h4>
                     <span>Delivery timing:</span>
@@ -717,6 +742,12 @@
         </div>
 
         <div id="page_categories" class="page ui segment">
+            <h4 style="text-align: right">
+                <button class="ui label" id="cats_save_btn">
+                    <i class="save icon"></i>
+                    Save order
+                </button>
+            </h4>
             <div id="cats_list">
             </div>
             <div id="cats_dimmer" class="ui active inverted dimmer" style="display: none">
@@ -1148,8 +1179,8 @@
                     <label>Image</label>
                     <div id="promo_img_con" class="promo_format1">
                         <img id="promo_img" src="" />
-                        <span></span>
-                        <span class="third"></span>
+                        <span>Demo</span>
+                        <span class="third">Demo</span>
                     </div>
                     <button id="promo_img_btn" class="ui button" style="margin: 10px;">Change image</button>
                 </div>
@@ -1164,19 +1195,21 @@
     </div>
 
     <div id="loading_screen">
-        <img src="images/slogo.png"/>
-        <h3>Administration</h3>
-        <img id="ls_spinner" class="spinner" src="images/spinner.gif"/>
-        <div id="ls_login" class="ui form" style="display: none">
-            <div class="field">
-                <label>Username</label>
-                <input id="ls_login_username" type="text" placeholder="Username" />
+        <div>
+            <img src="images/slogo.png" />
+            <h3>Administration</h3>
+            <img id="ls_spinner" class="spinner" src="images/spinner.gif" />
+            <div id="ls_login" class="ui form" style="display: none">
+                <div class="field">
+                    <label>Username</label>
+                    <input id="ls_login_username" type="text" placeholder="Username" />
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <input id="ls_login_password" type="password" placeholder="Password" />
+                </div>
+                <button id="ls_login_btn" class="ui button fullw">Login</button>
             </div>
-            <div class="field">
-                <label>Password</label>
-                <input id="ls_login_password" type="password" placeholder="Password" />
-            </div>
-            <button id="ls_login_btn" class="ui button fullw">Login</button>
         </div>
     </div>
 

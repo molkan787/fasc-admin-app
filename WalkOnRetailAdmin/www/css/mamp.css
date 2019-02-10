@@ -1,27 +1,23 @@
-﻿#stores_list > div {
+﻿.store_item {
     width: 100%;
-    height: 108px;
     border: 1px solid #ddd;
     margin-bottom: -1px;
     padding: 5px;
 }
-#stores_list > div.smaller{
-    height: 85px;
-}
-#stores_list > div > h4 {
+.store_item > h4 {
     margin: 2px 0 5px 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#stores_list > div > h4.smaller {
+.store_item > h4.smaller {
     font-size: 14px;
 }
-#stores_list > div > h4 > span{
+.store_item > h4 > span{
     color: #777;
     font-size: 0.8em;
 }
-#stores_list > div > label{
+.store_item > label{
     float: right;
 }
 #stores_popup_del {
@@ -155,10 +151,16 @@
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
 }
-
+.active_label {
+    float: right;
+    color: limegreen;
+    display: inline-block;
+    width: 86px;
+    text-align: center;
+}
 
 /*Account page*/
-#page_account{
+#page_account {
     padding: 0;
 }
 #page_account > h4.header {

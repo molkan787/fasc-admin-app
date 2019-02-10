@@ -3,6 +3,9 @@
 function leftmenu_init() {
     lm = ui.lm = {
         elt: get('left_menu'),
+        elts: {
+            ordersCount: get('lm_order_count')
+        },
         _open_anim: {
             targets: '#left_menu',
             left: '0',
@@ -53,7 +56,7 @@ function leftmenu_init() {
         },
 
         setAvPages: function (userData) {
-            //navigate('setting', 'new'); return;
+            //navigate('products', '0'); return;
             var ai = userData.ai;
             var items = get_bt('a', get('lm_items'));
             for (var i = 0; i < items.length; i++) {
@@ -88,6 +91,15 @@ function leftmenu_init() {
                 return;
             }
             navigate(navPerUser[userData.user_type]);
+        },
+
+        setOrdersCount: function (count) {
+            val(this.elts.ordersCount, count);
+            if (count < 1) {
+                this.elts.ordersCount.style.display = 'none';
+            } else {
+                this.elts.ordersCount.style.display = 'inline-block';
+            }
         }
     };
 
@@ -100,6 +112,25 @@ function leftmenu_init() {
     ui.mx.bbp.setClickHandler(0, function () {
         lm.close();
     });
+
+    $$("body").swipeRight(swipteRightHandler);
+    $$("body").swipeLeft(swipteLeftHandler);
+}
+
+function swipteRightHandler(e) {
+    var startX = e.iniTouch.x;
+    var endX = e.currentTouch.x;
+    if (startX < 80 && endX > 130) {
+        lm.open();
+    }
+}
+
+function swipteLeftHandler(e) {
+    var startX = e.iniTouch.x;
+    var endX = e.currentTouch.x;
+    if (startX - endX > 100) {
+        lm.close();
+    }
 }
 
 var navPerUser = {

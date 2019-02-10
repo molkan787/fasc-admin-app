@@ -10,6 +10,7 @@ function ui_order_init() {
             statusCon: get('ord_status_con'),
             statusText: get('ord_status_text'),
             statusIcon: get('ord_status_icon'),
+            delSegment: get('ord_del_seg'),
             delDate: get('ord_del_date'),
             delTiming: get('ord_del_timing'),
             delAddr: get('ord_del_addr'),
@@ -53,9 +54,14 @@ function ui_order_init() {
             val(this.elts.customer, data.customer || 'Walk on Customer');
             val(this.elts.phone, data.telephone || '---');
             val(this.elts.total, fasc.formatPrice(data.total, true));
-            val(this.elts.delDate, data.del_date);
-            val(this.elts.delTiming, data.del_timing);
-            val(this.elts.delAddr, data.shipping_address_1 || '---' + ', ' + data.shipping_city);
+            if (data.customer) {
+                val(this.elts.delDate, data.del_date);
+                val(this.elts.delTiming, data.del_timing);
+                val(this.elts.delAddr, data.shipping_address_1 || '---' + ', ' + data.shipping_city);
+                this.elts.delSegment.style.display = 'block';
+            } else {
+                this.elts.delSegment.style.display = 'none';
+            }
             val(this.elts.orderDate, data.date_added);
 
             var paid = data.paid;
@@ -123,6 +129,7 @@ function ui_order_init() {
 
         // Handlers
         actionIconClick: function () {
+            if (!account.hasWriteAccess('orders')) return;
             if (!order.dimc.visibile) {
                 order.showOptions();
             }

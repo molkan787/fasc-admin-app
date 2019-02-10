@@ -6,5 +6,16 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova-plugin-local-notification": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/katzer/cordova-plugin-local-notifications.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {
+            "ANDROID_SUPPORT_V4_VERSION": "4.4"
+        }
     }
 }

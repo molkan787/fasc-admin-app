@@ -72,6 +72,7 @@ function ui_orders_init() {
 
         loadActionCallback: function (action) {
             if (action.status == 'OK') {
+                rtdc.releaseTime();
                 this.loadOrders(action.data.items);
             } else {
                 msg.show(txt('error_3'));

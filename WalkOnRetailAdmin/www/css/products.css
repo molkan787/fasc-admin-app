@@ -58,11 +58,11 @@
     border-bottom-left-radius: 0;
 }
 
-#prts_popup{
+#prts_popup {
     width: 70vw;
-    height: 400px;
+    height: 470px;
     margin-left: -35vw;
-    margin-top: -200px;
+    margin-top: -235px;
 }
 
 #prt_tabs > .tab{

@@ -165,7 +165,7 @@ function foreach(arr, func) {
     }
 }
 
-
+var xhr_timeout = 4000;
 
 function httpGetAsync(theUrl, callback, failcallback) {
     var xmlHttp = new XMLHttpRequest();
@@ -178,6 +178,7 @@ function httpGetAsync(theUrl, callback, failcallback) {
                 failcallback = null;
             }
     }
+    xmlHttp.timeout = xhr_timeout;
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.addEventListener("error", failcallback);
     xmlHttp.send(null);
@@ -194,6 +195,7 @@ function httpPostText(theUrl, text, callback, failcallback) {
                 failcallback = null;
             }
     }
+    xmlHttp.timeout = xhr_timeout;
     xmlHttp.open("POST", theUrl, true);
     xmlHttp.addEventListener("error", failcallback);
     xmlHttp.send(text);
@@ -247,4 +249,14 @@ function switchElements(fromElt, toElt) {
             });
         }
     });
+}
+
+function dateToString(_date) {
+    var mm = _date.getMonth() + 1;
+    var dd = _date.getDate();
+
+    return [_date.getFullYear(),
+    (mm > 9 ? '' : '0') + mm,
+    (dd > 9 ? '' : '0') + dd
+    ].join('-');
 }
