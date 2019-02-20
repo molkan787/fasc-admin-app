@@ -13,6 +13,7 @@ function ui_init() {
     ui.fab = get('fab');
     ui.fabIcon = get('fab_icon');
 
+    pdr_init();
     uiu_init();
     uiis_init();
     ui_fasc_init();
@@ -44,9 +45,14 @@ function ui_init() {
     uiis.init_components();
     BarcodeScanner_init();
 
-    //navigate('account');
-
     lm.onNavigate = navigate;
+
+    //PullToRefresh.init({
+    //    mainElement: '#header',
+    //    onRefresh: function () {
+    //        log('Refreshig');
+    //    }
+    //});
 }
 
 function registerPage(slug, element, title, updater, headbarAction, fab) {
@@ -58,15 +64,10 @@ function registerPage(slug, element, title, updater, headbarAction, fab) {
         headbarAction: headbarAction,
         fab: fab
     };
+    pdr.addElement(element);
 }
 
 function addToHistory(page, param) {
-    //for (var i = 0; i < navHistory.length; i++) {
-    //    if (navHistory[i].slug == page) {
-    //        navHistory.splice(i, 1);
-    //        break;
-    //    }
-    //}
     navHistory.push({ slug: page, param: param});
 }
 

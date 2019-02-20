@@ -96,6 +96,7 @@ function ui_order_init() {
         changeActionCallback: function (action) {
             if (action.status == 'OK') {
                 if (action.data.operation == 'status') {
+                    orders.updatePanelStatus(this.currentOrder.order_id, action.data.status);
                     this.currentOrder.order_status_id = action.data.status;
                     this.loadOrder(this.currentOrder);
                 } else {

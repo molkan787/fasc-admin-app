@@ -1,5 +1,6 @@
 ﻿var filtersController = {};
 var imageSelector = {};
+var cesl = {};
 function mx_init() {
     ui.mx = {};
 
@@ -265,5 +266,121 @@ function mx_init() {
                 contextMenu.callback(action);
             }
         }
+    };
+
+    // =============================
+
+    cesl.init = function (parent, options, onChangeHandler) {
+        //var _opts = options || {};
+        var _cesl = {
+            visibile: false,
+            checkboxes: null,
+            checked: [],
+
+            onChange: onChangeHandler,
+            parent: parent,
+            itemTag: 'div',
+            unActiveClass: '',
+            unCheckedClass: 'cb circle outline icon',
+            checkedClass: 'cb check circle icon',
+
+            checkEltTag: 'i',
+            checkEltIndex: 0,
+
+            activationEltTag: 'img',
+            activationEltIndex: 0,
+
+            initHandlers: function () {
+                var _this = this;
+                var items = get_bt(this.itemTag, this.parent);
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    var ref = attr(item, 'cesl-ref');
+                    var activator = get_bt(this.activationEltTag, item)[this.activationEltIndex];
+                    var checkbox = get_bt(this.checkEltTag, item)[this.checkEltIndex];
+                    attr(activator, 'cesl-ref', ref);
+                    attr(checkbox, 'cesl-ref', ref);
+                    attr(activator, 'data-long-press-delay', 300);
+                    activator.addEventListener('long-press', function (e) {
+                        _this.activatorPress(e);
+                    });
+                    checkbox.onclick = activator.onclick = function () {
+                        _this.switchState(_this.checkboxes[attr(this, 'cesl-ref')]);
+                    };
+                    this.checkboxes[ref] = checkbox;
+                }
+            },
+
+            showCheckBoxes: function (cbToCheck) {
+                var checkAll = (typeof cbToCheck == 'boolean' & cbToCheck);
+                var _c = checkAll ? this.checkedClass : this.unCheckedClass;
+                for (var cb in this.checkboxes) {
+                    if (!this.checkboxes.hasOwnProperty(cb)) return;
+                    var item = this.checkboxes[cb];
+                    item.className = _c;
+                    if (checkAll) {
+                        this.switchState(item, true);
+                    }
+                }
+                if (!checkAll) {
+                    this.switchState(this.checkboxes[cbToCheck], true);
+                }
+            },
+
+            switchState: function (cb, state) {
+                var forceState = (typeof state == 'boolean');
+                if (!this.visibile) return;
+                var ref = attr(cb, 'cesl-ref');
+                var checked = forceState ? !state : (attr(cb, 'cesl-checked') == '1');
+                attr(cb, 'cesl-checked', checked ? '0' : '1');
+                cb.className = checked ? this.unCheckedClass : this.checkedClass;
+                checked ? this.removeFromChecked(ref) : this.addToChecked(ref);
+
+                this.raiseOnChangeEvent();
+            },
+
+            addToChecked: function (ref) {
+                this.checked.push(ref);
+            },
+
+            removeFromChecked: function (ref) {
+                for (var i = 0; i < this.checked.length; i++) {
+                    if (this.checked[i] === ref) {
+                        this.checked.splice(i, 1);
+                        break;
+                    }
+                }
+            },
+
+            raiseOnChangeEvent: function () {
+                if (this.onChange) {
+                    this.onChange(this, this.checked.length);
+                }
+            },
+
+            // Handlers
+            activatorPress: function (e) {
+                var ref = attr(e.target, 'cesl-ref');
+                if (!this.visibile) {
+                    this.visibile = true;
+                    this.showCheckBoxes(ref);
+                }
+            },
+
+            // Public Methods
+            refresh: function () {
+                this.visibile = false;
+                this.checkboxes = {};
+                this.checked = [];
+                this.initHandlers();
+            },
+
+            checkAll: function () {
+                this.visibile = true;
+                this.showCheckBoxes(true);
+            }
+        };
+        _cesl.refresh();
+        return _cesl;
     };
 }

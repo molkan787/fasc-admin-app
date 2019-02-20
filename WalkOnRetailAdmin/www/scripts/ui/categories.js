@@ -32,6 +32,8 @@ function categories_init() {
 
             btn2.className = 'ui label handle';
             icon2.className = 'sort icon';
+            attr(btn2, 'cancel-pdr', true);
+            attr(icon2, 'cancel-pdr', true);
 
             attr(btn, 'cancelclick', '1');
             attr(icon, 'cancelclick', '1');

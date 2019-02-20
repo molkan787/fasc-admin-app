@@ -3,7 +3,22 @@ body{
     padding: 50px 0 0 0 !important;
     /*overflow: hidden;*/
 }
-
+#pdr {
+    position: fixed;
+    z-index: 1000;
+    width: 180px;
+    top: 20px;
+    left: 50%;
+    margin-left: -100px;
+    background-color: white;
+    color: #F36F24;
+    border: 1px solid #F36F24;
+    border-radius: 50px;
+    padding: 5px;
+    box-shadow: 1px 1px 5px #F36F24;
+    text-align: center;
+    opacity: 0;
+}
 #header {
     position: fixed;
     z-index: 2100;
@@ -234,4 +249,8 @@ body{
 .labeled_select > select {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
+}
+.ui.segment > .ui.dimmer {
+    position: fixed !important;
+    top: 0 !important;
 }

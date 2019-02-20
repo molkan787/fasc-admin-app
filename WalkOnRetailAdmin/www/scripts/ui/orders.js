@@ -39,6 +39,7 @@ function ui_orders_init() {
 
             icon.className = ord_getStatusIcon(status_id) + ' icon';
             val(span_s, ord_getStatusText(status_id));
+
             val(span_t, 'Total');
             val(h3_t, ui.fasc.formatPrice(data.total));
             val(span_c, 'Customer');
@@ -48,7 +49,20 @@ function ui_orders_init() {
                 navigate('order', data.order_id);
             };
 
+            div_par.id = 'ord_pan_' + data.order_id;
+
             return div_par;
+        },
+
+        updatePanelStatus: function (order_id, status) {
+            var pan = get('ord_pan_' + order_id);
+            if (!pan) return;
+            var div = pan.children[0];
+            var i = get_bt('i', div)[0];
+            var span = get_bt('span', div)[0];
+            div.className = ord_getStatusClass(status);
+            i.className = ord_getStatusIcon(status) + ' icon';
+            val(span, ord_getStatusText(status));
         },
 
         loadOrders: function (list) {

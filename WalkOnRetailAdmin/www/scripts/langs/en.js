@@ -29,6 +29,7 @@
     user_not_found: 'This username does not exist',
     confirm_logout: 'Are you sure you want to logout?',
     save_before_adding: 'Please save this {%1} before adding {%2}',
+    confirm_delete_selected: 'Do you really want to delete all seleted',
 
     select_store_to_visit: 'Please select store you want to visit, This can be done from Stores page.',
 

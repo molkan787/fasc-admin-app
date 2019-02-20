@@ -6,19 +6,29 @@ function ui_products_init() {
         elts: {
             prtsList: get('prts_list'),
             saveBtn: get('prts_save_btn'),
+            selectBtn: get('prts_select'),
+            enableBtn: get('prts_enable'),
+            disableBtn: get('prts_disable'),
+            deleteBtn: get('prts_delete'),
             filterCat: get('prts_filter_cat'),
             filterSubcat: get('prts_filter_subcat'),
             filterSubmit: get('prts_filters_submit'),
             filterStock: get('prts_filter_stock'),
             filterName: get('prts_filter_name'),
             filterDiscount: get('prts_filter_discount'),
-            filterPopup: get('prts_popup')
+            filterPopup: get('prts_popup'),
+            btnPrevious1: get('prts_previous_btn'),
+            btnPrevious2: get('prts_previous_btn2'),
+            btnNext1: get('prts_next_btn'),
+            btnNext2: get('prts_next_btn2')
         },
         loadAction: null,
         deleteAction: null,
         saveAction: null,
+        statusAction: null,
 
         currentPage: 0,
+        itemsPerPage: 40,
 
 
         filters: [],
@@ -28,9 +38,15 @@ function ui_products_init() {
 
         // Methods
         createPanel: function (data) {
+            var disabled = (parseInt(data.status) != 1);
             var div = crt_elt('div');
+            var id_span = crt_elt('span', div);
+            var checkbox = crt_elt('i', div);
             var img = crt_elt('img', div);
             var a = crt_elt('a', div);
+            if (disabled) {
+                var dis_span = crt_elt('span', div);
+            }
             var a_span = crt_elt('span', a);
             crt_elt('br', div);
             var span = crt_elt('span', div);
@@ -44,17 +60,28 @@ function ui_products_init() {
             var t1 = crt_elt('span', btn1);
             var t2 = crt_elt('span', btn2);
 
+            //checkbox.className = 'cb check circle icon';
+            attr(div, 'cesl-ref', data.product_id);
+
             div.className = 'prt item';
             val(img, data.image);
             val(a_span, data.title);
             val(span, 'Stock: ' + data.quantity);
+            val(id_span, 'Id: ' + data.product_id);
+            id_span.className = 'id_span';
+            if (disabled) {
+                val(dis_span, '(Disabled)');
+                dis_span.className = 'dis_span';
+            }
             var span_class = 'stock ' + (data.quantity == 0 ? 'none' : (data.quantity < 5 ? 'low' : ''));
             span.className = span_class;
             btn1.className = btn2.className = 'ui button';
             btn3.className = 'ui button handle';
+            attr(btn3, 'cancel-pdr', true);
             i1.className = 'edit icon';
             i2.className = 'delete icon';
             i3.className = 'sort icon nomargin_o';
+            attr(i3, 'cancel-pdr', true);
             val(t1, 'Edit');
             val(t2, 'Delete');
 
@@ -77,11 +104,50 @@ function ui_products_init() {
             for (var i = 0; i < list.length; i++) {
                 this.elts.prtsList.appendChild( this.createPanel(list[i]) );
             }
+            this.cesl.refresh();
         },
 
-        update: function () {
+        prepareControls: function (length) {
+            var start = this.loadAction.refStart;
+            this.currentPage = parseInt(start / this.itemsPerPage);
+            if (start == 0) {
+                attr(this.elts.btnPrevious1, 'disabled', '1');
+                attr(this.elts.btnPrevious2, 'disabled', '1');
+            } else {
+                attr_rm(this.elts.btnPrevious1, 'disabled');
+                attr_rm(this.elts.btnPrevious2, 'disabled');
+            }
+
+            if (length < 40) {
+                attr(this.elts.btnNext1, 'disabled', '1');
+                attr(this.elts.btnNext2, 'disabled', '1');
+            } else {
+                attr_rm(this.elts.btnNext1, 'disabled');
+                attr_rm(this.elts.btnNext2, 'disabled');
+            }
+        },
+
+        previousPage: function () {
+            if (this.currentPage > 0) this.update(this.currentPage - 1);
+        },
+        nextPage: function () {
+            this.update(this.currentPage + 1);
+        },
+
+        update: function (page) {
             this.dimc.show();
-            this.loadAction.do(this.filters);
+
+            if (typeof page != 'undefined') {
+                this.filters.push({ name: 'start', value: page * this.itemsPerPage });
+                this.filters.push({ name: 'limit', value: this.itemsPerPage });
+                this.loadAction.refStart = page * this.itemsPerPage;
+                this.loadAction.do(this.filters);
+                this.filters.pop();
+                this.filters.pop();
+            } else {
+                this.loadAction.refStart = 0;
+                this.loadAction.do(this.filters);
+            }
         },
 
         updateFilters: function () {
@@ -115,16 +181,40 @@ function ui_products_init() {
             this.saveAction.do({ ids: ids });
         },
 
+        deleteAll: function () {
+            var ids = this.cesl.checked;
+            if (ids.length < 1) return;
+            if (confirm(txt('confirm_delete_selected'))) {
+                this.lockBtns();
+                this.dimc.show();
+                this.deleteAction.do({
+                    multiple: true,
+                    product_id: ids.join(',')
+                });
+            }
+        },
+
+        changeStatus: function (status) {
+            if (this.cesl.checked.length < 1) return;
+            this.dimc.show();
+            this.statusAction.do({ operation: status, product_id: this.cesl.checked.join(',') });
+        },
+
         // Handlers
         loadActionCallback: function (action) {
             if (action.status == 'OK') {
+                products.prepareControls(action.data.items.length);
                 products.loadProducts(action.data.items);
             }
             products.dimc.hide();
         },
         deleteActionCallback: function (action) {
             if (action.status == 'OK') {
-                uiu.removeElt('prt_panel_' + action.params.product_id, true);
+                if (action.params.multiple) {
+                    reloadPage();
+                } else {
+                    uiu.removeElt('prt_panel_' + action.params.product_id, true);
+                }
             } else {
                 msg.show(txt('error_txt1'));
             }
@@ -135,6 +225,15 @@ function ui_products_init() {
                 msg.show(txt('error_2'));
             }
             products.dimc.hide();
+        },
+
+        statusActionCallback: function (action) {
+            this.dimc.hide();
+            if (action.status == 'OK') {
+                reloadPage();
+            } else {
+                msg.show(txt('error_txt1'));
+            }
         },
 
         editButtonClick: function () {
@@ -155,18 +254,67 @@ function ui_products_init() {
         },
         saveBtnClick: function () {
             products.saveOrder();
+        },
+
+        selectAllBtnClick: function () {
+            products.cesl.checkAll();
+        },
+        deleteAllBtnClick: function () {
+            products.deleteAll();
+        },
+        enableAllBtnClick: function () {
+            products.changeStatus('enable');
+        },
+        disableAllBtnClick: function () {
+            products.changeStatus('disable');
+        },
+
+        ceslOnChange: function (sender, count) {
+            if (count > 0) {
+                this.lockBtns();
+            } else {
+                this.unlockBtns();
+            }
+        },
+
+        previousBtnClick: function () {
+            products.previousPage();
+        },
+        nextBtnClick: function () {
+            products.nextPage();
+        },
+
+        lockBtns: function () {
+            attr_rm(this.elts.deleteBtn, 'disabled');
+            attr_rm(this.elts.enableBtn, 'disabled');
+            attr_rm(this.elts.disableBtn, 'disabled');
+        },
+        unlockBtns: function () {
+            attr(this.elts.deleteBtn, 'disabled', true);
+            attr(this.elts.enableBtn, 'disabled', true);
+            attr(this.elts.disableBtn, 'disabled', true);
         }
     };
+
+    products.elts.btnPrevious1.onclick = products.elts.btnPrevious2.onclick = products.previousBtnClick;
+    products.elts.btnNext1.onclick = products.elts.btnNext2.onclick = products.nextBtnClick;
 
     products.elts.filterCat.onchange = products.filterCatChanged;
     products.elts.filterSubmit.onclick = products.filterSubmitClick;
     products.elts.saveBtn.onclick = products.saveBtnClick;
+    products.elts.selectBtn.onclick = products.selectAllBtnClick;
+    products.elts.deleteBtn.onclick = products.deleteAllBtnClick;
+    products.elts.enableBtn.onclick = products.enableAllBtnClick;
+    products.elts.disableBtn.onclick = products.disableAllBtnClick;
 
     products.fc = filtersController.create('prts_filters', function () { products.update() }, products.filters);
 
     products.loadAction = fetchAction.create('product/list', products.loadActionCallback);
     products.deleteAction = fetchAction.create('product/delete', products.deleteActionCallback);
     products.saveAction = fetchAction.create('product/sort_order', products.saveActionCallback);
+    products.statusAction = fetchAction.create('product/status', function (action) { products.statusActionCallback(action); });
+
+    products.cesl = cesl.init(products.elts.prtsList, null, function (sender, count) { products.ceslOnChange(sender, count); });
 
     registerPage('products', products.elt, 'Products', function () {
         products.update();

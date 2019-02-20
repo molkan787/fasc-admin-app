@@ -93,6 +93,7 @@ function banners_init() {
             var img = crt_elt('img', div);
             var btns_con = crt_elt('div', div);
             var btn_up = crt_elt('label', btns_con);
+            //var btn_edit = crt_elt('button', btns_con);
             crt_elt('br', btns_con);
             var btn_down = crt_elt('label', btns_con);
             var btn_options = crt_elt('button', btns_con);
@@ -105,14 +106,20 @@ function banners_init() {
             i3.className = 'undo icon';
 
             btn_up.className = btn_down.className = btn_options.className = 'ui label';
+            //btn_edit.className = 'ui label edit_btn';
             btn_up.onclick = btn_down.onclick = this.btnsClick;
             btn_options.onclick = this.toggleState;
+            //btn_edit.onclick = this.editBtnClick;
             val(btn_options, 'Remove');
+
+            //val(btn_edit, 'Edit link');
 
             attr(btn_up, 'job', 'up');
             attr(btn_down, 'job', 'down');
             attr(btn_options, 'job', 'options');
-            
+
+            //attr(btn_edit, 'banner_id', data.id);
+
             div.className = 'bans_item';
             attr(div, 'origin_id', data.id);
             attr(div, 'state', 'enabled');
@@ -170,6 +177,10 @@ function banners_init() {
                 banners.movePanel(this.parentNode.parentNode, -1);
             else if (job == 'down')
                 banners.movePanel(this.parentNode.parentNode, 1);
+        },
+        editBtnClick: function () {
+            var banner_id = attr(this, 'banner_id');
+            navigate('banner', banner_id);
         }
 
     };

@@ -79,6 +79,11 @@ function promos_init() {
             var btn = crt_elt('button', div);
             var i = crt_elt('i', btn);
 
+            attr(div, 'cancel-pdr', true);
+            attr(img, 'cancel-pdr', true);
+            attr(btn, 'cancel-pdr', true);
+            attr(i, 'cancel-pdr', true);
+
             attr(div, 'promo_id', data.promo_id);
             div.className = 'promo_item promo_format' + data.format;
             val(img, data.image);

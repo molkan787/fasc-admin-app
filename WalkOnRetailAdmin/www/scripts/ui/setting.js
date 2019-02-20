@@ -14,7 +14,8 @@ function setting_init() {
             orderPhone: get('set_order_phone'),
             delCost: get('set_delcost'),
             razorKey: get('set_razor_key'),
-            razorSecret: get('set_razor_secret')
+            razorSecret: get('set_razor_secret'),
+            notPhone: get('set_not_phone')
         },
 
         dimc: ui.dimmer.create('setting_dimmer'),
@@ -30,7 +31,6 @@ function setting_init() {
         },
 
         loadData: function (data) {
-            log(data)
             val(this.elts.minTotal, data.min_total);
             val(this.elts.timingFrom, data.timing_from);
             val(this.elts.timingTo, data.timing_to);
@@ -43,6 +43,7 @@ function setting_init() {
             val(this.elts.delCost, data.fast_del_cost || '0');
             val(this.elts.razorKey, data.razor_key || '');
             val(this.elts.razorSecret, '');
+            val(this.elts.notPhone, data.not_phone);
         },
 
         save: function () {
@@ -58,7 +59,8 @@ function setting_init() {
                 order_phone: val(this.elts.orderPhone),
                 fast_del_cost: val(this.elts.delCost),
                 razor_key: val(this.elts.razorKey),
-                razor_secret: val(this.elts.razorSecret)
+                razor_secret: val(this.elts.razorSecret),
+                not_phone: val(this.elts.notPhone)
             };
             this.dimc.show('Saving');
             this.saveAction.do(data);

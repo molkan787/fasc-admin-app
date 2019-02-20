@@ -12,12 +12,13 @@
 .bans_item.disabled > img {
     opacity: 0.2;
 }
-.bans_item.disabled > div > label {
+.bans_item.disabled > div > label, .bans_item.disabled > div > button.edit_btn {
     opacity: 0.3;
 }
 .bans_item > div {
     float: right !important;
     text-align: right;
+    width: 110px;
 }
 .bans_item > div > label, .bans_item > div > button {
     margin-top: 5px !important;
@@ -25,7 +26,7 @@
 .bans_item > div > button{
     width: 70px !important;
     float: left;
-    margin-right: 10px !important;
+    margin-right: 0 !important;
 }
 .bans_item > div > label > i {
     margin: 0 !important;
