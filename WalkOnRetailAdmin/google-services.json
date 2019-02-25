@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "923332454406",
+    "firebase_url": "https://walkonretail.firebaseio.com",
+    "project_id": "walkonretail",
+    "storage_bucket": "walkonretail.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923332454406:android:31c509f5cdc772db",
+        "android_client_info": {
+          "package_name": "xyz.drmstudio.walkonretailadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "923332454406-49gfteh45drc0k5i831sq0tg6m6bc029.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDtVbaYejn2M5Z_VnJA9vetSjvnSHLDz8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

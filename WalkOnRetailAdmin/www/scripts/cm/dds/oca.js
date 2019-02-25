@@ -5,6 +5,7 @@ function dm_oca_init() {
         apiBaseURL: 'http://fasc.local/index.php?store_id={%1}&api_token={%2}&route=api/',
         //apiBaseURL: 'http://169.254.80.80/fasc/index.php?store_id={%1}&api_token={%2}&route=api/',
         //apiBaseURL: 'https://www.walkonretail.com/index.php?store_id={%1}&api_token={%2}&route=api/',
+        //apiBaseURL: 'https://surjankirana.com/api/index.php?store_id={%1}&api_token={%2}&route=api/',
 
         // Methods
         _getApiUrl: function (req, params) {

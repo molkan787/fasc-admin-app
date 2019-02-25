@@ -56,7 +56,7 @@ function leftmenu_init() {
         },
 
         setAvPages: function (userData) {
-            navigate('products'); return;
+            navigate('banners', 'new'); return;
             var ai = userData.ai;
             var items = get_bt('a', get('lm_items'));
             for (var i = 0; i < items.length; i++) {
@@ -64,7 +64,7 @@ function leftmenu_init() {
                 var act = attr(item, 'action');
                 if (act == 'promos') act = 'banners';
                 var aii = ai[act];
-                if (typeof aii != 'undefined' && parseInt(aii) == 0) {
+                if ((typeof aii != 'undefined' && parseInt(aii) == 0)) { // || act == 'stores'
                     item.style.display = 'none';
                 } else {
                     item.style.display = 'block';
@@ -86,10 +86,10 @@ function leftmenu_init() {
                 get('lm_sep_2').style.display = 'inline-block';
             }
 
-            if (parseInt(userData.fullaccess) == 1) {
-                navigate('stores');
-                return;
-            }
+            //if (parseInt(userData.fullaccess) == 1) {
+            //    navigate('stores');
+            //    return;
+            //}
             navigate(navPerUser[userData.user_type]);
         },
 
@@ -134,12 +134,22 @@ function swipteLeftHandler(e) {
 }
 
 var navPerUser = {
-    1: 'stores',
-    2: 'stores',
-    3: 'stores',
+    1: 'dashboard',
+    2: 'dashboard',
+    3: 'dashboard',
     4: 'pos',
     11: 'dashboard',
     12: 'dashboard',
     13: 'products',
     14: 'orders'
 };
+//var navPerUser = {
+//    1: 'stores',
+//    2: 'stores',
+//    3: 'stores',
+//    4: 'pos',
+//    11: 'dashboard',
+//    12: 'dashboard',
+//    13: 'products',
+//    14: 'orders'
+//};

@@ -25,6 +25,9 @@ function ui_customers_init() {
 
         items: null,
 
+        currentPage: 0,
+        itemsPerPage: 20,
+
         loadAction: null,
         deleteCustomerAction: null,
         filters: [],
@@ -74,9 +77,18 @@ function ui_customers_init() {
             }
         },
 
-        update: function () {
+        update: function (page) {
+
             this.dimc.show();
+
+            var page_n = page || 0;
+
+            this.filters.push({ name: 'start', value: page_n * this.itemsPerPage });
+            this.filters.push({ name: 'limit', value: this.itemsPerPage });
+            this.loadAction.refStart = page_n * this.itemsPerPage;
             this.loadAction.do(this.filters);
+            this.filters.pop();
+            this.filters.pop();
         },
 
         showFilters: function () {
@@ -136,6 +148,7 @@ function ui_customers_init() {
 
         loadActionCallback: function (action) {
             if (action.status == 'OK') {
+                this.pagination.setState(action.refStart, action.data.items.length);
                 this.loadCustomers(action.data.items);
             } else {
                 msg.show(txt('error_3'));
@@ -163,6 +176,7 @@ function ui_customers_init() {
         }
     };
 
+    customers.pagination = Pagination(customers.itemsPerPage, [get('cust_btns1'), get('cust_btns2')]);
 
     customers.loadAction = fetchAction.create('client/list', function (action) { customers.loadActionCallback(action) });
     customers.deleteCustomerAction = fetchAction.create('client/delete', function (action) { customers.deleteCustomerActionCallback(action); });
@@ -173,8 +187,8 @@ function ui_customers_init() {
     customers.elts.popupShowOrdersBtn.onclick = function () { customers.showCustomerOrders() };
     customers.elts.popupDeleteBtn.onclick = function () { customers.deleteCustomer(); };
 
-    registerPage('customers', customers.elt, 'Customers', function () {
-        customers.update();
+    registerPage('customers', customers.elt, 'Customers', function (param) {
+        customers.update(param);
     }, null, { icon: 'filter', handler: function () { customers.showFilters() }});
 
 }

@@ -16,6 +16,9 @@ function ui_orders_init() {
 
         loadAction: null,
 
+        currentPage: 0,
+        itemsPerPage: 20,
+
         // Methods
         createPanel: function (data) {
             var div_par = crt_elt('div');
@@ -74,19 +77,33 @@ function ui_orders_init() {
         },
 
         update: function (param) {
-            if (param) {
+            this.dimc.show();
+            if (typeof param == 'object' && param) {
                 this.fc.lock();
                 this.fc.clear();
                 this.fc.setFilter({ name: 'customer_id', value: param.customer_id, text: 'Customer: ' + param.name });
                 this.fc.unlock();
+                this.loadAction.refStart = 0;
+                this.loadAction.do(this.filters);
+
+            } else if (typeof param == 'number') {
+                this.filters.push({ name: 'start', value: param * this.itemsPerPage });
+                this.filters.push({ name: 'limit', value: this.itemsPerPage });
+                this.loadAction.refStart = param * this.itemsPerPage;
+                this.loadAction.do(this.filters);
+                this.filters.pop();
+                this.filters.pop();
+
+            } else {
+                this.loadAction.refStart = 0;
+                this.loadAction.do(this.filters);
             }
-            this.dimc.show();
-            this.loadAction.do(orders.filters);
         },
 
         loadActionCallback: function (action) {
             if (action.status == 'OK') {
                 rtdc.releaseTime();
+                this.pagination.setState(action.refStart, action.data.items.length);
                 this.loadOrders(action.data.items);
             } else {
                 msg.show(txt('error_3'));
@@ -112,6 +129,8 @@ function ui_orders_init() {
             ui.popup.hide();
         }
     };
+
+    orders.pagination = Pagination(orders.itemsPerPage, [get('ords_btns1'), get('ords_btns2')]);
 
     orders.loadAction = fetchAction.create('orderadm/list', function (action) { orders.loadActionCallback(action) });
 

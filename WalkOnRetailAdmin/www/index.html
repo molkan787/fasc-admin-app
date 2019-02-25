@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="css/promos.css">
     <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 
-    <script type="text/javascript" src="cordova.js"></script>
+    <!-- <script type="text/javascript" src="cordova.js"></script> -->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
     <script type="text/javascript" src="scripts/utils.js"></script>
     <script type="text/javascript" src="scripts/anime.min.js"></script>
@@ -38,6 +38,7 @@
     <script type="text/javascript" src="scripts/sl/actions.js"></script>
     <script type="text/javascript" src="scripts/sl/barcodeScanner.js"></script>
 
+    <script type="text/javascript" src="scripts/ul/pagination.js"></script>
     <script type="text/javascript" src="scripts/ui/leftmenu.js"></script>
     <script type="text/javascript" src="scripts/ui/uiis.js"></script>
     <script type="text/javascript" src="scripts/ui/fasc.js"></script>
@@ -50,6 +51,7 @@
     <script type="text/javascript" src="scripts/ui/order.js"></script>
     <script type="text/javascript" src="scripts/ui/customers.js"></script>
     <script type="text/javascript" src="scripts/ui/banners.js"></script>
+    <script type="text/javascript" src="scripts/ui/banner.js"></script>
     <script type="text/javascript" src="scripts/ui/categories.js"></script>
     <script type="text/javascript" src="scripts/ui/category.js"></script>
     <script type="text/javascript" src="scripts/ui/setting.js"></script>
@@ -80,7 +82,7 @@
     <div id="header">
         <i id="headbar_action_icon" class="setting icon"></i>
         <img id="header_menu_img" src="images/icons/menu.png" />
-        <h4 class="toe" id="title">WalkOnRetail Admin</h4>
+        <h4 class="toe" id="title">WalkOn Retail Admin</h4>
     </div>
 
     <div class="bbp p0" id="bbp_0"></div>
@@ -100,7 +102,7 @@
                 <a id="lm_item_mu" class="item" action="users" param="master">
                     <i class="users icon"></i> Master Users
                 </a>
-                <a class="item" action="stores" style="display: none">
+                <a class="item" action="stores">
                     <i class="building icon"></i> Stores
                 </a>
                 <div id="lm_sep_2" class="lm_sep">Store Admin Pages</div>
@@ -343,12 +345,7 @@
                 </span>
             </h3>
             <hr />
-            <button id="prts_previous_btn" class="ui label" disabled>
-                <i class="left arrow icon"></i> Previous page
-            </button>
-            <button id="prts_next_btn" class="ui label" disabled>
-                <i class="right arrow icon" style="float: right"></i> Next page
-            </button>
+            <div id="prts_btns1"></div>
             <hr />
             <button id="prts_select" class="ui label">
                 <i class="check circle icon"></i> Select all
@@ -370,12 +367,7 @@
 
             </div>
             <hr />
-            <button id="prts_previous_btn2" class="ui label" disabled>
-                <i class="left arrow icon"></i> Previous page
-            </button>
-            <button id="prts_next_btn2" class="ui label" disabled>
-                <i class="right arrow icon" style="float: right"></i> Next page
-            </button>
+            <div id="prts_btns2"></div>
 
             <div id="prts_dimmer" class="ui active inverted dimmer" style="display: none">
                 <div class="ui text loader">Loading</div>
@@ -576,10 +568,14 @@
                 <span id="ords_filters" style="line-height: 1.6;">
                 </span>
             </h3>
-
+            <hr />
+            <div id="ords_btns1"></div>
+            <hr />
             <div id="ords_list">
 
             </div>
+            <hr />
+            <div id="ords_btns2"></div>
 
             <div id="ords_dimmer" class="ui active inverted dimmer" style="display: none">
                 <div class="ui text loader">Loading</div>
@@ -677,10 +673,15 @@
                 <span id="cust_filters" style="line-height: 1.6;">
                 </span>
             </h3>
-
+            <hr />
+            <div id="cust_btns1"></div>
+            <hr />
             <div id="cust_list">
 
             </div>
+
+            <hr />
+            <div id="cust_btns2"></div>
 
             <div id="cust_dimmer" class="ui active inverted dimmer" style="display: none">
                 <div class="ui text loader">Loading</div>
@@ -756,18 +757,33 @@
 
         <div id="page_banners" class="page ui segment">
 
-            <div id="bans_list">
-
-            </div>
-
             <div id="bans_add" class="bans_add">
                 <i class="plus circle icon"></i>
+            </div>
+
+            <div id="bans_list">
+
             </div>
 
             <div id="bans_dimmer" class="ui active inverted dimmer" style="display: none">
                 <div class="ui text loader">Loading</div>
             </div>
 
+        </div>
+
+        <div id="page_banner" class="page ui segment" rbb="1">
+            <div class="ui form">
+                <div class="field">
+                    <label>Image</label>
+                    <img id="banner_img" src="" />
+                    <button id="banner_img_btn" class="ui button" style="margin: 10px;">Change image</button>
+                </div>
+                <hr />
+                <div class="field">
+                    <label>Link</label>
+                    <textarea id="banner_link" placeholder="Seperate products IDs by ',' ex: 47,57,32"></textarea>
+                </div>
+            </div>
         </div>
 
         <div id="page_categories" class="page ui segment">
@@ -1199,7 +1215,8 @@
         </div>
 
         <div id="page_promos" class="page ui segment">
-            <h4>Drag &amp; Drop to Reorder
+            <h4>
+                Drag &amp; Drop to Reorder
                 <button id="promos_add_btn" class="ui label" style="float: right">
                     <i class="plus icon"></i>Add
                 </button>

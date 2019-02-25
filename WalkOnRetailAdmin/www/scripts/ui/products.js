@@ -17,10 +17,6 @@ function ui_products_init() {
             filterName: get('prts_filter_name'),
             filterDiscount: get('prts_filter_discount'),
             filterPopup: get('prts_popup'),
-            btnPrevious1: get('prts_previous_btn'),
-            btnPrevious2: get('prts_previous_btn2'),
-            btnNext1: get('prts_next_btn'),
-            btnNext2: get('prts_next_btn2')
         },
         loadAction: null,
         deleteAction: null,
@@ -28,7 +24,7 @@ function ui_products_init() {
         statusAction: null,
 
         currentPage: 0,
-        itemsPerPage: 40,
+        itemsPerPage: 20,
 
 
         filters: [],
@@ -107,47 +103,17 @@ function ui_products_init() {
             this.cesl.refresh();
         },
 
-        prepareControls: function (length) {
-            var start = this.loadAction.refStart;
-            this.currentPage = parseInt(start / this.itemsPerPage);
-            if (start == 0) {
-                attr(this.elts.btnPrevious1, 'disabled', '1');
-                attr(this.elts.btnPrevious2, 'disabled', '1');
-            } else {
-                attr_rm(this.elts.btnPrevious1, 'disabled');
-                attr_rm(this.elts.btnPrevious2, 'disabled');
-            }
-
-            if (length < 40) {
-                attr(this.elts.btnNext1, 'disabled', '1');
-                attr(this.elts.btnNext2, 'disabled', '1');
-            } else {
-                attr_rm(this.elts.btnNext1, 'disabled');
-                attr_rm(this.elts.btnNext2, 'disabled');
-            }
-        },
-
-        previousPage: function () {
-            if (this.currentPage > 0) this.update(this.currentPage - 1);
-        },
-        nextPage: function () {
-            this.update(this.currentPage + 1);
-        },
-
         update: function (page) {
             this.dimc.show();
 
-            if (typeof page != 'undefined') {
-                this.filters.push({ name: 'start', value: page * this.itemsPerPage });
-                this.filters.push({ name: 'limit', value: this.itemsPerPage });
-                this.loadAction.refStart = page * this.itemsPerPage;
-                this.loadAction.do(this.filters);
-                this.filters.pop();
-                this.filters.pop();
-            } else {
-                this.loadAction.refStart = 0;
-                this.loadAction.do(this.filters);
-            }
+            var page_n = page || 0;
+             
+            this.filters.push({ name: 'start', value: page_n * this.itemsPerPage });
+            this.filters.push({ name: 'limit', value: this.itemsPerPage });
+            this.loadAction.refStart = page_n * this.itemsPerPage;
+            this.loadAction.do(this.filters);
+            this.filters.pop();
+            this.filters.pop();
         },
 
         updateFilters: function () {
@@ -203,7 +169,7 @@ function ui_products_init() {
         // Handlers
         loadActionCallback: function (action) {
             if (action.status == 'OK') {
-                products.prepareControls(action.data.items.length);
+                products.pagination.setState(action.refStart, action.data.items.length);
                 products.loadProducts(action.data.items);
             }
             products.dimc.hide();
@@ -277,13 +243,6 @@ function ui_products_init() {
             }
         },
 
-        previousBtnClick: function () {
-            products.previousPage();
-        },
-        nextBtnClick: function () {
-            products.nextPage();
-        },
-
         lockBtns: function () {
             attr_rm(this.elts.deleteBtn, 'disabled');
             attr_rm(this.elts.enableBtn, 'disabled');
@@ -296,8 +255,7 @@ function ui_products_init() {
         }
     };
 
-    products.elts.btnPrevious1.onclick = products.elts.btnPrevious2.onclick = products.previousBtnClick;
-    products.elts.btnNext1.onclick = products.elts.btnNext2.onclick = products.nextBtnClick;
+    products.pagination = Pagination(products.itemsPerPage, [get('prts_btns1'), get('prts_btns2')]);
 
     products.elts.filterCat.onchange = products.filterCatChanged;
     products.elts.filterSubmit.onclick = products.filterSubmitClick;
@@ -316,8 +274,8 @@ function ui_products_init() {
 
     products.cesl = cesl.init(products.elts.prtsList, null, function (sender, count) { products.ceslOnChange(sender, count); });
 
-    registerPage('products', products.elt, 'Products', function () {
-        products.update();
+    registerPage('products', products.elt, 'Products', function (param) {
+        products.update(param);
     }, { icon: 'plus', handler: function () { navigate('product', 'new'); } },
         { icon: 'filter', handler: function () { products.showFilterPopup() } });
 

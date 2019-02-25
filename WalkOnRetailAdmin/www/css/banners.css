@@ -38,9 +38,16 @@
     background-color: #eee;
     text-align: center;
     padding: 15px;
-    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .bans_add > i{
     font-size: 30px;
     color: #999;
+}
+
+#banner_img {
+    width: 100%;
+    height: 38vw;
+    max-width: 400px;
+    max-height: 160px;
 }

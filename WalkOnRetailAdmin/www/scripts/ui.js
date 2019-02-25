@@ -26,6 +26,7 @@ function ui_init() {
     ui_order_init();
     ui_customers_init();
     banners_init();
+    banner_init();
     categories_init();
     category_init();
     setting_init();
@@ -72,7 +73,7 @@ function addToHistory(page, param) {
 }
 
 function reloadPage(newParam) {
-    var param = newParam || param_current;
+    var param = (typeof newParam != 'undefined') ? newParam : param_current;
     if (page_current) {
         if (navHistory.length > 0) {
             navHistory.pop();
@@ -81,12 +82,14 @@ function reloadPage(newParam) {
     }
 }
 
+var forceReload = false;
 function goBack(reload) {
     if (navHistory.length < 1) return;
     navHistory.pop();
     var page = navHistory.pop();
     if (page.slug == 'category') reload = true;
-    navigate(page.slug || 'home', page.param, true, reload);
+    navigate(page.slug || 'home', page.param, true, reload || forceReload);
+    forceReload = false;
 }
 
 function navigate(page_slug, param, isBack, forceReload) {

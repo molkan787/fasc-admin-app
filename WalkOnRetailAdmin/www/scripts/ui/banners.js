@@ -93,7 +93,7 @@ function banners_init() {
             var img = crt_elt('img', div);
             var btns_con = crt_elt('div', div);
             var btn_up = crt_elt('label', btns_con);
-            //var btn_edit = crt_elt('button', btns_con);
+            var btn_edit = crt_elt('button', btns_con);
             crt_elt('br', btns_con);
             var btn_down = crt_elt('label', btns_con);
             var btn_options = crt_elt('button', btns_con);
@@ -106,19 +106,19 @@ function banners_init() {
             i3.className = 'undo icon';
 
             btn_up.className = btn_down.className = btn_options.className = 'ui label';
-            //btn_edit.className = 'ui label edit_btn';
+            btn_edit.className = 'ui label edit_btn';
             btn_up.onclick = btn_down.onclick = this.btnsClick;
             btn_options.onclick = this.toggleState;
-            //btn_edit.onclick = this.editBtnClick;
+            btn_edit.onclick = this.editBtnClick;
             val(btn_options, 'Remove');
 
-            //val(btn_edit, 'Edit link');
+            val(btn_edit, 'Edit');
 
             attr(btn_up, 'job', 'up');
             attr(btn_down, 'job', 'down');
             attr(btn_options, 'job', 'options');
 
-            //attr(btn_edit, 'banner_id', data.id);
+            attr(btn_edit, 'banner_id', data.id);
 
             div.className = 'bans_item';
             attr(div, 'origin_id', data.id);
@@ -181,15 +181,19 @@ function banners_init() {
         editBtnClick: function () {
             var banner_id = attr(this, 'banner_id');
             navigate('banner', banner_id);
+        },
+
+        addBtnClick: function () {
+            navigate('banner', 'new');
         }
 
     };
 
+    get('bans_add').onclick = banners.addBtnClick;
+
     banners.loadAction = fetchAction.create('banner/list', function (action) { banners.loadActionCallback(action); });
     banners.saveAction = fetchAction.create('banner/save', function (action) { banners.saveActionCallback(action); });
     banners.uploadAction = fetchAction.create('image/upBase64&folder=banners', function (action) { banners.uploadActionCallback(action); });
-
-    imageSelector.init(get('bans_add'), null, function (data) { banners.addImage(data); }, false);
 
     registerPage('banners', banners.elt, 'Banners', function () { banners.update(); },
         { icon: 'save', handler: function () { banners.save() } });

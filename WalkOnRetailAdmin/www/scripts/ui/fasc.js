@@ -7,7 +7,7 @@ function ui_fasc_init() {
 
         // Methods
         formatPrice: function (price, without_sign) {
-            return parseFloat(price).toFixed(2) + (without_sign ? '' : ' ' + this.currencySymbol);
+            return parseFloat(price || 0).toFixed(2) + (without_sign ? '' : ' ' + this.currencySymbol);
         }
     };
 }

@@ -1,8 +1,4 @@
-﻿// For an introduction to the Blank template, see the following documentation:
-// http://go.microsoft.com/fwlink/?LinkID=397704
-// To debug code on page load in cordova-simulate or on Android devices/emulators: launch your app, set breakpoints, 
-// and then run "window.location.reload()" in the JavaScript Console.
-(function () {
+﻿(function () {
     "use strict";
 
     document.addEventListener( 'deviceready', onDeviceReady.bind( this ), false );
@@ -10,9 +6,19 @@
     function onDeviceReady() {
         // Handle the Cordova pause and resume events
         document.addEventListener( 'pause', onPause.bind( this ), false );
-        document.addEventListener( 'resume', onResume.bind( this ), false );
+        document.addEventListener('resume', onResume.bind(this), false);
+
+        //cordova.plugins.notification.local.schedule({
+        //    title: 'My first notification',
+        //    text: 'Thats pretty easy...',
+        //    foreground: true
+        //});
         
     };
+
+    function dosometing() {
+        setTimeout(function () { alert('Test') });
+    }
 
     window.onload = function () {
         sl_init();
