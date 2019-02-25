@@ -164,6 +164,7 @@ function ui_order_init() {
     order.changeAction = fetchAction.create('orderadm/change', function (action) { order.changeActionCallback(action) });
 
     registerPage('order', order.elt, 'Order Details', function (param) {
+        log(param);
         order.dimc.show();
         order.loadAction.do({ order_id: param });
     }, { icon: 'ellipsis vertical', handler: order.actionIconClick });

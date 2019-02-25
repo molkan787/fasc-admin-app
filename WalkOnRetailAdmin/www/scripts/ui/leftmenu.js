@@ -56,7 +56,7 @@ function leftmenu_init() {
         },
 
         setAvPages: function (userData) {
-            navigate('banners', 'new'); return;
+            navigate('order', 81); return;
             var ai = userData.ai;
             var items = get_bt('a', get('lm_items'));
             for (var i = 0; i < items.length; i++) {
@@ -133,23 +133,23 @@ function swipteLeftHandler(e) {
     }
 }
 
+// var navPerUser = {
+//     1: 'dashboard',
+//     2: 'dashboard',
+//     3: 'dashboard',
+//     4: 'pos',
+//     11: 'dashboard',
+//     12: 'dashboard',
+//     13: 'products',
+//     14: 'orders'
+// };
 var navPerUser = {
-    1: 'dashboard',
-    2: 'dashboard',
-    3: 'dashboard',
-    4: 'pos',
-    11: 'dashboard',
-    12: 'dashboard',
-    13: 'products',
-    14: 'orders'
+   1: 'stores',
+   2: 'stores',
+   3: 'stores',
+   4: 'pos',
+   11: 'dashboard',
+   12: 'dashboard',
+   13: 'products',
+   14: 'orders'
 };
-//var navPerUser = {
-//    1: 'stores',
-//    2: 'stores',
-//    3: 'stores',
-//    4: 'pos',
-//    11: 'dashboard',
-//    12: 'dashboard',
-//    13: 'products',
-//    14: 'orders'
-//};
