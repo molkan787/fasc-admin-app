@@ -71,7 +71,6 @@ function ui_orders_init() {
         loadOrders: function (list) {
             val(this.elts.ordsList, '');
             for (var i = 0; i < list.length; i++) {
-                ids += list[i].order_id + ',';
                 var pan = this.createPanel(list[i]);
                 this.elts.ordsList.appendChild(pan);
             }

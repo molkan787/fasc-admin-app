@@ -56,7 +56,7 @@ function leftmenu_init() {
         },
 
         setAvPages: function (userData) {
-            navigate('order', 81); return;
+            //navigate('order', 81); return;
             var ai = userData.ai;
             var items = get_bt('a', get('lm_items'));
             for (var i = 0; i < items.length; i++) {

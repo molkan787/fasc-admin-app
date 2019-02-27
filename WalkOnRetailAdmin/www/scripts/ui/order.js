@@ -29,24 +29,34 @@ function ui_order_init() {
 
         loadAction: null,
         changeAction: null,
+        removeAction: null,
 
         dimc: ui.dimmer.create('ord_dimmer'),
         dimcPopup: ui.dimmer.create('ord_popup_dimmer'),
 
         // Methods
 
-        createTableRow: function (v1, v2, v3) {
+        createTableRow: function (v1, v2, v3, pid) {
             var tr = crt_elt('tr', this.elts.itemsTable);
             var td1 = crt_elt('td', tr);
+            if(parseInt(pid) != 0) var icon = crt_elt('i', td1);
+            var span = crt_elt('span', td1);
             var td2 = crt_elt('td', tr);
             var td3 = crt_elt('td', tr);
 
             td2.className = 'second';
             td3.className = 'third';
 
-            val(td1, v1);
+            if(parseInt(pid) != 0){
+                icon.className = 'remove circle icon';
+                attr(icon, 'data-product_id', pid);
+                attr(icon, 'data-product_name', v1);
+                icon.onclick = this.removeBtnClick;
+            }
+            val(span, v1);
             val(td2, v2);
             val(td3, v3);
+            
         },
 
         loadOrder: function (data) {
@@ -77,9 +87,11 @@ function ui_order_init() {
 
             val(this.elts.itemsTable, '');
 
+            var writeAccess = account.hasWriteAccess('orders');
+            
             for (var i = 0; i < data.items.length; i++) {
                 var item = data.items[i];
-                this.createTableRow(item.name, item.quantity, fasc.formatPrice(item.price, true));
+                this.createTableRow(item.name, item.quantity, fasc.formatPrice(item.price, true), writeAccess ? item.product_id : 0);
             }
         },
 
@@ -110,6 +122,15 @@ function ui_order_init() {
             this.dimcPopup.hide();
         },
 
+        removeActionCallback: function(action){
+            if(action.status == 'OK'){
+                reloadPage();
+            }else{
+                msg.show(txt('error_2'));
+            }
+            this.dimc.hide();
+        },
+
         showOptions: function () {
             var status = parseInt(this.currentOrder.order_status_id);
             if (status == 5) {
@@ -126,6 +147,15 @@ function ui_order_init() {
                 attr(this.elts.btnDelete, 'disabled', '1');
             }
             ui.popup.show(this.elts.optionsPopup);
+        },
+
+        removeProduct: function(product_id, product_name){
+            var msg = txt('confirm_product_return', product_name);
+            if(confirm(msg)){
+                this.dimc.show('Please wait');
+                this.removeAction.do({order_id: this.currentOrder.order_id, product_id: product_id});
+            }
+
         },
 
         // Handlers
@@ -153,6 +183,12 @@ function ui_order_init() {
                 order.dimcPopup.show();
                 order.changeAction.do(params);
             }
+        },
+
+        removeBtnClick: function(){
+            var pid = attr(this, 'data-product_id');
+            var pnm = attr(this, 'data-product_name');
+            order.removeProduct(pid, pnm);
         }
     };
 
@@ -162,9 +198,9 @@ function ui_order_init() {
 
     order.loadAction = fetchAction.create('orderadm/info', function (action) { order.loadActionCallback(action) });
     order.changeAction = fetchAction.create('orderadm/change', function (action) { order.changeActionCallback(action) });
+    order.removeAction = fetchAction.create('orderadm/removeProduct', function (action) { order.removeActionCallback(action) });
 
     registerPage('order', order.elt, 'Order Details', function (param) {
-        log(param);
         order.dimc.show();
         order.loadAction.do({ order_id: param });
     }, { icon: 'ellipsis vertical', handler: order.actionIconClick });

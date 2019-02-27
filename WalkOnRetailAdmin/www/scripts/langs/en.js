@@ -35,6 +35,8 @@
 
     invalid_city_names: 'Names are too short, Please type at least 2 charatcters',
 
+    confirm_product_return: 'Are you sure to return product "{%1}" from this order? This action cannot be undone.',
+
     fullname_must_be: 'The Fullname must be longer than 8 characters & shorter than 40 characters',
     username_must_be: 'The Username must be longer than 5 characters & shorter than 30 characters',
 
