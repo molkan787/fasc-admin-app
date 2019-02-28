@@ -20,11 +20,16 @@ function home_init() {
         },
 
         loadAction: null,
+        dailyLoadAction: null,
 
         dateFrom: '',
         dateTo: '',
 
         dimmer: ui.dimmer.create('page_home', true),
+
+        menuItems: [
+            { text: 'Print daily report', action: 'print_daily' }
+        ],
 
         update: function () {
             this.dimmer.show();
@@ -61,6 +66,9 @@ function home_init() {
                     spd_v[1].push(spd[day].o);
                 }
             }
+            spd_l.reverse();
+            spd_v[0].reverse();
+            spd_v[1].reverse();
             initChart('home_chart_sales', spd_l, spd_v);
 
             spd = data.ordersPerDay;
@@ -72,6 +80,8 @@ function home_init() {
                     spd_v.push(spd[day]);
                 }
             }
+            spd_l.reverse();
+            spd_v.reverse();
             initChart('home_chart_orders', spd_l, [spd_v]);
 
             spd = data.customersPerDay;
@@ -83,6 +93,8 @@ function home_init() {
                     spd_v.push(spd[day]);
                 }
             }
+            spd_l.reverse();
+            spd_v.reverse();
             initChart('home_chart_customers', spd_l, [spd_v]);
         },
 
@@ -90,6 +102,10 @@ function home_init() {
             val(this.elts.popupFrom, this.dateFrom);
             val(this.elts.popupTo, this.dateTo);
             ui.popup.show(this.elts.popup);
+        },
+
+        showOptions: function(){
+            contextMenu.show('Reports', this.menuItems, this.menuItemClick);
         },
 
         // Callbacks
@@ -101,6 +117,14 @@ function home_init() {
             }
             this.dimmer.hide();
         },
+        dailyLoadActionCallback: function (action) {
+            this.dimmer.hide();
+            if (action.status == 'OK') {
+                printDailyReport(action.data);
+            } else {
+                msg.show(txt('error_3'));
+            }
+        },
 
         // Handlers
         submitBtnClick: function () {
@@ -108,17 +132,26 @@ function home_init() {
             home.dateFrom = val(home.elts.popupFrom);
             home.dateTo= val(home.elts.popupTo);
             home.update();
-        }
+        },
+
+        menuItemClick: function (action) {
+            if(action == 'print_daily'){
+                home.dimmer.show('Loading data');
+                home.dailyLoadAction.do();
+            }
+        },
+
 
     };
 
     home.loadAction = fetchAction.create('report/general', function (action) { home.loadActionCallback(action) });
+    home.dailyLoadAction = fetchAction.create('report/dailyReport', function (action) { home.dailyLoadActionCallback(action) });
 
     home.elts.popupSubmit.onclick = home.submitBtnClick;
 
     registerPage('dashboard', home.elt, 'Dashboard', function () {
         home.update();
-    }, null, { icon: 'calendar', handler: function () { home.showPopup() } });
+    }, { icon: 'ellipsis vertical', handler: function (){ home.showOptions(); } }, { icon: 'calendar', handler: function () { home.showPopup() } });
 
     var d = new Date();
     attr(home.elts.popupTo, 'min', dateToString(d));

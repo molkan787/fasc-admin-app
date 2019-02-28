@@ -2,8 +2,8 @@
 function dm_oca_init() {
     dm = {
         // Properties
-        apiBaseURL: 'http://fasc.local/index.php?store_id={%1}&api_token={%2}&route=api/',
-        //apiBaseURL: 'http://169.254.80.80/fasc/index.php?store_id={%1}&api_token={%2}&route=api/',
+        //apiBaseURL: 'http://fasc.local/index.php?store_id={%1}&api_token={%2}&route=api/',
+        apiBaseURL: 'http://192.168.0.94/fasc/index.php?store_id={%1}&api_token={%2}&route=api/',
         //apiBaseURL: 'https://www.walkonretail.com/index.php?store_id={%1}&api_token={%2}&route=api/',
         //apiBaseURL: 'https://surjankirana.com/api/index.php?store_id={%1}&api_token={%2}&route=api/',
 

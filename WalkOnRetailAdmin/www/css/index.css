@@ -227,7 +227,10 @@ body{
     margin-top: -150px;
 }
 #loading_screen > div > img{
+    display: block;
+    margin: auto;
     width: 100%;
+    max-width: 300px;
 }
 #loading_screen > div > h3{
     text-align: center;
